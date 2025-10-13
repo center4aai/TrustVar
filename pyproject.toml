@@ -1,0 +1,49 @@
+[project]
+name = "llm-testing-framework"
+version = "0.1.0"
+description = "A modern framework for testing and evaluating LLMs"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+dependencies = [
+    "pymongo>=4.6.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+ui = [
+    "streamlit>=1.32.0",
+    "plotly>=5.18.0",
+    "altair>=5.3.0",
+    "streamlit-autorefresh>=0.1.0",
+]
+core = [
+    "transformers>=4.38.0",  # for local HF models (optional)
+    "torch>=2.0.0",         # if using local inference
+]
+db = [
+    "pymongo>=4.6.0",
+]
+celery = [
+    "celery[redis]>=5.3.0",
+    "redis>=5.0.0",
+]
+adapters = [
+    "ollama>=0.1.8",
+    "huggingface-hub>=0.20.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "ruff>=0.3.0",
+]
+
+# Установка всех зависимостей: uv install --all-extras
+all = [
+    "llm-testing-framework[ui,core,db,celery,adapters]",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

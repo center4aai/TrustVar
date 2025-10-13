@@ -3,9 +3,7 @@ import hashlib
 import json
 from functools import wraps
 from typing import Any, Callable, Optional
-
 import redis
-
 from src.config.settings import get_settings
 from src.utils.logger import logger
 

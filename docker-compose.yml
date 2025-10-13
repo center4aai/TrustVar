@@ -1,0 +1,91 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6-jammy
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  redis:
+    image: redis:7-alpine
+    container_name: llm_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama/models
+    # Чтобы Streamlit и Celery могли к нему обращаться
+    networks:
+      - llm_net
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=example
+      - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_HOST=http://ollama:11434
+      - HF_TOKEN=${HF_TOKEN} # если нужен
+    depends_on:
+      - mongodb
+      - redis
+      - ollama
+    volumes:
+      - .:/app # для разработки (hot-reload)
+    networks:
+      - llm_net
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery # можно использовать тот же образ
+    container_name: celery_worker
+    command: celery -A src.core.tasks.celery_app worker --loglevel=info
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=example
+      - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_HOST=http://ollama:11434
+      - HF_TOKEN=${HF_TOKEN}
+    depends_on:
+      - mongodb
+      - redis
+      - ollama
+    volumes:
+      - .:/app
+    networks:
+      - llm_net
+
+volumes:
+  mongodb_data:
+  ollama_models:
+
+
+networks:
+  llm_net:
+    driver: bridge

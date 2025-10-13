@@ -1,0 +1,21 @@
+# Dockerfile.celery
+FROM python:3.11-slim
+
+# Установка uv — быстрый pip-совместимый менеджер
+RUN pip install --no-cache-dir uv
+
+WORKDIR /app
+
+# Копируем только то, что нужно для сборки зависимостей
+COPY pyproject.toml .
+
+# Устанавливаем ТОЛЬКО зависимости, нужные для Celery и core-логики
+# Без Streamlit, plotly и т.д.
+RUN uv pip install --system .[celery,core,db,adapters]
+
+# Копируем исходный код
+COPY src/ src/
+COPY run.py .  
+
+# Порт не нужен — воркер не слушает HTTP
+CMD ["celery", "-A", "src.core.tasks.celery_app", "worker", "--loglevel=info"]

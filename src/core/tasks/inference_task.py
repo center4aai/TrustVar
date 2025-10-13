@@ -4,7 +4,7 @@ import time
 from typing import List
 
 from celery import Task as CeleryTask
-from src.core.services.evaluation_service import EvaluationService
+from src.core.services.eval_service import EvaluationService
 from src.utils.logger import logger
 
 from src.adapters.factory import LLMFactory

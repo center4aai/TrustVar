@@ -1,13 +1,21 @@
 # src/ui/home.py
+import sys
+from pathlib import Path
+
+# Добавляем корневую директорию проекта в путь
+root_dir = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(root_dir))
+
 import streamlit as st
-from components.datasets_section import render_datasets_section
-from components.models_section import render_models_section
-from components.results_section import render_results_section
-from components.tasks_section import render_tasks_section
-from styles.custom_styles import apply_custom_styles
+
+from src.ui.components.datasets_section import render_datasets_section
+from src.ui.components.models_section import render_models_section
+from src.ui.components.results_section import render_results_section
+from src.ui.components.tasks_section import render_tasks_section
+from src.ui.styles.custom_styles import apply_custom_styles
 
 st.set_page_config(
-    page_title="LLM Testing Framework",
+    page_title="TrustVar",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -24,8 +32,8 @@ if "selected_section" not in st.session_state:
 st.markdown(
     """
 <div class="main-header">
-    <h1 class="main-title">🤖 LLM Testing Framework</h1>
-    <p class="main-subtitle">Comprehensive platform for testing and evaluating Large Language Models</p>
+    <h1 class="main-title">TrustVar</h1>
+    <p class="main-subtitle">A Dynamic Framework for Trustworthiness Evaluation and Task Variation Analysis in LLMs</p>
 </div>
 """,
     unsafe_allow_html=True,
@@ -34,25 +42,31 @@ st.markdown(
 # Карточки-кнопки для навигации
 features = [
     {
-        "icon": "📊",
+        "icon": "\U0001f4c2",
         "title": "DATASETS",
         "description": "Upload and manage test datasets",
         "key": "datasets",
     },
     {
-        "icon": "🤖",
+        "icon": "\U0001f9e9",
         "title": "MODELS",
         "description": "Register and configure LLM models",
         "key": "models",
     },
     {
-        "icon": "⚡",
+        "icon": "\U0001f6e1",
+        "title": "TEMPLATES",
+        "description": "Define evaluation templates and metrics",
+        "key": "templates",
+    },
+    {
+        "icon": "\U0001f680",
         "title": "TASKS",
-        "description": "Create and monitor testing tasks",
+        "description": "Create and monitor tasks for testing",
         "key": "tasks",
     },
     {
-        "icon": "📈",
+        "icon": "\U0001f3af",
         "title": "RESULTS",
         "description": "Analyze performance and metrics",
         "key": "results",
@@ -60,18 +74,16 @@ features = [
 ]
 
 # Создаем 4 колонки для карточек
-cols = st.columns(4)
+cols = st.columns(5)
 for idx, (col, feature) in enumerate(zip(cols, features)):
     with col:
-        button_text = (
-            f"{feature['icon']}\n\n{feature['title']}\n\n{feature['description']}"
-        )
+        button_text = f"{feature['icon']}\n\n ### {feature['title']}  \n\n {feature['description']}"
 
         if st.button(
             button_text, key=f"nav_{feature['key']}", use_container_width=True
         ):
             st.session_state.selected_section = feature["key"]
-            st.rerun()
+            # st.rerun()
 
 # Отображаем выбранную секцию
 if st.session_state.selected_section is not None:
@@ -89,16 +101,22 @@ if st.session_state.selected_section is not None:
         render_datasets_section()
     elif st.session_state.selected_section == "models":
         render_models_section()
+    elif st.session_state.selected_section == "templates":
+        render_tasks_section()  # TODO: think about templates
     elif st.session_state.selected_section == "tasks":
         render_tasks_section()
     elif st.session_state.selected_section == "results":
         render_results_section()
 
+
 else:
     # Показываем приветственную информацию, когда ничего не выбрано
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    st.markdown("## 🚀 Quick Start Guide")
+    st.markdown(
+        '<h3 style="text-align: center;">\U0001f9e0 Quick Start Guide</h3><br>',
+        unsafe_allow_html=True,
+    )
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -146,20 +164,20 @@ else:
             unsafe_allow_html=True,
         )
 
-    # Статистика
-    st.markdown("<hr>", unsafe_allow_html=True)
-    st.markdown("## 📊 Overview")
+    # # Статистика
+    # st.markdown("<hr>", unsafe_allow_html=True)
+    # st.markdown("## 📊 Overview")
 
-    col1, col2, col3, col4 = st.columns(4)
+    # col1, col2, col3, col4 = st.columns(4)
 
-    with col1:
-        st.metric(label="📊 Total Datasets", value="0", delta="0 this week")
+    # with col1:
+    #     st.metric(label="📊 Total Datasets", value="0", delta="0 this week")
 
-    with col2:
-        st.metric(label="🤖 Registered Models", value="0", delta="0 this week")
+    # with col2:
+    #     st.metric(label="🤖 Registered Models", value="0", delta="0 this week")
 
-    with col3:
-        st.metric(label="⚡ Active Tasks", value="0", delta="0 running")
+    # with col3:
+    #     st.metric(label="⚡ Active Tasks", value="0", delta="0 running")
 
-    with col4:
-        st.metric(label="✅ Completed", value="0", delta="0 today")
+    # with col4:
+    #     st.metric(label="✅ Completed", value="0", delta="0 today")
