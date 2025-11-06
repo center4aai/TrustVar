@@ -4,11 +4,11 @@ import io
 import json
 from typing import BinaryIO, List, Optional
 
-from src.utils.cache import cache
-from src.utils.logger import logger
-
-from src.core.models.dataset import Dataset, DatasetItem
+from src.core.schemas.dataset import Dataset, DatasetItem
 from src.database.repositories.dataset_repository import DatasetRepository
+
+# from src.utils.cache import cache
+from src.utils.logger import logger
 
 
 class DatasetService:
@@ -29,7 +29,7 @@ class DatasetService:
         logger.info(f"Dataset created: {created.id}")
 
         # Инвалидируем кэш
-        cache.clear_pattern("datasets:*")
+        # cache.clear_pattern("datasets:*")
 
         return created
 
@@ -53,9 +53,6 @@ class DatasetService:
         await self.repository.add_items(dataset_id, dataset_items)
 
         logger.info(f"Uploaded {len(items)} items to dataset {dataset_id}")
-
-        # Инвалидируем кэш
-        cache.delete(f"dataset:{dataset_id}")
 
         return len(items)
 
@@ -107,7 +104,7 @@ class DatasetService:
         result = await self.repository.delete(dataset_id)
 
         if result:
-            cache.clear_pattern(f"dataset:{dataset_id}*")
+            # cache.clear_pattern(f"dataset:{dataset_id}*")
             logger.info(f"Dataset deleted: {dataset_id}")
 
         return result

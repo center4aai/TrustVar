@@ -1,12 +1,13 @@
 # src/adapters/huggingface_adapter.py
+import asyncio
 from typing import List
 
 import torch
-from src.utils.logger import logger
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.adapters.base import BaseLLMAdapter
 from src.config.settings import get_settings
+from src.utils.logger import logger
 
 settings = get_settings()
 
@@ -20,7 +21,7 @@ class HuggingFaceAdapter(BaseLLMAdapter):
         self.hf_model = None
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    async def _load_model(self):
+    def _load_model(self):
         """Загрузка модели"""
         if self.hf_model is None:
             logger.info(f"Loading HuggingFace model: {self.model.model_name}")
@@ -35,10 +36,37 @@ class HuggingFaceAdapter(BaseLLMAdapter):
                 self.model.model_name,
                 cache_dir=settings.HF_CACHE_DIR,
                 token=settings.HF_TOKEN if settings.HF_TOKEN else None,
-                torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
+                dtype=torch.float16 if self.device == "cuda" else torch.float32,
             ).to(self.device)
 
             logger.info(f"Model loaded on {self.device}")
+
+    async def download_model(self):
+        """Скачивает модель через Transformers в отдельном потоке"""
+        logger.info(f"Downloading HuggingFace model: {self.model.model_name}")
+
+        # Запускаем синхронные вызовы в отдельном потоке
+        tokenizer = await asyncio.to_thread(
+            AutoTokenizer.from_pretrained,
+            self.model.model_name,
+            cache_dir=settings.HF_CACHE_DIR,
+            token=settings.HF_TOKEN if settings.HF_TOKEN else None,
+        )
+
+        hf_model = await asyncio.to_thread(
+            AutoModelForCausalLM.from_pretrained,
+            self.model.model_name,
+            cache_dir=settings.HF_CACHE_DIR,
+            token=settings.HF_TOKEN if settings.HF_TOKEN else None,
+            dtype=torch.float16 if self.device == "cuda" else torch.float32,
+        )
+
+        self.tokenizer = tokenizer
+        self.hf_model = hf_model.to(self.device)
+
+        logger.info(
+            f"Model {self.model.model_name} downloaded and loaded on {self.device}"
+        )
 
     async def generate(self, prompt: str, **kwargs) -> str:
         """Генерация с HuggingFace моделью"""
@@ -89,3 +117,12 @@ class HuggingFaceAdapter(BaseLLMAdapter):
             results.append(generated_text.strip())
 
         return results
+
+    async def health_check(self) -> bool:
+        try:
+            if self.hf_model is None or self.tokenizer is None:
+                await self._load_model()
+            return self.hf_model is not None and self.tokenizer is not None
+        except Exception as e:
+            logger.error(f"Health check failed during model loading: {e}")
+            return False

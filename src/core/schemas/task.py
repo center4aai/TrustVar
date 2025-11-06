@@ -1,4 +1,4 @@
-# src/core/models/task.py
+# src/core/schemas/task.py
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 from uuid import uuid4

@@ -4,15 +4,15 @@ import time
 from typing import List
 
 from celery import Task as CeleryTask
-from src.core.services.eval_service import EvaluationService
-from src.utils.logger import logger
 
 from src.adapters.factory import LLMFactory
-from src.core.models.task import TaskResult, TaskStatus
+from src.core.schemas.task import TaskResult, TaskStatus
+from src.core.services.eval_service import EvaluationService
 from src.core.tasks.celery_app import celery_app
 from src.database.repositories.dataset_repository import DatasetRepository
 from src.database.repositories.model_repository import ModelRepository
 from src.database.repositories.task_repository import TaskRepository
+from src.utils.logger import logger
 
 
 class InferenceTask(CeleryTask):

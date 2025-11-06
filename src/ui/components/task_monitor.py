@@ -1,20 +1,19 @@
 # src/ui/components/task_monitor.py
-import asyncio
 import time
 from datetime import datetime
 from typing import Callable, List, Optional
 
 import streamlit as st
 
-from src.core.models.task import Task, TaskStatus
-from src.core.services.task_service import TaskService
+from src.core.schemas.task import Task, TaskStatus
+from src.ui.api_client import ApiClient
 
 
 class TaskMonitor:
     """Компонент для мониторинга задач в реальном времени"""
 
-    def __init__(self, task_service: TaskService):
-        self.task_service = task_service
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
 
     def render(
         self,
@@ -52,7 +51,7 @@ class TaskMonitor:
 
         # Загрузка задач
         try:
-            tasks = asyncio.run(self.task_service.list_tasks(limit=100))
+            tasks = self.api_client.list_tasks(limit=100)
 
             # Применяем фильтры
             tasks = self._apply_filters(tasks, filters)
@@ -289,7 +288,7 @@ class TaskMonitor:
                     if on_cancel_click:
                         on_cancel_click(task)
                     else:
-                        asyncio.run(self.task_service.cancel_task(task.id))
+                        self.api_client.cancel_task(task.id)
                         st.success("Cancelled!")
                         st.rerun()
                 else:
@@ -300,18 +299,17 @@ class TaskMonitor:
         if task.status == TaskStatus.FAILED:
             if st.button("🔄 Retry", key=f"retry_{task.id}", use_container_width=True):
                 try:
-                    asyncio.run(
-                        self.task_service.create_task(
-                            name=f"{task.name} (Retry)",
-                            dataset_id=task.dataset_id,
-                            model_id=task.model_id,
-                            task_type=task.task_type,
-                            batch_size=task.batch_size,
-                            max_samples=task.max_samples,
-                            evaluate=task.evaluate,
-                            evaluation_metrics=task.evaluation_metrics,
-                        )
+                    self.api_client.create_task(
+                        name=f"{task.name} (Retry)",
+                        dataset_id=task.dataset_id,
+                        model_id=task.model_id,
+                        task_type=task.task_type,
+                        batch_size=task.batch_size,
+                        max_samples=task.max_samples,
+                        evaluate=task.evaluate,
+                        evaluation_metrics=task.evaluation_metrics,
                     )
+
                     st.success("Task retried!")
                     st.rerun()
                 except Exception as e:
@@ -347,7 +345,7 @@ class TaskMonitor:
         """Мини-виджет для отображения одной задачи"""
 
         try:
-            task = asyncio.run(self.task_service.get_task(task_id))
+            task = self.api_client.get_task(task_id)
 
             if not task:
                 st.error("Task not found")
@@ -375,7 +373,7 @@ class TaskMonitor:
         """Виджет сводки последних задач"""
 
         try:
-            tasks = asyncio.run(self.task_service.list_tasks(limit=limit))
+            tasks = self.api_client.list_tasks(limit=limit)
 
             if not tasks:
                 st.info("No recent tasks")

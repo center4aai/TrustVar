@@ -1,11 +1,10 @@
 # src/ui/components/models_section.py
-import asyncio
-
 import streamlit as st
 
 from src.config.constants import ModelProvider
-from src.core.models.model import ModelConfig
+from src.core.schemas.model import ModelConfig, ModelStatus
 from src.core.services.model_service import ModelService
+from src.ui.api_client import get_api_client
 
 
 def render_models_section():
@@ -18,7 +17,7 @@ def render_models_section():
     if "model_service" not in st.session_state:
         st.session_state.model_service = ModelService()
 
-    model_service = st.session_state.model_service
+    api_client = get_api_client()
 
     # Tabs
     tab1, tab2 = st.tabs(["📋 Registered Models", "➕ Register New"])
@@ -49,7 +48,7 @@ def render_models_section():
 
         # Загрузка моделей
         try:
-            models = asyncio.run(model_service.list_models())
+            models = api_client.list_models()
 
             if models:
                 for model in models:
@@ -75,9 +74,14 @@ def render_models_section():
                             st.markdown(f"{icon} **{model.provider.upper()}**")
 
                             # Status
-                            if model.is_active:
+                            if model.status == ModelStatus.REGISTERED:
                                 st.markdown(
                                     '<span class="status-badge status-completed">🟢 Active</span>',
+                                    unsafe_allow_html=True,
+                                )
+                            elif model.status == ModelStatus.DOWNLOADING:
+                                st.markdown(
+                                    '<span class="status-badge status-completed">🟠 Downloading</span>',
                                     unsafe_allow_html=True,
                                 )
                             else:
@@ -99,10 +103,8 @@ def render_models_section():
                                 use_container_width=True,
                             ):
                                 with st.spinner("Testing model..."):
-                                    result = asyncio.run(
-                                        model_service.test_model(
-                                            model.id, "Hello, how are you?"
-                                        )
+                                    result = api_client.test_model(
+                                        model.id, "Hello, how are you?"
                                     )
 
                                     if result["success"]:
@@ -121,7 +123,7 @@ def render_models_section():
                                 if st.session_state.get(
                                     f"confirm_delete_model_{model.id}"
                                 ):
-                                    asyncio.run(model_service.delete_model(model.id))
+                                    api_client.delete_model(model.id)
                                     st.success("Deleted!")
                                     st.rerun()
                                 else:
@@ -222,13 +224,13 @@ def render_models_section():
                             top_k=top_k,
                         )
 
-                        model = asyncio.run(
-                            model_service.register_model(
+                        model = api_client.register_model(
+                            model_data=dict(
                                 name=name,
                                 provider=provider,
                                 model_name=model_name,
                                 description=description,
-                                config=config,
+                                config=config.model_dump(),
                             )
                         )
 

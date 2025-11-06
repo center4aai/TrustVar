@@ -1,13 +1,10 @@
 # src/ui/components/tasks_section.py (обновленная версия)
-import asyncio
 import time
 
 import streamlit as st
 
 from src.config.constants import EVALUATION_METRICS, SUPPORTED_TASKS
-from src.core.services.dataset_service import DatasetService
-from src.core.services.model_service import ModelService
-from src.core.services.task_service import TaskService
+from src.ui.api_client import get_api_client
 from src.ui.components.task_monitor import TaskMonitor
 
 
@@ -17,20 +14,10 @@ def render_tasks_section():
     st.markdown('<div class="animated">', unsafe_allow_html=True)
     st.markdown("## ⚡ Task Management")
 
-    # Инициализация
-    if "task_service" not in st.session_state:
-        st.session_state.task_service = TaskService()
-    if "dataset_service" not in st.session_state:
-        st.session_state.dataset_service = DatasetService()
-    if "model_service" not in st.session_state:
-        st.session_state.model_service = ModelService()
-
-    task_service = st.session_state.task_service
-    dataset_service = st.session_state.dataset_service
-    model_service = st.session_state.model_service
+    api_client = get_api_client()
 
     # Создаем экземпляр TaskMonitor
-    task_monitor = TaskMonitor(task_service)
+    task_monitor = TaskMonitor(api_client)
 
     # Tabs
     tab1, tab2 = st.tabs(["📋 Active Tasks", "➕ Create New Task"])
@@ -44,7 +31,7 @@ def render_tasks_section():
             st.rerun()
 
         def on_cancel_task(task):
-            asyncio.run(task_service.cancel_task(task.id))
+            api_client.cancel_task(task.id)
             st.success(f"Task '{task.name}' cancelled!")
             st.rerun()
 
@@ -79,7 +66,7 @@ def render_tasks_section():
                 )
 
                 # Датасеты
-                datasets = asyncio.run(dataset_service.list_datasets())
+                datasets = api_client.list_datasets()
                 if datasets:
                     dataset_options = {
                         f"{ds.name} ({ds.size} items)": ds.id for ds in datasets
@@ -97,7 +84,7 @@ def render_tasks_section():
                     selected_dataset = None
 
                 # Модели
-                models = asyncio.run(model_service.list_models(active_only=True))
+                models = api_client.list_models()
                 if models:
                     model_options = {f"{m.name} ({m.provider})": m.id for m in models}
                     selected_model_label = st.selectbox(
@@ -160,17 +147,15 @@ def render_tasks_section():
                     st.error("⚠️ Please fill in all required fields")
                 else:
                     try:
-                        task = asyncio.run(
-                            task_service.create_task(
-                                name=task_name,
-                                dataset_id=selected_dataset,
-                                model_id=selected_model,
-                                task_type=task_type,
-                                batch_size=batch_size,
-                                max_samples=max_samples if max_samples > 0 else None,
-                                evaluate=evaluate,
-                                evaluation_metrics=metrics,
-                            )
+                        task = api_client.create_task(
+                            name=task_name,
+                            dataset_id=selected_dataset,
+                            model_id=selected_model,
+                            task_type=task_type,
+                            batch_size=batch_size,
+                            max_samples=max_samples if max_samples > 0 else None,
+                            evaluate=evaluate,
+                            evaluation_metrics=metrics,
                         )
 
                         st.success(f"✅ Task '{task_name}' created and launched!")

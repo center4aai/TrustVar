@@ -7,19 +7,37 @@ services:
     container_name: mongodb
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - llm_net
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongodb-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      # ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      # ME_CONFIG_BASICAUTH_USERNAME: root
+      # ME_CONFIG_BASICAUTH_PASSWORD: example
+    ports:
+      - '27374:8081'
+    depends_on:
+      - mongodb
+    restart: on-failure
 
   redis:
     image: redis:7-alpine
-    container_name: llm_redis
+    container_name: redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    networks:
+      - llm_net
 
   ollama:
     image: ollama/ollama:latest
@@ -29,55 +47,75 @@ services:
       - "11434:11434"
     volumes:
       - ollama_models:/root/.ollama/models
-    # Чтобы Streamlit и Celery могли к нему обращаться
+    networks:
+      - llm_net
+
+  api:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.celery # Используем тот же Dockerfile, т.к. зависимости похожи
+    image: trustvar2-api
+    container_name: api_backend
+    command: python -m src.api.main
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://root:example@mongodb:27017
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - HF_TOKEN=${HF_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - mongodb
+      - redis
+      - ollama
+    volumes:
+      - ./src:/app/src
     networks:
       - llm_net
 
   streamlit:
-    build:
-      context: .
-      dockerfile: Dockerfile.streamlit
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.streamlit
+    image: trustvar2-streamlit
     container_name: frontend
     restart: unless-stopped
     ports:
       - "8501:8501"
     environment:
-      - MONGODB_HOST=mongodb
-      - MONGODB_PORT=27017
-      - MONGODB_USERNAME=root
-      - MONGODB_PASSWORD=example
-      - REDIS_URL=redis://redis:6379/0
-      - OLLAMA_HOST=http://ollama:11434
-      - HF_TOKEN=${HF_TOKEN} # если нужен
+      - API_BASE_URL=http://api:8000
     depends_on:
-      - mongodb
-      - redis
-      - ollama
+      - api
     volumes:
-      - .:/app # для разработки (hot-reload)
+      - ./src:/app/src
     networks:
       - llm_net
 
   celery-worker:
-    build:
-      context: .
-      dockerfile: Dockerfile.celery # можно использовать тот же образ
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.celery
+    image: trustvar2-celery-worker
     container_name: celery_worker
     command: celery -A src.core.tasks.celery_app worker --loglevel=info
     environment:
-      - MONGODB_HOST=mongodb
-      - MONGODB_PORT=27017
-      - MONGODB_USERNAME=root
-      - MONGODB_PASSWORD=example
+      - MONGODB_URL=mongodb://root:example@mongodb:27017
       - REDIS_URL=redis://redis:6379/0
-      - OLLAMA_HOST=http://ollama:11434
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - OLLAMA_BASE_URL=http://ollama:11434
       - HF_TOKEN=${HF_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       - mongodb
       - redis
       - ollama
     volumes:
-      - .:/app
+      - ./src:/app/src
     networks:
       - llm_net
 

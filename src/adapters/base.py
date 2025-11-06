@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from src.core.models.model import Model
+from src.core.schemas.model import Model
 
 
 class BaseLLMAdapter(ABC):
@@ -24,8 +24,4 @@ class BaseLLMAdapter(ABC):
 
     async def health_check(self) -> bool:
         """Проверка доступности модели"""
-        try:
-            await self.generate("test")
-            return True
-        except:
-            return False
+        pass

@@ -2,9 +2,8 @@
 from datetime import datetime
 from typing import List, Optional
 
+from src.core.schemas.task import Task, TaskResult, TaskStatus
 from src.utils.logger import logger
-
-from src.core.models.task import Task, TaskResult, TaskStatus
 
 from .base import BaseRepository
 

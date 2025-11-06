@@ -1,11 +1,12 @@
 # src/adapters/ollama_adapter.py
+import json
 from typing import List
 
 import aiohttp
-from src.utils.logger import logger
 
 from src.adapters.base import BaseLLMAdapter
 from src.config.settings import get_settings
+from src.utils.logger import logger
 
 settings = get_settings()
 
@@ -16,6 +17,69 @@ class OllamaAdapter(BaseLLMAdapter):
     def __init__(self, model):
         super().__init__(model)
         self.base_url = settings.OLLAMA_BASE_URL
+
+    async def download_model(self) -> bool:
+        """
+        Асинхронно скачивает модель Ollama через её REST API.
+
+        Args:
+            model_name (str): Имя модели, например "llama3", "mistral", "phi3".
+            host (str): Адрес сервера Ollama (по умолчанию локальный).
+
+        Returns:
+            bool: True — если модель успешно скачана, иначе False.
+        """
+        url = f"{self.base_url}/api/pull"
+        payload = {
+            "name": self.model.model_name,
+            "stream": True,  # Важно: Ollama возвращает поток событий
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload) as response:
+                    if response.status != 200:
+                        logger.error(
+                            f"❌ Ошибка: сервер вернул статус {response.status}"
+                        )
+                        return False
+
+                    async for line in response.content:
+                        if not line.strip():
+                            continue
+                        try:
+                            event = json.loads(line.decode("utf-8"))
+                        except json.JSONDecodeError:
+                            continue
+
+                        # Выводим статус (опционально)
+                        if "status" in event:
+                            logger.info(f"📥 {event['status']}")
+
+                        # Проверяем завершение
+                        if event.get("status") == "success":
+                            logger.info(
+                                f"✅ Модель '{self.model.model_name}' успешно скачана!"
+                            )
+                            return True
+
+                        # Проверяем ошибку
+                        if "error" in event:
+                            logger.error(f"💥 Ошибка при скачивании: {event['error']}")
+                            return False
+
+            # Если цикл завершился, но success не пришёл
+            logger.info("⚠️ Загрузка завершена, но статус 'success' не получен.")
+            return False
+
+        except aiohttp.ClientConnectorError:
+            logger.error(
+                "❌ Не удалось подключиться к серверу Ollama. Убедитесь, что он запущен: `ollama serve`"
+            )
+            return False
+        except Exception as e:
+            logger.error(f"🚨 Неожиданная ошибка: {e}")
+            return False
 
     async def generate(self, prompt: str, **kwargs) -> str:
         """Генерация через Ollama API"""

@@ -1,23 +1,19 @@
 # src/ui/components/dataset_uploader.py
-import asyncio
+import time
 
 import streamlit as st
+from requests.exceptions import RequestException
 
 from src.config.constants import SUPPORTED_TASKS, DatasetFormat
-from src.core.services.dataset_service import DatasetService
+from src.ui.api_client import ApiClient
 
 
 class DatasetUploader:
-    """Компонент для загрузки датасетов"""
-
-    def __init__(self, dataset_service: DatasetService):
-        self.dataset_service = dataset_service
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
 
     def render(self):
-        """Отрисовка компонента"""
-
         st.markdown("### ➕ Upload New Dataset")
-
         with st.form("upload_dataset_form", clear_on_submit=True):
             col1, col2 = st.columns(2)
 
@@ -88,46 +84,44 @@ class DatasetUploader:
                     )
 
             # Submit button
-            st.markdown("<br>", unsafe_allow_html=True)
-            col1, col2, col3 = st.columns([1, 1, 1])
-            with col2:
-                submitted = st.form_submit_button(
-                    "📤 Upload Dataset", type="primary", use_container_width=True
-                )
+            # st.markdown("<br>", unsafe_allow_html=True)
+
+            submitted = st.form_submit_button(
+                "📤 Upload Dataset", type="primary", use_container_width=True
+            )
 
             if submitted:
                 if not name or not uploaded_file:
                     st.error("⚠️ Please provide dataset name and upload a file")
                 else:
                     try:
-                        # Создаем датасет
-                        tag_list = [t.strip() for t in tags.split(",")] if tags else []
+                        tag_str = (
+                            ",".join([t.strip() for t in tags.split(",")])
+                            if tags
+                            else ""
+                        )
 
-                        dataset = asyncio.run(
-                            self.dataset_service.create_dataset(
+                        with st.spinner("Uploading data..."):
+                            result = self.api_client.create_dataset_and_upload(
                                 name=name,
                                 description=description,
                                 task_type=task_type,
-                                tags=tag_list,
-                            )
-                        )
-
-                        # Загружаем данные
-                        with st.spinner("Uploading data..."):
-                            count = asyncio.run(
-                                self.dataset_service.upload_from_file(
-                                    dataset.id, uploaded_file, file_format
-                                )
+                                tags=tag_str,
+                                file=uploaded_file,
+                                file_format=file_format,
                             )
 
+                        count = result.get("items_uploaded", 0)
                         st.success(
                             f"✅ Dataset '{name}' uploaded successfully with {count} items!"
                         )
                         st.balloons()
 
-                        # Очищаем и перезагружаем
-                        asyncio.run(asyncio.sleep(1))
+                        time.sleep(1)
                         st.rerun()
 
+                    except RequestException:
+                        # Ошибка уже будет показана в api_client, здесь можно не дублировать
+                        pass
                     except Exception as e:
-                        st.error(f"❌ Error uploading dataset: {e}")
+                        st.error(f"❌ Error: {e}")

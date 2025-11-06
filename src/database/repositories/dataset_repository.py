@@ -1,9 +1,8 @@
 # src/database/repositories/dataset_repository.py
 from typing import List, Optional
 
+from src.core.schemas.dataset import Dataset, DatasetItem
 from src.utils.logger import logger
-
-from src.core.models.dataset import Dataset, DatasetItem
 
 from .base import BaseRepository
 

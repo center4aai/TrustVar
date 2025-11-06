@@ -1,11 +1,10 @@
 # src/core/services/task_service.py
 from typing import Any, Dict, List, Optional
 
+from src.core.schemas.task import Task, TaskStatus
 from src.core.tasks.inference_task import run_inference_task
-from src.utils.logger import logger
-
-from src.core.models.task import Task, TaskStatus
 from src.database.repositories.task_repository import TaskRepository
+from src.utils.logger import logger
 
 
 class TaskService:

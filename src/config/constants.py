@@ -14,7 +14,6 @@ class ModelProvider(str, Enum):
     OLLAMA = "ollama"
     HUGGINGFACE = "huggingface"
     OPENAI = "openai"
-    ANTHROPIC = "anthropic"
 
 
 class DatasetFormat(str, Enum):

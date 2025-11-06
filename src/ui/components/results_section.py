@@ -1,14 +1,12 @@
 # src/ui/components/results_section.py
-import asyncio
 
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.core.services.dataset_service import DatasetService
-from src.core.services.model_service import ModelService
-from src.core.services.task_service import TaskService
+from src.core.schemas.task import TaskStatus
+from src.ui.api_client import get_api_client
 
 
 def render_results_section():
@@ -17,41 +15,26 @@ def render_results_section():
     st.markdown('<div class="animated">', unsafe_allow_html=True)
     st.markdown("## 📈 Results & Analytics")
 
-    # Инициализация
-    if "task_service" not in st.session_state:
-        st.session_state.task_service = TaskService()
-    if "dataset_service" not in st.session_state:
-        st.session_state.dataset_service = DatasetService()
-    if "model_service" not in st.session_state:
-        st.session_state.model_service = ModelService()
-
-    task_service = st.session_state.task_service
-    dataset_service = st.session_state.dataset_service
-    model_service = st.session_state.model_service
+    api_client = get_api_client()
 
     # Проверяем, выбрана ли задача
     if "selected_task_id" in st.session_state:
-        _render_task_results(
-            st.session_state.selected_task_id,
-            task_service,
-            dataset_service,
-            model_service,
-        )
+        _render_task_results(st.session_state.selected_task_id, api_client)
     else:
-        _render_results_overview(task_service, model_service)
+        _render_results_overview(api_client)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
 
-def _render_results_overview(task_service, model_service):
+def _render_results_overview(api_client):
     """Обзор всех результатов"""
 
     st.markdown("### 📊 Overview of Completed Tasks")
 
     # Селектор задачи
     try:
-        tasks = asyncio.run(task_service.list_tasks(limit=100))
-        completed_tasks = [t for t in tasks if t.status == "completed"]
+        completed_tasks = api_client.list_tasks(status=TaskStatus.COMPLETED)
+        # completed_tasks = [t for t in tasks if t.status == "completed"]
 
         if completed_tasks:
             # Выбор задачи
@@ -130,11 +113,11 @@ def _render_results_overview(task_service, model_service):
         st.error(f"❌ Error loading results: {e}")
 
 
-def _render_task_results(task_id, task_service, dataset_service, model_service):
+def _render_task_results(task_id, api_client):
     """Детальные результаты конкретной задачи"""
 
     try:
-        task = asyncio.run(task_service.get_task(task_id))
+        task = api_client.get_task(task_id)
 
         if not task:
             st.error("Task not found")
@@ -164,14 +147,14 @@ def _render_task_results(task_id, task_service, dataset_service, model_service):
 
         with col2:
             st.markdown("**📊 Dataset**")
-            dataset = asyncio.run(dataset_service.get_dataset(task.dataset_id))
+            dataset = api_client.get_dataset(task.dataset_id)
             if dataset:
                 st.write(f"Name: {dataset.name}")
                 st.write(f"Size: {dataset.size} items")
 
         with col3:
             st.markdown("**🤖 Model**")
-            model = asyncio.run(model_service.get_model(task.model_id))
+            model = api_client.get_model(task.model_id)
             if model:
                 st.write(f"Name: {model.name}")
                 st.write(f"Provider: {model.provider}")

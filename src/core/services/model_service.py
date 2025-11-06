@@ -1,12 +1,12 @@
 # src/core/services/model_service.py
 from typing import List, Optional
 
-from src.utils.cache import cache
-from src.utils.logger import logger
-
 from src.adapters.factory import LLMFactory
-from src.core.models.model import Model, ModelConfig
+from src.config.constants import ModelProvider
+from src.core.schemas.model import Model, ModelConfig
+from src.core.tasks.model_download_task import run_download_model_task
 from src.database.repositories.model_repository import ModelRepository
+from src.utils.logger import logger
 
 
 class ModelService:
@@ -33,9 +33,18 @@ class ModelService:
         )
 
         created = await self.repository.create(model)
-        logger.info(f"Model registered: {created.id} - {created.name}")
 
-        cache.clear_pattern("models:*")
+        if (
+            model.provider == ModelProvider.HUGGINGFACE
+            or model.provider == ModelProvider.OLLAMA
+        ):
+            # Запускаем Celery задачу
+            celery_task = run_download_model_task.delay(created.id)
+
+            # Сохраняем Celery task ID
+            await self.repository.update(created.id, {"celery_task_id": celery_task.id})
+
+        logger.info(f"Model registered: {created.id} - {created.name}")
 
         return created
 
@@ -54,7 +63,7 @@ class ModelService:
         result = await self.repository.update(model_id, kwargs)
 
         if result:
-            cache.delete(f"model:{model_id}")
+            # cache.delete(f"model:{model_id}")
             logger.info(f"Model updated: {model_id}")
 
         return result
@@ -64,7 +73,7 @@ class ModelService:
         result = await self.repository.delete(model_id)
 
         if result:
-            cache.clear_pattern(f"model:{model_id}*")
+            # cache.clear_pattern(f"model:{model_id}*")
             logger.info(f"Model deleted: {model_id}")
 
         return result

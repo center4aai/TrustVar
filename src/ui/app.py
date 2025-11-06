@@ -1,4 +1,4 @@
-# src/ui/home.py
+# src/ui/app.py
 import sys
 from pathlib import Path
 
@@ -163,21 +163,3 @@ else:
         """,
             unsafe_allow_html=True,
         )
-
-    # # Статистика
-    # st.markdown("<hr>", unsafe_allow_html=True)
-    # st.markdown("## 📊 Overview")
-
-    # col1, col2, col3, col4 = st.columns(4)
-
-    # with col1:
-    #     st.metric(label="📊 Total Datasets", value="0", delta="0 this week")
-
-    # with col2:
-    #     st.metric(label="🤖 Registered Models", value="0", delta="0 this week")
-
-    # with col3:
-    #     st.metric(label="⚡ Active Tasks", value="0", delta="0 running")
-
-    # with col4:
-    #     st.metric(label="✅ Completed", value="0", delta="0 today")

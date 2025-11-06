@@ -1,5 +1,6 @@
-# src/core/models/model.py
+# src/core/schemas/model.py
 from datetime import datetime
+from enum import Enum
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
@@ -19,6 +20,12 @@ class ModelConfig(BaseModel):
     stop_sequences: List[str] = []
 
 
+class ModelStatus(str, Enum):
+    REGISTERED = "registered"  # запись создана
+    DOWNLOADING = "downloading"  # модель скачивается
+    FAILED = "failed"  # ошибка при загрузке
+
+
 class Model(BaseModel):
     """Модель LLM"""
 
@@ -28,7 +35,7 @@ class Model(BaseModel):
     model_name: str  # Имя модели у провайдера
     description: Optional[str] = None
     config: ModelConfig = Field(default_factory=ModelConfig)
-    is_active: bool = True
+    status: ModelStatus = ModelStatus.REGISTERED
     created_at: datetime = Field(default_factory=datetime.utcnow)
     metadata: Dict[str, Any] = {}
 

@@ -9,6 +9,10 @@ celery_app = Celery(
     "llm_framework",
     broker=settings.CELERY_BROKER_URL,
     backend=settings.CELERY_RESULT_BACKEND,
+    include=[
+        "src.core.tasks.inference_task",
+        "src.core.tasks.model_download_task",
+    ],
 )
 
 celery_app.conf.update(

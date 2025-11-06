@@ -1,9 +1,8 @@
 # src/core/services/evaluation_service.py
 from typing import Dict, List
 
+from src.core.schemas.task import TaskResult
 from src.utils.logger import logger
-
-from src.core.models.task import TaskResult
 
 
 class EvaluationService:

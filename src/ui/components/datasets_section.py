@@ -1,9 +1,7 @@
 # src/ui/components/datasets_section.py
-import asyncio
-
 import streamlit as st
 
-from src.core.services.dataset_service import DatasetService
+from src.ui.api_client import get_api_client
 from src.ui.components.dataset_uploader import DatasetUploader
 
 
@@ -13,11 +11,7 @@ def render_datasets_section():
     st.markdown('<div class="animated">', unsafe_allow_html=True)
     st.markdown("## 📊 Dataset Management")
 
-    # Инициализация
-    if "dataset_service" not in st.session_state:
-        st.session_state.dataset_service = DatasetService()
-
-    dataset_service = st.session_state.dataset_service
+    api_client = get_api_client()
 
     # Tabs
     tab1, tab2, tab3 = st.tabs(["📋 All Datasets", "➕ Upload New", "🔍 Details"])
@@ -59,7 +53,7 @@ def render_datasets_section():
 
         # Загрузка датасетов
         try:
-            datasets = asyncio.run(dataset_service.list_datasets(limit=50))
+            datasets = api_client.list_datasets()
 
             if datasets:
                 for dataset in datasets:
@@ -100,9 +94,7 @@ def render_datasets_section():
                                 use_container_width=True,
                             ):
                                 if st.session_state.get(f"confirm_delete_{dataset.id}"):
-                                    asyncio.run(
-                                        dataset_service.delete_dataset(dataset.id)
-                                    )
+                                    api_client.delete_dataset(dataset.id)
                                     st.success("Deleted!")
                                     st.rerun()
                                 else:
@@ -121,7 +113,7 @@ def render_datasets_section():
 
     # ===== TAB 2: Загрузка нового датасета =====
     with tab2:
-        uploader = DatasetUploader(dataset_service)
+        uploader = DatasetUploader(api_client)
         uploader.render()
 
     # ===== TAB 3: Детали датасета =====
@@ -130,7 +122,7 @@ def render_datasets_section():
             dataset_id = st.session_state.selected_dataset_id
 
             try:
-                dataset = asyncio.run(dataset_service.get_dataset(dataset_id))
+                dataset = api_client.get_dataset(dataset_id)
 
                 if dataset:
                     # Заголовок
@@ -147,7 +139,7 @@ def render_datasets_section():
                     st.divider()
 
                     # Статистика
-                    stats = asyncio.run(dataset_service.get_stats(dataset_id))
+                    stats = api_client.get_dataset_stats(dataset_id)
 
                     col1, col2, col3, col4 = st.columns(4)
                     col1.metric("📝 Total Items", stats.get("total_items", 0))
@@ -164,7 +156,7 @@ def render_datasets_section():
                     # Примеры данных
                     st.markdown("### 📄 Sample Items")
 
-                    items = asyncio.run(dataset_service.get_items(dataset_id, limit=10))
+                    items = api_client.get_dataset_items(dataset_id)
 
                     for i, item in enumerate(items, 1):
                         with st.expander(f"**Item {i}:** {item.prompt[:60]}..."):

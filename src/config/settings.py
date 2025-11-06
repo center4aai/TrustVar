@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     VERSION: str = "0.1.0"
     DEBUG: bool = False
 
+    # Api
+    API_IP: str = "0.0.0.0"
+    API_PORT: int = 8000
+
     # MongoDB
     MONGODB_URL: str = "mongodb://localhost:27017"
     MONGODB_DB_NAME: str = "llm_framework"
