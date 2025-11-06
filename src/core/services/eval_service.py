@@ -34,11 +34,11 @@ class EvaluationService:
         matches = sum(
             1
             for r in results
-            if r.expected_output
-            and r.output.strip().lower() == r.expected_output.strip().lower()
+            if r.target
+            and r.output.strip().lower() == r.target
         )
 
-        total = sum(1 for r in results if r.expected_output)
+        total = sum(1 for r in results if r.target)
 
         return (matches / total * 100) if total > 0 else 0.0
 
@@ -50,10 +50,10 @@ class EvaluationService:
         correct = sum(
             1
             for r in results
-            if r.expected_output and r.expected_output.lower() in r.output.lower()
+            if r.target and str(r.target) in r.output.lower()
         )
 
-        total = sum(1 for r in results if r.expected_output)
+        total = sum(1 for r in results if r.target)
 
         return (correct / total * 100) if total > 0 else 0.0
 
@@ -66,8 +66,8 @@ class EvaluationService:
             smooth = SmoothingFunction()
 
             for r in results:
-                if r.expected_output:
-                    reference = [r.expected_output.split()]
+                if r.target:
+                    reference = [r.target]
                     candidate = r.output.split()
                     score = sentence_bleu(
                         reference, candidate, smoothing_function=smooth.method1
@@ -88,8 +88,8 @@ class EvaluationService:
             scores = []
 
             for r in results:
-                if r.expected_output and r.output:
-                    score = rouge.get_scores(r.output, r.expected_output)[0]
+                if r.target and r.output:
+                    score = rouge.get_scores(r.output, r.target)[0]
                     scores.append(score["rouge-l"]["f"])
 
             return (sum(scores) / len(scores) * 100) if scores else 0.0

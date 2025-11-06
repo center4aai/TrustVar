@@ -148,14 +148,16 @@ def render_tasks_section():
                 else:
                     try:
                         task = api_client.create_task(
-                            name=task_name,
-                            dataset_id=selected_dataset,
-                            model_id=selected_model,
-                            task_type=task_type,
-                            batch_size=batch_size,
-                            max_samples=max_samples if max_samples > 0 else None,
-                            evaluate=evaluate,
-                            evaluation_metrics=metrics,
+                            task_data=dict(
+                                name=task_name,
+                                dataset_id=selected_dataset,
+                                model_id=selected_model,
+                                task_type=task_type,
+                                batch_size=batch_size,
+                                max_samples=max_samples if max_samples > 0 else None,
+                                evaluate=evaluate,
+                                evaluation_metrics=metrics
+                            )
                         )
 
                         st.success(f"✅ Task '{task_name}' created and launched!")

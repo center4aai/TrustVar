@@ -53,6 +53,14 @@ async def list_models(
     return await service.list_models(active_only=active_only)
 
 
+@router.get("/{model_id}/get", response_model=Model)
+async def get_model(
+    model_id: str,
+    service: ModelService = Depends(get_model_service),
+):
+    return await service.get_model(model_id=model_id)
+
+
 @router.post("/{model_id}/test")
 async def test_model(
     model_id: str,

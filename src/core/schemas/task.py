@@ -13,7 +13,7 @@ class TaskResult(BaseModel):
 
     input: str
     output: str
-    expected_output: Optional[str] = None
+    target: Optional[int] = None
     metrics: Dict[str, float] = {}
     execution_time: float = 0.0
     metadata: Dict[str, Any] = {}

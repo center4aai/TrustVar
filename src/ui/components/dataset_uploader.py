@@ -63,21 +63,21 @@ class DatasetUploader:
 
                 if file_format == "jsonl":
                     st.code(
-                        """{"prompt": "Question?", "expected_output": "Answer"}
-{"prompt": "Another question?", "expected_output": "Another answer"}""",
+                        """{"prompt": "Question?", "target": "Answer"}
+{"prompt": "Another question?", "target": "Another answer"}""",
                         language="json",
                     )
                 elif file_format == "json":
                     st.code(
                         """[
-  {"prompt": "Question?", "expected_output": "Answer"},
-  {"prompt": "Another question?", "expected_output": "Another answer"}
+  {"prompt": "Question?", "target": "Answer"},
+  {"prompt": "Another question?", "target": "Another answer"}
 ]""",
                         language="json",
                     )
                 elif file_format == "csv":
                     st.code(
-                        '''prompt,expected_output
+                        '''prompt,target
 "Question?","Answer"
 "Another question?","Another answer"''',
                         language="csv",

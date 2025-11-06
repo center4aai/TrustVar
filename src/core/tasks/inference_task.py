@@ -95,7 +95,7 @@ async def _run_inference_async(celery_task, task_id: str):
         results: List[TaskResult] = []
         batch_size = task.batch_size
 
-        for i in range(0, total_items, batch_size):
+        for i in range(0, 2*batch_size, batch_size): #TODO: delete index
             batch = items[i : i + batch_size]
             prompts = [item.prompt for item in batch]
 
@@ -111,10 +111,11 @@ async def _run_inference_async(celery_task, task_id: str):
 
             # Сохраняем результаты
             for j, (item, response) in enumerate(zip(batch, responses)):
+                print(f'Item:{item} \n --- \n Resp: {response}')
                 result = TaskResult(
                     input=item.prompt,
                     output=response,
-                    expected_output=item.expected_output,
+                    target=item.target,
                     execution_time=execution_time / len(batch),
                     metadata=item.metadata,
                 )

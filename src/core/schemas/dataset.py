@@ -10,7 +10,7 @@ class DatasetItem(BaseModel):
     """Элемент датасета"""
 
     prompt: str
-    expected_output: Optional[str] = None
+    target: Optional[int] = None
     metadata: Dict[str, Any] = {}
 
 

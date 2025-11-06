@@ -300,14 +300,16 @@ class TaskMonitor:
             if st.button("🔄 Retry", key=f"retry_{task.id}", use_container_width=True):
                 try:
                     self.api_client.create_task(
-                        name=f"{task.name} (Retry)",
-                        dataset_id=task.dataset_id,
-                        model_id=task.model_id,
-                        task_type=task.task_type,
-                        batch_size=task.batch_size,
-                        max_samples=task.max_samples,
-                        evaluate=task.evaluate,
-                        evaluation_metrics=task.evaluation_metrics,
+                        task_data = dict(
+                            name=f"{task.name} (Retry)",
+                            dataset_id=task.dataset_id,
+                            model_id=task.model_id,
+                            task_type=task.task_type,
+                            batch_size=task.batch_size,
+                            max_samples=task.max_samples,
+                            evaluate=task.evaluate,
+                            evaluation_metrics=task.evaluation_metrics
+                        )
                     )
 
                     st.success("Task retried!")

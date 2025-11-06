@@ -222,11 +222,8 @@ def _render_task_results(task_id, api_client):
             # Отображение результатов
             for i, result in enumerate(filtered_results, 1):
                 is_correct = None
-                if result.expected_output:
-                    is_correct = (
-                        result.output.strip().lower()
-                        == result.expected_output.strip().lower()
-                    )
+                if result.target:
+                    is_correct = result.output == str(result.target)
 
                 # Пропускаем если фильтр активен
                 if show_only == "Correct" and not is_correct:
@@ -249,9 +246,9 @@ def _render_task_results(task_id, api_client):
                         st.code(result.output, language=None)
 
                     with col2:
-                        if result.expected_output:
+                        if result.target:
                             st.markdown("**Expected Output:**")
-                            st.code(result.expected_output, language=None)
+                            st.code(result.target, language=None)
 
                             if is_correct:
                                 st.success("✅ Match!")

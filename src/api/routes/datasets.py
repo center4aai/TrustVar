@@ -1,7 +1,7 @@
 # src/api/routes/datasets.py
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, Query
 from pydantic import BaseModel
 
 from src.config.constants import DatasetFormat, TaskStatus
@@ -59,10 +59,11 @@ async def upload_dataset_file(
 
 @router.get("/", response_model=List[Dataset])
 async def list_datasets(
-    request: DatasetList,
+    skip: int = Query(0, ge=0, description="Number of records to skip"),
+    limit: int = Query(100, ge=0, le=1000, description="Max number of records to return"), 
     service: DatasetService = Depends(get_dataset_service),
 ):
-    return await service.list_datasets(skip=request.skip, limit=request.limit)
+    return await service.list_datasets(skip=skip, limit=limit)
 
 
 @router.get("/{dataset_id}", response_model=Dataset)
@@ -79,10 +80,11 @@ async def get_dataset(
 @router.get("/{dataset_id}/items", response_model=List[DatasetItem])
 async def get_dataset_items(
     dataset_id: str,
-    request: DatasetList,
+    skip: int = Query(0, ge=0, description="Number of records to skip"),
+    limit: int = Query(100, ge=0, le=1000, description="Max number of records to return"), 
     service: DatasetService = Depends(get_dataset_service),
 ):
-    items = await service.get_items(dataset_id, skip=request.skip, limit=request.limit)
+    items = await service.get_items(dataset_id, skip=skip, limit=limit)
     return items
 
 

@@ -24,6 +24,7 @@ class ApiClient:
 
     def _handle_response(self, response: requests.Response):
         """Обрабатывает ответ от API и вызывает исключение в случае ошибки."""
+        # print(response.json())
         if not response.ok:
             try:
                 detail = response.json().get("detail", "Unknown API error")
@@ -72,9 +73,12 @@ class ApiClient:
         data = self._handle_response(response)
         return Dataset(**data)
 
-    def get_dataset_items(self, dataset_id: str, limit: int = 10) -> List[DatasetItem]:
+    def get_dataset_items(
+        self, dataset_id: str, skip: int = 0, limit: int = 10
+    ) -> List[DatasetItem]:
         response = requests.get(
-            f"{self.base_url}/api/v1/datasets/{dataset_id}/items?limit={limit}"
+            f"{self.base_url}/api/v1/datasets/{dataset_id}/items",
+            params={"skip": skip, "limit": limit},
         )
         data = self._handle_response(response)
         return [DatasetItem(**item) for item in data]
@@ -108,6 +112,14 @@ class ApiClient:
     def delete_model(self, model_id: str):
         response = requests.delete(f"{self.base_url}/api/v1/models/{model_id}")
         self._handle_response(response)
+
+    def get_model(self, model_id: str):
+        model_data = {"model_id": model_id}
+        response = requests.get(
+            f"{self.base_url}/api/v1/models/{model_id}/get", json=model_data
+        )
+        data = self._handle_response(response)
+        return Model(**data)
 
     # --- Tasks ---
     def list_tasks(

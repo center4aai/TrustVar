@@ -48,6 +48,7 @@ class DatasetService:
         else:
             raise ValueError(f"Unsupported format: {file_format}")
 
+        # print(f'----- \nItems: {items[:2]} \n---')
         # Сохраняем items
         dataset_items = [DatasetItem(**item) for item in items]
         await self.repository.add_items(dataset_id, dataset_items)
@@ -125,12 +126,12 @@ class DatasetService:
             else 0
         )
 
-        has_expected = sum(1 for item in items if item.expected_output)
+        has_expected = sum(1 for item in items if item.target)
 
         return {
             "total_items": total_prompts,
             "avg_prompt_length": avg_prompt_length,
-            "items_with_expected_output": has_expected,
+            "items_with_target": has_expected,
             "coverage": (has_expected / total_prompts * 100)
             if total_prompts > 0
             else 0,

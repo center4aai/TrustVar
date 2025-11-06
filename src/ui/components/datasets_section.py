@@ -147,7 +147,7 @@ def render_datasets_section():
                         "📏 Avg Length", f"{stats.get('avg_prompt_length', 0):.0f}"
                     )
                     col3.metric(
-                        "✅ With Expected", stats.get("items_with_expected_output", 0)
+                        "✅ With Expected", stats.get("items_with_target", 0)
                     )
                     col4.metric("📊 Coverage", f"{stats.get('coverage', 0):.1f}%")
 
@@ -167,9 +167,9 @@ def render_datasets_section():
                                 st.code(item.prompt, language=None)
 
                             with col2:
-                                if item.expected_output:
+                                if item.target:
                                     st.markdown("**Expected Output:**")
-                                    st.code(item.expected_output, language=None)
+                                    st.code(item.target, language=None)
                                 else:
                                     st.info("No expected output")
 

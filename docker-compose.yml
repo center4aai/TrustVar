@@ -22,15 +22,17 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_MONGODB_PORT: 27017
-      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      # ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      # ME_CONFIG_BASICAUTH_USERNAME: root
-      # ME_CONFIG_BASICAUTH_PASSWORD: example
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: example
     ports:
       - '27374:8081'
     depends_on:
       - mongodb
     restart: on-failure
+    networks:
+      - llm_net
 
   redis:
     image: redis:7-alpine
