@@ -10,8 +10,10 @@ class DatasetItem(BaseModel):
     """Элемент датасета"""
 
     prompt: str
-    target: Optional[int] = None
+    target: Optional[str] = None
     metadata: Dict[str, Any] = {}
+
+    model_config = {"coerce_numbers_to_str": True}
 
 
 class Dataset(BaseModel):

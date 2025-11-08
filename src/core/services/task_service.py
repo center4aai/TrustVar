@@ -1,7 +1,8 @@
 # src/core/services/task_service.py
+from collections import defaultdict
 from typing import Any, Dict, List, Optional
 
-from src.core.schemas.task import Task, TaskStatus
+from src.core.schemas.task import Task, TaskConfig, TaskStatus, TaskType
 from src.core.tasks.inference_task import run_inference_task
 from src.database.repositories.task_repository import TaskRepository
 from src.utils.logger import logger
@@ -17,24 +18,21 @@ class TaskService:
         self,
         name: str,
         dataset_id: str,
-        model_id: str,
-        task_type: str,
-        batch_size: int = 1,
-        max_samples: Optional[int] = None,
-        evaluate: bool = True,
-        evaluation_metrics: List[str] = None,
+        model_ids: List[str],  # Изменено
+        task_type: TaskType = TaskType.STANDARD,
+        config: TaskConfig = None,
     ) -> Task:
         """Создать и запустить задачу"""
+
+        if not model_ids:
+            raise ValueError("At least one model is required")
 
         task = Task(
             name=name,
             dataset_id=dataset_id,
-            model_id=model_id,
+            model_ids=model_ids,
             task_type=task_type,
-            batch_size=batch_size,
-            max_samples=max_samples,
-            evaluate=evaluate,
-            evaluation_metrics=evaluation_metrics or [],
+            config=config or TaskConfig(),
         )
 
         # Сохраняем в БД
@@ -46,7 +44,9 @@ class TaskService:
         # Сохраняем Celery task ID
         await self.repository.update(created.id, {"celery_task_id": celery_task.id})
 
-        logger.info(f"Task created and scheduled: {created.id}")
+        logger.info(
+            f"Task created and scheduled: {created.id} with {len(model_ids)} models"
+        )
 
         return created
 
@@ -104,23 +104,81 @@ class TaskService:
             "error": task.error,
         }
 
-    async def get_task_results(self, task_id: str) -> Dict[str, Any]:
-        """Получить результаты задачи"""
+    async def compare_model_results(self, task_id: str) -> Dict[str, Any]:
+        """Сравнить результаты разных моделей в рамках одной задачи"""
         task = await self.get_task(task_id)
 
-        if not task:
-            return {"error": "Task not found"}
+        if not task or task.status != TaskStatus.COMPLETED:
+            return None
 
-        if task.status != TaskStatus.COMPLETED:
-            return {"error": "Task not completed"}
+        # Группируем результаты по моделям
+        results_by_model = defaultdict(list)
+        for result in task.results:
+            results_by_model[result.model_id].append(result)
 
-        return {
+        comparison = {
             "task_id": task.id,
             "task_name": task.name,
-            "results": task.results,
-            "metrics": task.aggregated_metrics,
-            "total_samples": task.total_samples,
-            "duration": (task.completed_at - task.started_at).total_seconds()
-            if task.completed_at and task.started_at
-            else None,
+            "models": {},
+            "summary": {
+                "total_models": len(results_by_model),
+                "total_results": len(task.results),
+            },
         }
+
+        # Статистика по каждой модели
+        for model_id, model_results in results_by_model.items():
+            avg_time = sum(r.execution_time for r in model_results) / len(model_results)
+
+            model_stats = {
+                "total_results": len(model_results),
+                "avg_execution_time": avg_time,
+                "metrics": task.aggregated_metrics.get(model_id, {}),
+            }
+
+            # Если использовался judge
+            judge_scores = [
+                r.judge_score for r in model_results if r.judge_score is not None
+            ]
+            if judge_scores:
+                model_stats["avg_judge_score"] = sum(judge_scores) / len(judge_scores)
+                model_stats["min_judge_score"] = min(judge_scores)
+                model_stats["max_judge_score"] = max(judge_scores)
+
+            # Вариации
+            variation_counts = defaultdict(int)
+            for r in model_results:
+                if r.variation_type:
+                    variation_counts[r.variation_type] += 1
+
+            if variation_counts:
+                model_stats["variations"] = dict(variation_counts)
+
+            comparison["models"][model_id] = model_stats
+
+        # Определяем лучшую модель
+        if task.config.enable_judge:
+            # По judge score
+            best_model = max(
+                comparison["models"].items(),
+                key=lambda x: x[1].get("avg_judge_score", 0),
+            )
+            comparison["best_model"] = {
+                "model_id": best_model[0],
+                "reason": "highest_judge_score",
+                "score": best_model[1].get("avg_judge_score", 0),
+            }
+        elif task.aggregated_metrics:
+            # По первой метрике
+            first_metric = list(list(task.aggregated_metrics.values())[0].keys())[0]
+            best_model = max(
+                comparison["models"].items(),
+                key=lambda x: x[1]["metrics"].get(first_metric, 0),
+            )
+            comparison["best_model"] = {
+                "model_id": best_model[0],
+                "reason": f"highest_{first_metric}",
+                "score": best_model[1]["metrics"].get(first_metric, 0),
+            }
+
+        return comparison

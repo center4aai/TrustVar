@@ -46,7 +46,7 @@ def render_datasets_section():
 
         with col4:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("🔄 Refresh", use_container_width=True):
+            if st.button("🔄 Refresh", width="stretch"):
                 st.rerun()
 
         st.divider()
@@ -83,7 +83,7 @@ def render_datasets_section():
                             if st.button(
                                 "👁️ View",
                                 key=f"view_ds_{dataset.id}",
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 st.session_state.selected_dataset_id = dataset.id
                                 st.rerun()
@@ -91,7 +91,7 @@ def render_datasets_section():
                             if st.button(
                                 "🗑️ Delete",
                                 key=f"del_ds_{dataset.id}",
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 if st.session_state.get(f"confirm_delete_{dataset.id}"):
                                     api_client.delete_dataset(dataset.id)
@@ -132,7 +132,7 @@ def render_datasets_section():
                         st.markdown(dataset.description or "*No description*")
 
                     with col2:
-                        if st.button("⬅️ Back", use_container_width=True):
+                        if st.button("⬅️ Back", width="stretch"):
                             del st.session_state.selected_dataset_id
                             st.rerun()
 
@@ -146,9 +146,7 @@ def render_datasets_section():
                     col2.metric(
                         "📏 Avg Length", f"{stats.get('avg_prompt_length', 0):.0f}"
                     )
-                    col3.metric(
-                        "✅ With Expected", stats.get("items_with_target", 0)
-                    )
+                    col3.metric("✅ With Expected", stats.get("items_with_target", 0))
                     col4.metric("📊 Coverage", f"{stats.get('coverage', 0):.1f}%")
 
                     st.divider()

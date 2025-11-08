@@ -79,9 +79,7 @@ for idx, (col, feature) in enumerate(zip(cols, features)):
     with col:
         button_text = f"{feature['icon']}\n\n ### {feature['title']}  \n\n {feature['description']}"
 
-        if st.button(
-            button_text, key=f"nav_{feature['key']}", use_container_width=True
-        ):
+        if st.button(button_text, key=f"nav_{feature['key']}", width="stretch"):
             st.session_state.selected_section = feature["key"]
             # st.rerun()
 

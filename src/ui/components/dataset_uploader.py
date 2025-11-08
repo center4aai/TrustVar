@@ -87,7 +87,7 @@ class DatasetUploader:
             # st.markdown("<br>", unsafe_allow_html=True)
 
             submitted = st.form_submit_button(
-                "📤 Upload Dataset", type="primary", use_container_width=True
+                "📤 Upload Dataset", type="primary", width="stretch"
             )
 
             if submitted:

@@ -21,23 +21,27 @@ class HuggingFaceAdapter(BaseLLMAdapter):
         self.hf_model = None
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    def _load_model(self):
-        """Загрузка модели"""
+    async def _load_model(self):
+        """Асинхронная загрузка модели"""
         if self.hf_model is None:
             logger.info(f"Loading HuggingFace model: {self.model.model_name}")
 
-            self.tokenizer = AutoTokenizer.from_pretrained(
+            self.tokenizer = await asyncio.to_thread(
+                AutoTokenizer.from_pretrained,
                 self.model.model_name,
                 cache_dir=settings.HF_CACHE_DIR,
                 token=settings.HF_TOKEN if settings.HF_TOKEN else None,
             )
 
-            self.hf_model = AutoModelForCausalLM.from_pretrained(
+            self.hf_model = await asyncio.to_thread(
+                AutoModelForCausalLM.from_pretrained,
                 self.model.model_name,
                 cache_dir=settings.HF_CACHE_DIR,
                 token=settings.HF_TOKEN if settings.HF_TOKEN else None,
                 dtype=torch.float16 if self.device == "cuda" else torch.float32,
-            ).to(self.device)
+            )
+
+            self.hf_model.to(self.device)
 
             logger.info(f"Model loaded on {self.device}")
 

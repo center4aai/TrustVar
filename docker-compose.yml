@@ -75,6 +75,7 @@ services:
       - redis
       - ollama
     volumes:
+      - hf_volume:/app/cache
       - ./src:/app/src
     networks:
       - llm_net
@@ -103,7 +104,7 @@ services:
     #   dockerfile: Dockerfile.celery
     image: trustvar2-celery-worker
     container_name: celery_worker
-    command: celery -A src.core.tasks.celery_app worker --loglevel=info
+    command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=info
     environment:
       - MONGODB_URL=mongodb://root:example@mongodb:27017
       - REDIS_URL=redis://redis:6379/0
@@ -124,6 +125,7 @@ services:
 volumes:
   mongodb_data:
   ollama_models:
+  hf_volume:
 
 
 networks:

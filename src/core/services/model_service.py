@@ -1,7 +1,8 @@
 # src/core/services/model_service.py
 from typing import List, Optional
 
-from src.adapters.factory import LLMFactory
+from celery.result import AsyncResult
+
 from src.config.constants import ModelProvider
 from src.core.schemas.model import Model, ModelConfig
 from src.core.tasks.model_download_task import run_download_model_task
@@ -34,10 +35,12 @@ class ModelService:
 
         created = await self.repository.create(model)
 
+        # Автоматическая загрузка для HF и Ollama
         if (
             model.provider == ModelProvider.HUGGINGFACE
             or model.provider == ModelProvider.OLLAMA
         ):
+            logger.info(f"Starting downloading model {model.name}")
             # Запускаем Celery задачу
             celery_task = run_download_model_task.delay(created.id)
 
@@ -63,7 +66,6 @@ class ModelService:
         result = await self.repository.update(model_id, kwargs)
 
         if result:
-            # cache.delete(f"model:{model_id}")
             logger.info(f"Model updated: {model_id}")
 
         return result
@@ -73,38 +75,92 @@ class ModelService:
         result = await self.repository.delete(model_id)
 
         if result:
-            # cache.clear_pattern(f"model:{model_id}*")
             logger.info(f"Model deleted: {model_id}")
 
         return result
 
-    async def test_model(self, model_id: str, test_prompt: str = "Hello") -> dict:
-        """Тестировать модель"""
-        model = await self.get_model(model_id)
-        if not model:
-            return {"success": False, "error": "Model not found"}
+    def test_model(
+        self, model_id: str, test_prompt: str = "Hello, how are you?"
+    ) -> dict:
+        """
+        Тестировать модель через Celery (асинхронно)
 
-        try:
-            adapter = LLMFactory.create(model)
+        Returns:
+            Dict с celery_task_id для отслеживания
+        """
+        from src.core.tasks.health_check_task import run_test_inference_task
 
-            # Проверяем health
-            is_healthy = await adapter.health_check()
-            if not is_healthy:
-                return {"success": False, "error": "Model not available"}
+        logger.info(f"Scheduling test inference for model {model_id}")
 
-            # Тестовая генерация
-            import time
+        # Запускаем Celery задачу
+        celery_task = run_test_inference_task.delay(model_id, test_prompt)
 
-            start = time.time()
-            response = await adapter.generate(test_prompt)
-            duration = time.time() - start
+        return {
+            "celery_task_id": celery_task.id,
+            "status": "scheduled",
+            "message": "Test inference task has been scheduled",
+        }
 
-            return {
-                "success": True,
-                "response": response,
-                "duration": duration,
-                "model": model.name,
-            }
-        except Exception as e:
-            logger.error(f"Model test failed: {e}")
-            return {"success": False, "error": str(e)}
+    def get_test_result(self, celery_task_id: str) -> dict:
+        """
+        Получить результат тестового инференса
+
+        Args:
+            celery_task_id: ID Celery задачи
+
+        Returns:
+            Dict с результатами или статусом
+        """
+        from src.core.tasks.celery_app import celery_app
+
+        result = AsyncResult(celery_task_id, app=celery_app)
+
+        if result.ready():
+            if result.successful():
+                return {"status": "completed", "result": result.result}
+            else:
+                return {"status": "failed", "error": str(result.result)}
+        else:
+            return {"status": "pending", "state": result.state}
+
+    def health_check(self, model_id: str) -> dict:
+        """
+        Проверить доступность модели через Celery (асинхронно)
+
+        Returns:
+            Dict с celery_task_id для отслеживания
+        """
+        from src.core.tasks.health_check_task import run_health_check_task
+
+        logger.info(f"Scheduling health check for model {model_id}")
+
+        # Запускаем Celery задачу
+        celery_task = run_health_check_task.delay(model_id)
+
+        return {
+            "celery_task_id": celery_task.id,
+            "status": "scheduled",
+            "message": "Health check task has been scheduled",
+        }
+
+    def get_health_check_result(self, celery_task_id: str) -> dict:
+        """
+        Получить результат health check
+
+        Args:
+            celery_task_id: ID Celery задачи
+
+        Returns:
+            Dict с результатами или статусом
+        """
+        from src.core.tasks.celery_app import celery_app
+
+        result = AsyncResult(celery_task_id, app=celery_app)
+
+        if result.ready():
+            if result.successful():
+                return {"status": "completed", "result": result.result}
+            else:
+                return {"status": "failed", "error": str(result.result)}
+        else:
+            return {"status": "pending", "state": result.state}

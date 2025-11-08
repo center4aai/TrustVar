@@ -1,4 +1,6 @@
 # src/ui/components/models_section.py
+import time
+
 import streamlit as st
 
 from src.config.constants import ModelProvider
@@ -41,7 +43,7 @@ def render_models_section():
 
         with col3:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("🔄 Refresh", use_container_width=True):
+            if st.button("🔄 Refresh", width="stretch"):
                 st.rerun()
 
         st.divider()
@@ -81,12 +83,12 @@ def render_models_section():
                                 )
                             elif model.status == ModelStatus.DOWNLOADING:
                                 st.markdown(
-                                    '<span class="status-badge status-completed">🟠 Downloading</span>',
+                                    '<span class="status-badge status-running">🟠 Downloading</span>',
                                     unsafe_allow_html=True,
                                 )
                             else:
                                 st.markdown(
-                                    '<span class="status-badge status-pending">⚫ Inactive</span>',
+                                    '<span class="status-badge status-failed">🔴 Failed</span>',
                                     unsafe_allow_html=True,
                                 )
 
@@ -100,25 +102,62 @@ def render_models_section():
                             if st.button(
                                 "🧪 Test",
                                 key=f"test_model_{model.id}",
-                                use_container_width=True,
+                                width="stretch",
                             ):
-                                with st.spinner("Testing model..."):
+                                # Запускаем тест через Celery
+                                with st.spinner("Starting test..."):
                                     result = api_client.test_model(
                                         model.id, "Hello, how are you?"
                                     )
 
-                                    if result["success"]:
-                                        st.success(f"✅ {result['duration']:.2f}s")
-                                        with st.expander("See response"):
-                                            st.write(result["response"])
-                                    else:
-                                        st.error(f"❌ {result['error']}")
+                                if result.get("celery_task_id"):
+                                    st.session_state[f"test_task_{model.id}"] = result[
+                                        "celery_task_id"
+                                    ]
+                                    st.info("⏳ Test started. Refresh to see results.")
+                                else:
+                                    st.error("Failed to start test")
+
+                            # Проверяем результат теста (если есть задача)
+                            test_task_id = st.session_state.get(f"test_task_{model.id}")
+                            if test_task_id:
+                                try:
+                                    test_result = api_client.get_test_result(
+                                        model.id, test_task_id
+                                    )
+
+                                    if test_result["status"] == "completed":
+                                        result_data = test_result["result"]
+                                        if result_data["success"]:
+                                            st.success(
+                                                f"✅ {result_data['duration']:.2f}s"
+                                            )
+                                            with st.expander("See response"):
+                                                st.write(result_data["response"])
+                                            # Очищаем задачу
+                                            del st.session_state[
+                                                f"test_task_{model.id}"
+                                            ]
+                                        else:
+                                            st.error(f"❌ {result_data['error']}")
+                                            del st.session_state[
+                                                f"test_task_{model.id}"
+                                            ]
+                                    elif test_result["status"] == "pending":
+                                        st.info(
+                                            f"⏳ Testing... ({test_result.get('state', 'PENDING')})"
+                                        )
+                                    elif test_result["status"] == "failed":
+                                        st.error("❌ Test failed")
+                                        del st.session_state[f"test_task_{model.id}"]
+                                except Exception as e:
+                                    st.warning(f"Could not get test result: {e}")
 
                             # Кнопка удаления
                             if st.button(
                                 "🗑️ Delete",
                                 key=f"del_model_{model.id}",
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 if st.session_state.get(
                                     f"confirm_delete_model_{model.id}"
@@ -209,7 +248,7 @@ def render_models_section():
             col1, col2, col3 = st.columns([1, 1, 1])
             with col2:
                 submitted = st.form_submit_button(
-                    "🚀 Register Model", type="primary", use_container_width=True
+                    "🚀 Register Model", type="primary", width="stretch"
                 )
 
             if submitted:
@@ -235,9 +274,14 @@ def render_models_section():
                         )
 
                         st.success(f"✅ Model '{name}' registered successfully!")
-                        st.balloons()
 
-                        # Переключаемся на вкладку списка
+                        if provider in ["huggingface", "ollama"]:
+                            st.info(
+                                "🔄 Model downloading started in background. Check status in model list."
+                            )
+
+                        st.balloons()
+                        time.sleep(2)
                         st.rerun()
 
                     except Exception as e:

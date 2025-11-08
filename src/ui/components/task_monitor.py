@@ -108,7 +108,7 @@ class TaskMonitor:
 
         with col4:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("🔄", use_container_width=True, key="task_monitor_refresh"):
+            if st.button("🔄", width="stretch", key="task_monitor_refresh"):
                 st.rerun()
 
         return search, status_filter, sort_by
@@ -190,8 +190,13 @@ class TaskMonitor:
                 with col4:
                     # Метрики
                     if task.aggregated_metrics:
-                        for metric, value in list(task.aggregated_metrics.items())[:2]:
-                            st.metric(metric.replace("_", " ").title(), f"{value:.1f}")
+                        for model_id, metrics in task.aggregated_metrics.items():
+                            for metric, value in metrics.items():
+                                st.metric(
+                                    metric.replace("_", " ").title(), f"{value:.2f}"
+                                )
+                        # for metric, value in list(task.aggregated_metrics.items())[:2]:
+                        #     st.metric(metric.replace("_", " ").title(), f"{value:.1f}")
 
                 with col5:
                     # Кнопки действий
@@ -269,7 +274,7 @@ class TaskMonitor:
 
         # Кнопка просмотра результатов
         if task.status == TaskStatus.COMPLETED:
-            if st.button("📊 View", key=f"view_{task.id}", use_container_width=True):
+            if st.button("📊 View", key=f"view_{task.id}", width="stretch"):
                 if on_view_click:
                     on_view_click(task)
                 else:
@@ -279,9 +284,7 @@ class TaskMonitor:
 
         # Кнопка отмены
         if task.status in [TaskStatus.PENDING, TaskStatus.RUNNING]:
-            if st.button(
-                "❌ Cancel", key=f"cancel_{task.id}", use_container_width=True
-            ):
+            if st.button("❌ Cancel", key=f"cancel_{task.id}", width="stretch"):
                 confirm_key = f"confirm_cancel_{task.id}"
 
                 if st.session_state.get(confirm_key):
@@ -297,10 +300,10 @@ class TaskMonitor:
 
         # Кнопка повтора для failed задач
         if task.status == TaskStatus.FAILED:
-            if st.button("🔄 Retry", key=f"retry_{task.id}", use_container_width=True):
+            if st.button("🔄 Retry", key=f"retry_{task.id}", width="stretch"):
                 try:
                     self.api_client.create_task(
-                        task_data = dict(
+                        task_data=dict(
                             name=f"{task.name} (Retry)",
                             dataset_id=task.dataset_id,
                             model_id=task.model_id,
@@ -308,7 +311,7 @@ class TaskMonitor:
                             batch_size=task.batch_size,
                             max_samples=task.max_samples,
                             evaluate=task.evaluate,
-                            evaluation_metrics=task.evaluation_metrics
+                            evaluation_metrics=task.evaluation_metrics,
                         )
                     )
 

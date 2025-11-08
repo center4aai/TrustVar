@@ -12,6 +12,7 @@ celery_app = Celery(
     include=[
         "src.core.tasks.inference_task",
         "src.core.tasks.model_download_task",
+        "src.core.tasks.health_check_task",  # ДОБАВЛЕНО
     ],
 )
 
@@ -24,4 +25,7 @@ celery_app.conf.update(
     task_track_started=True,
     task_time_limit=3600,  # 1 час
     task_soft_time_limit=3300,  # 55 минут
+    # Дополнительные настройки для результатов
+    result_expires=3600,  # Результаты хранятся 1 час
+    result_extended=True,  # Расширенная информация о результатах
 )

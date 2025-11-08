@@ -24,7 +24,20 @@ class ModelCreate(BaseModel):
 
 
 class TestModelRequest(BaseModel):
-    test_prompt: str
+    test_prompt: str = "Hello, how are you?"
+
+
+class TaskStatusResponse(BaseModel):
+    celery_task_id: str
+    status: str
+    message: str
+
+
+class TaskResultResponse(BaseModel):
+    status: str
+    result: dict | None = None
+    error: str | None = None
+    state: str | None = None
 
 
 @router.post("/", response_model=Model, status_code=201)
@@ -61,16 +74,68 @@ async def get_model(
     return await service.get_model(model_id=model_id)
 
 
-@router.post("/{model_id}/test")
+@router.post("/{model_id}/test", response_model=TaskStatusResponse)
 async def test_model(
     model_id: str,
     request: TestModelRequest,
     service: ModelService = Depends(get_model_service),
 ):
-    result = await service.test_model(model_id, request.test_prompt)
-    print(result)
-    if not result["success"]:
-        raise HTTPException(status_code=400, detail=result["error"])
+    """
+    Запустить тестовый инференс модели (асинхронно через Celery)
+
+    Возвращает celery_task_id для отслеживания результата
+    """
+    result = service.test_model(model_id, request.test_prompt)
+    return result
+
+
+@router.get("/{model_id}/test/{celery_task_id}", response_model=TaskResultResponse)
+async def get_test_result(
+    model_id: str,
+    celery_task_id: str,
+    service: ModelService = Depends(get_model_service),
+):
+    """
+    Получить результат тестового инференса
+
+    Статусы:
+    - pending: задача еще выполняется
+    - completed: задача завершена успешно
+    - failed: задача завершилась с ошибкой
+    """
+    result = service.get_test_result(celery_task_id)
+    return result
+
+
+@router.post("/{model_id}/health", response_model=TaskStatusResponse)
+async def health_check(
+    model_id: str,
+    service: ModelService = Depends(get_model_service),
+):
+    """
+    Проверить доступность модели (асинхронно через Celery)
+
+    Возвращает celery_task_id для отслеживания результата
+    """
+    result = service.health_check(model_id)
+    return result
+
+
+@router.get("/{model_id}/health/{celery_task_id}", response_model=TaskResultResponse)
+async def get_health_check_result(
+    model_id: str,
+    celery_task_id: str,
+    service: ModelService = Depends(get_model_service),
+):
+    """
+    Получить результат health check
+
+    Статусы:
+    - pending: проверка еще выполняется
+    - completed: проверка завершена
+    - failed: проверка завершилась с ошибкой
+    """
+    result = service.get_health_check_result(celery_task_id)
     return result
 
 

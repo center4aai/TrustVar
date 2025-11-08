@@ -6,8 +6,6 @@ from typing import BinaryIO, List, Optional
 
 from src.core.schemas.dataset import Dataset, DatasetItem
 from src.database.repositories.dataset_repository import DatasetRepository
-
-# from src.utils.cache import cache
 from src.utils.logger import logger
 
 

@@ -83,7 +83,7 @@ class ApiClient:
         data = self._handle_response(response)
         return [DatasetItem(**item) for item in data]
 
-    def get_dataset_stats(self, dataset_id: str) -> dict:
+    def get_dataset_stats(self, dataset_id: str) -> Dict:
         response = requests.get(f"{self.base_url}/api/v1/datasets/{dataset_id}/stats")
         return self._handle_response(response)
 
@@ -97,17 +97,10 @@ class ApiClient:
         data = self._handle_response(response)
         return [Model(**item) for item in data]
 
-    def register_model(self, model_data: dict) -> Model:
+    def register_model(self, model_data: Dict) -> Model:
         response = requests.post(f"{self.base_url}/api/v1/models/", json=model_data)
         data = self._handle_response(response)
         return Model(**data)
-
-    def test_model(self, model_id: str, test_prompt: str) -> dict:
-        test_data = {"model_id": model_id, "test_prompt": test_prompt}
-        response = requests.post(
-            f"{self.base_url}/api/v1/models/{model_id}/test", json=test_data
-        )
-        return self._handle_response(response)
 
     def delete_model(self, model_id: str):
         response = requests.delete(f"{self.base_url}/api/v1/models/{model_id}")
@@ -121,6 +114,65 @@ class ApiClient:
         data = self._handle_response(response)
         return Model(**data)
 
+    def test_model(self, model_id: str, test_prompt: str) -> Dict:
+        """
+        Запустить асинхронный тест модели через Celery
+
+        Returns:
+            Dict с celery_task_id для отслеживания
+        """
+        test_data = {"test_prompt": test_prompt}
+        response = requests.post(
+            f"{self.base_url}/api/v1/models/{model_id}/test", json=test_data
+        )
+        return self._handle_response(response)
+
+    def get_test_result(self, model_id: str, celery_task_id: str) -> Dict:
+        """
+        Получить результат асинхронного теста модели
+
+        Returns:
+            Dict со статусом и результатом
+        """
+        response = requests.get(
+            f"{self.base_url}/api/v1/models/{model_id}/test/{celery_task_id}"
+        )
+        return self._handle_response(response)
+
+    def health_check_async(self, model_id: str) -> Dict:
+        """
+        Запустить асинхронную проверку здоровья модели
+
+        Returns:
+            Dict с celery_task_id для отслеживания
+        """
+        response = requests.post(f"{self.base_url}/api/v1/models/{model_id}/health")
+        return self._handle_response(response)
+
+    def get_health_check_result(self, model_id: str, celery_task_id: str) -> Dict:
+        """
+        Получить результат асинхронной проверки здоровья
+
+        Returns:
+            Dict со статусом и результатом
+        """
+        response = requests.get(
+            f"{self.base_url}/api/v1/models/{model_id}/health/{celery_task_id}"
+        )
+        return self._handle_response(response)
+
+    def compare_results(self, task_id) -> Dict:
+        """
+        Сравнение результатов моделей
+
+        Returns:
+            Dict с результатами моделей
+        """
+        response = requests.get(
+            f"{self.base_url}/api/v1/tasks/{task_id}/compare-models"
+        )
+        return self._handle_response(response)
+
     # --- Tasks ---
     def list_tasks(
         self, status: Optional[TaskStatus] = None, skip: int = 0, limit: int = 100
@@ -131,7 +183,7 @@ class ApiClient:
         data = self._handle_response(response)
         return [Task(**item) for item in data]
 
-    def create_task(self, task_data: dict) -> Task:
+    def create_task(self, task_data: Dict) -> Task:
         response = requests.post(f"{self.base_url}/api/v1/tasks/", json=task_data)
         data = self._handle_response(response)
         return Task(**data)
