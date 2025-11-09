@@ -1,7 +1,9 @@
-# src/core/services/evaluation_service.py
+# src/core/services/eval_service.py
 from typing import Dict, List
 
 from src.core.schemas.task import TaskResult
+from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
+from src.core.services.rta_evaluator import RTAEvaluator
 from src.utils.logger import logger
 
 
@@ -23,6 +25,22 @@ class EvaluationService:
                 aggregated[metric] = self._rouge_score(results)
             elif metric == "accuracy":
                 aggregated[metric] = self._accuracy(results)
+            elif metric == "include_exclude":
+                # Интегрируем Include/Exclude оценщик
+                ie_results = IncludeExcludeEvaluator.evaluate_results(results)
+                aggregated["include_exclude_score"] = ie_results[
+                    "include_exclude_score"
+                ]
+                aggregated["include_success_rate"] = ie_results["include_success_rate"]
+                aggregated["exclude_violation_rate"] = ie_results[
+                    "exclude_violation_rate"
+                ]
+            elif metric == "rta":
+                # Интегрируем RTA метрики
+                rta_results = RTAEvaluator.compute_rta_metrics(results)
+                aggregated["refusal_rate"] = rta_results["refusal_rate"]
+                aggregated["explicit_refusals"] = rta_results["explicit_refusals"]
+                aggregated["implicit_refusals"] = rta_results["implicit_refusals"]
 
         return aggregated
 
@@ -34,8 +52,7 @@ class EvaluationService:
         matches = sum(
             1
             for r in results
-            if r.target
-            and r.output.strip().lower() == r.target
+            if r.target and r.output.strip().lower() == str(r.target).strip().lower()
         )
 
         total = sum(1 for r in results if r.target)
@@ -48,9 +65,7 @@ class EvaluationService:
             return 0.0
 
         correct = sum(
-            1
-            for r in results
-            if r.target and str(r.target) in r.output.lower()
+            1 for r in results if r.target and str(r.target).lower() in r.output.lower()
         )
 
         total = sum(1 for r in results if r.target)
@@ -67,7 +82,7 @@ class EvaluationService:
 
             for r in results:
                 if r.target:
-                    reference = [r.target]
+                    reference = [str(r.target).split()]
                     candidate = r.output.split()
                     score = sentence_bleu(
                         reference, candidate, smoothing_function=smooth.method1
@@ -89,7 +104,7 @@ class EvaluationService:
 
             for r in results:
                 if r.target and r.output:
-                    score = rouge.get_scores(r.output, r.target)[0]
+                    score = rouge.get_scores(r.output, str(r.target))[0]
                     scores.append(score["rouge-l"]["f"])
 
             return (sum(scores) / len(scores) * 100) if scores else 0.0

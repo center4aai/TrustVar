@@ -13,7 +13,8 @@ dependencies = [
     "requests>=2.31.0",
     "pydantic_settings",
     "pandas",
-    "numpy",  # Часто нужен вместе с pandas
+    "numpy",  
+    "scipy>=1.10.0"
 ]
 
 [project.optional-dependencies]

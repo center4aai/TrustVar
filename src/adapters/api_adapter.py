@@ -16,7 +16,7 @@ class OpenAIAdapter(BaseLLMAdapter):
     def __init__(self, model):
         super().__init__(model)
         self.api_key = settings.OPENAI_API_KEY
-        self.base_url = "https://api.openai.com/v1"
+        self.base_url = settings.OPENAI_BASE_URL
 
     async def generate(self, prompt: str, **kwargs) -> str:
         """Генерация через OpenAI API"""

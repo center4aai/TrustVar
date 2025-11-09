@@ -1,7 +1,7 @@
 # src/api/routes/datasets.py
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, Query
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
 from pydantic import BaseModel
 
 from src.config.constants import DatasetFormat, TaskStatus
@@ -45,13 +45,25 @@ async def upload_dataset_file(
     dataset_id: str,
     file: UploadFile = File(...),
     file_format: DatasetFormat = Form(...),
+    prompt_column: str = Form("prompt"),
+    target_column: Optional[str] = Form(None),
+    include_column: Optional[str] = Form(None),
+    exclude_column: Optional[str] = Form(None),
     service: DatasetService = Depends(get_dataset_service),
 ):
     if not await service.get_dataset(dataset_id):
         raise HTTPException(status_code=404, detail="Dataset not found")
 
     # try:
-    count = await service.upload_from_file(dataset_id, file.file, file_format.value)
+    count = await service.upload_from_file(
+        dataset_id,
+        file.file,
+        file_format.value,
+        prompt_column,
+        target_column,
+        include_column,
+        exclude_column,
+    )
     return {"filename": file.filename, "items_uploaded": count}
     # except Exception as e:
     #     raise HTTPException(status_code=500, detail=f"Failed to upload file: {e}")
@@ -60,7 +72,9 @@ async def upload_dataset_file(
 @router.get("/", response_model=List[Dataset])
 async def list_datasets(
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(100, ge=0, le=1000, description="Max number of records to return"), 
+    limit: int = Query(
+        100, ge=0, le=1000, description="Max number of records to return"
+    ),
     service: DatasetService = Depends(get_dataset_service),
 ):
     return await service.list_datasets(skip=skip, limit=limit)
@@ -81,7 +95,9 @@ async def get_dataset(
 async def get_dataset_items(
     dataset_id: str,
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(100, ge=0, le=1000, description="Max number of records to return"), 
+    limit: int = Query(
+        100, ge=0, le=1000, description="Max number of records to return"
+    ),
     service: DatasetService = Depends(get_dataset_service),
 ):
     items = await service.get_items(dataset_id, skip=skip, limit=limit)

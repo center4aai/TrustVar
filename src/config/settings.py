@@ -1,6 +1,7 @@
 # src/config/settings.py
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -29,14 +30,12 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434"
 
     # HuggingFace
-    HF_TOKEN: str = ""
+    HF_TOKEN: str = Field(env="HF_TOKEN")
     HF_CACHE_DIR: str = "./cache/huggingface"
 
     # OpenAI
-    OPENAI_API_KEY: str = ""
-
-    # Anthropic
-    ANTHROPIC_API_KEY: str = ""
+    OPENAI_API_KEY: str = Field(env="OPENAI_API_KEY")
+    OPENAI_BASE_URL: str = Field(env="OPENAI_BASE_URL")
 
     # Logging
     LOG_LEVEL: str = "INFO"

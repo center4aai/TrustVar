@@ -32,13 +32,32 @@ class DatasetService:
         return created
 
     async def upload_from_file(
-        self, dataset_id: str, file: BinaryIO, file_format: str
+        self,
+        dataset_id: str,
+        file: BinaryIO,
+        file_format: str,
+        prompt_column: str = "prompt",
+        target_column: Optional[str] = None,
+        include_column: Optional[str] = None,
+        exclude_column: Optional[str] = None,
     ) -> int:
         """Загрузить данные из файла"""
+        # Сохраняем конфигурацию столбцов в датасете
+        await self.repository.update(
+            dataset_id,
+            {
+                "prompt_column": prompt_column,
+                "target_column": target_column,
+                "include_column": include_column,
+                "exclude_column": exclude_column,
+            },
+        )
         items = []
 
         if file_format == "jsonl":
-            items = self._parse_jsonl(file)
+            items = self._parse_jsonl(
+                file, prompt_column, target_column, include_column, exclude_column
+            )
         elif file_format == "json":
             items = self._parse_json(file)
         elif file_format == "csv":
@@ -55,13 +74,27 @@ class DatasetService:
 
         return len(items)
 
-    def _parse_jsonl(self, file: BinaryIO) -> List[dict]:
-        """Парсинг JSONL"""
+    def _parse_jsonl(self, file: BinaryIO, dataset: Dataset) -> List[dict]:
         items = []
         content = file.read().decode("utf-8")
         for line in content.strip().split("\n"):
             if line:
-                items.append(json.loads(line))
+                raw = json.loads(line)
+                item = {
+                    "prompt": raw.get(dataset.prompt_column, ""),
+                    "target": raw.get(dataset.target_column)
+                    if dataset.target_column
+                    else None,
+                    "metadata": {},
+                }
+
+                if dataset.include_column and dataset.include_column in raw:
+                    item["metadata"]["include_list"] = raw[dataset.include_column]
+
+                if dataset.exclude_column and dataset.exclude_column in raw:
+                    item["metadata"]["exclude_list"] = raw[dataset.exclude_column]
+
+                items.append(item)
         return items
 
     def _parse_json(self, file: BinaryIO) -> List[dict]:

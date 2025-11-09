@@ -1,6 +1,6 @@
 # src/ui/api_client.py
 import os
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import requests
 import streamlit as st
@@ -43,8 +43,18 @@ class ApiClient:
         return [Dataset(**item) for item in data]
 
     def create_dataset_and_upload(
-        self, name, description, task_type, tags, file, file_format
-    ) -> Dict[str, Any]:
+        self,
+        name,
+        description,
+        task_type,
+        tags,
+        file,
+        file_format,
+        prompt_column="prompt",
+        target_column=None,
+        include_column=None,
+        exclude_column=None,
+    ):
         # 1. Создаем запись о датасете
         dataset_data = {
             "name": name,
@@ -58,9 +68,15 @@ class ApiClient:
         dataset_info = self._handle_response(create_resp)
         dataset_id = dataset_info["id"]
 
-        # 2. Загружаем файл
+        # Загружаем файл с конфигурацией столбцов
         files = {"file": (file.name, file, file.type)}
-        upload_data = {"file_format": file_format}
+        upload_data = {
+            "file_format": file_format,
+            "prompt_column": prompt_column,
+            "target_column": target_column or "",
+            "include_column": include_column or "",
+            "exclude_column": exclude_column or "",
+        }
         upload_resp = requests.post(
             f"{self.base_url}/api/v1/datasets/{dataset_id}/upload",
             files=files,
@@ -161,13 +177,8 @@ class ApiClient:
         )
         return self._handle_response(response)
 
-    def compare_results(self, task_id) -> Dict:
-        """
-        Сравнение результатов моделей
-
-        Returns:
-            Dict с результатами моделей
-        """
+    def compare_models(self, task_id: str) -> dict:
+        """Сравнить модели в задаче"""
         response = requests.get(
             f"{self.base_url}/api/v1/tasks/{task_id}/compare-models"
         )

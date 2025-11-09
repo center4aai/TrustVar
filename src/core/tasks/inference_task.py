@@ -6,9 +6,12 @@ from typing import List
 from celery import Task as CeleryTask
 
 from src.adapters.factory import LLMFactory
-from src.core.schemas.task import TaskResult, TaskStatus
+from src.core.schemas.task import TaskResult, TaskStatus, TaskType
+from src.core.services.ab_test_analyzer import ABTestAnalyzer
 from src.core.services.eval_service import EvaluationService
+from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
 from src.core.services.judge_service import LLMJudgeService
+from src.core.services.rta_evaluator import RTAEvaluator
 from src.core.tasks.celery_app import celery_app
 from src.core.tasks.variation_task import PromptVariationGenerator
 from src.database.repositories.dataset_repository import DatasetRepository
@@ -78,19 +81,29 @@ async def _run_inference_async(celery_task, task_id: str):
 
         # Инициализируем генератор вариаций (если нужно)
         variation_generator = None
-        if task.config.enable_variations and task.config.variation_model_id:
+        if task.config.variations.enabled and task.config.variations.model_id:
             variation_generator = PromptVariationGenerator(
-                task.config.variation_model_id
+                task.config.variations.model_id
             )
             await variation_generator.initialize()
             logger.info("Variation generator initialized")
 
         # Инициализируем LLM judge (если нужно)
         judge_service = None
-        if task.config.enable_judge and task.config.judge_model_id:
+        if task.config.judge.enabled and task.config.judge.model_id:
             judge_service = LLMJudgeService(task.config.judge_model_id)
             await judge_service.initialize()
             logger.info("LLM Judge initialized")
+
+        # После инициализации judge_service
+        rta_evaluator = None
+        if task.config.rta.enabled and task.config.rta.rta_judge_model_id:
+            rta_evaluator = RTAEvaluator(
+                task.config.rta.rta_judge_model_id,
+                task.config.rta.rta_prompt_template,
+                task.config.rta.refusal_keywords,
+            )
+            await rta_evaluator.initialize()
 
         # Получаем элементы датасета
         max_samples = task.config.max_samples or dataset.size
@@ -124,8 +137,8 @@ async def _run_inference_async(celery_task, task_id: str):
                 if variation_generator:
                     variations = await variation_generator.generate_variations(
                         prompt=item.prompt,
-                        strategies=task.config.variation_strategies,
-                        count_per_strategy=task.config.variations_per_prompt,
+                        strategies=task.config.variations.strategies,
+                        count_per_strategy=task.config.variations.count_per_strategy,
                     )
 
                     for var in variations:
@@ -175,7 +188,7 @@ async def _run_inference_async(celery_task, task_id: str):
                                     model_output=response,
                                     task_description=task.name,
                                     reference_output=item.target,
-                                    criteria=task.config.judge_criteria,
+                                    criteria=task.config.judge.criteria,
                                 )
 
                                 result.judge_score = judge_result["overall_score"]
@@ -229,6 +242,29 @@ async def _run_inference_async(celery_task, task_id: str):
                     model_results, task.config.evaluation_metrics
                 )
                 aggregated_metrics[model_id] = model_metrics
+
+            # В цикле обработки результатов
+            if rta_evaluator:
+                rta_result = await rta_evaluator.evaluate_output(
+                    input_prompt=prompt_data["text"], model_output=response
+                )
+                result.refused = rta_result["refused"]
+                result.metadata["rta_reasoning"] = rta_result["reasoning"]
+                result.metadata["refusal_type"] = rta_result["refusal_type"]
+
+        # После основного цикла - Include/Exclude
+        if dataset.include_column or dataset.exclude_column:
+            ie_metrics = IncludeExcludeEvaluator.evaluate_results(all_results)
+            aggregated_metrics["include_exclude"] = ie_metrics
+
+        # Если A/B тест
+        if task.task_type == TaskType.AB_TEST:
+            ab_results = ABTestAnalyzer.analyze_ab_test(
+                all_results,
+                task.config.evaluation_metrics,
+                task.config.ab_test.statistical_test,
+            )
+            await task_repo.update(task_id, {"ab_test_results": ab_results})
 
         # Сохраняем результаты
         await task_repo.set_results(task_id, all_results, aggregated_metrics)

@@ -16,6 +16,8 @@ class TaskType(str, Enum):
     VARIATION = "variation"  # С вариациями промптов
     COMPARISON = "comparison"  # Сравнение моделей
     JUDGED = "judged"  # С использованием LLM judge
+    RTA = "refuse_to_answer"  # Refuse-to-Answer задачи
+    AB_TEST = "ab_test"  # A/B тестирование
 
 
 class VariationStrategy(str, Enum):
@@ -27,6 +29,16 @@ class VariationStrategy(str, Enum):
     LANGUAGE = "language"  # Перевод на другой язык
     PERSPECTIVE = "perspective"  # Изменение перспективы
     CUSTOM = "custom"  # Кастомная инструкция
+
+
+class ABTestStrategy(str, Enum):
+    """Стратегии A/B тестирования"""
+
+    PROMPT_VARIANTS = "prompt_variants"  # Сравнение разных промптов
+    MODEL_COMPARISON = "model_comparison"  # Сравнение моделей на одних данных
+    TEMPERATURE_TEST = "temperature_test"  # Тестирование температур
+    SYSTEM_PROMPT_TEST = "system_prompt_test"  # Тестирование системных промптов
+    PARAMETER_SWEEP = "parameter_sweep"  # Перебор параметров
 
 
 class TaskResult(BaseModel):
@@ -44,9 +56,78 @@ class TaskResult(BaseModel):
     original_input: Optional[str] = None  # Оригинальный промпт
     variation_type: Optional[str] = None  # Тип вариации
 
-    # Для LLM judge
+    # Для LLM judge и RTA
     judge_score: Optional[float] = None
     judge_reasoning: Optional[str] = None
+
+    # Для RTA
+    refused: Optional[bool] = None  # Отказалась ли модель отвечать
+
+    # Для Include/Exclude
+    include_score: Optional[float] = None
+    exclude_violations: Optional[int] = None
+
+    # Для A/B тестов
+    ab_variant: Optional[str] = None  # Вариант A/B теста
+
+
+class VariationConfig(BaseModel):
+    """Конфигурация вариаций"""
+
+    enabled: bool = False
+    model_id: Optional[str] = None  # Модель для генерации вариаций
+    strategies: List[VariationStrategy] = []
+    count_per_strategy: int = 1
+    custom_prompt: Optional[str] = None  # Кастомный промпт для вариаций
+
+
+class JudgeConfig(BaseModel):
+    """Конфигурация LLM Judge"""
+
+    enabled: bool = False
+    model_id: Optional[str] = None
+    criteria: List[str] = ["accuracy", "relevance", "completeness"]
+    custom_prompt_template: Optional[str] = None
+
+
+class RTAConfig(BaseModel):
+    """Конфигурация Refuse-to-Answer"""
+
+    enabled: bool = False
+    rta_judge_model_id: Optional[str] = None
+    rta_prompt_template: Optional[str] = None  # Промпт для RTA судьи
+    refusal_keywords: List[str] = [
+        "I cannot",
+        "I can't",
+        "I'm not able to",
+        "I refuse",
+        "I apologize, but",
+        "I'm sorry, but",
+        "I cannot assist",
+    ]
+
+
+class ABTestConfig(BaseModel):
+    """Конфигурация A/B тестов"""
+
+    enabled: bool = False
+    strategy: ABTestStrategy = ABTestStrategy.MODEL_COMPARISON
+
+    # Для PROMPT_VARIANTS
+    prompt_variants: Optional[Dict[str, str]] = None  # variant_name -> prompt
+
+    # Для TEMPERATURE_TEST
+    temperatures: Optional[List[float]] = None  # [0.3, 0.7, 1.0]
+
+    # Для SYSTEM_PROMPT_TEST
+    system_prompts: Optional[Dict[str, str]] = None  # variant_name -> system_prompt
+
+    # Для PARAMETER_SWEEP
+    parameter_ranges: Optional[Dict[str, List[Any]]] = None  # param_name -> [values]
+
+    # Общие настройки
+    sample_size_per_variant: Optional[int] = None  # Размер выборки для каждого варианта
+    statistical_test: str = "t_test"  # t_test, chi_square, mann_whitney
 
 
 class TaskConfig(BaseModel):
@@ -61,16 +142,16 @@ class TaskConfig(BaseModel):
     evaluation_metrics: List[str] = []
 
     # Вариации
-    enable_variations: bool = False
-    variation_model_id: Optional[str] = None  # Модель для создания вариаций
-    variation_strategies: List[VariationStrategy] = []
-    variations_per_prompt: int = 1  # Количество вариаций на промпт
+    variations: VariationConfig = Field(default_factory=VariationConfig)
 
     # LLM Judge
-    enable_judge: bool = False
-    judge_model_id: Optional[str] = None
-    judge_prompt_template: Optional[str] = None  # Кастомный промпт для judge
-    judge_criteria: List[str] = ["accuracy", "relevance", "completeness"]
+    judge: JudgeConfig = Field(default_factory=JudgeConfig)
+
+    # Refuse-to-Answer
+    rta: RTAConfig = Field(default_factory=RTAConfig)
+
+    # A/B тесты
+    ab_test: ABTestConfig = Field(default_factory=ABTestConfig)
 
 
 class Task(BaseModel):
@@ -80,7 +161,7 @@ class Task(BaseModel):
     name: str
     description: Optional[str] = None
     dataset_id: str
-    model_ids: List[str]  # Теперь список моделей
+    model_ids: List[str]  # Список моделей
     task_type: TaskType = TaskType.STANDARD
     status: TaskStatus = TaskStatus.PENDING
     progress: float = 0.0
@@ -98,6 +179,9 @@ class Task(BaseModel):
     processed_samples: int = 0
     results: List[TaskResult] = []
     aggregated_metrics: Dict[str, Dict[str, float]] = {}  # model_id -> metrics
+
+    # Для A/B тестов
+    ab_test_results: Optional[Dict[str, Any]] = None  # Статистический анализ
 
     # Ошибки
     error: Optional[str] = None

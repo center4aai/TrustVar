@@ -9,6 +9,7 @@ sys.path.insert(0, str(root_dir))
 import streamlit as st
 
 from src.ui.components.datasets_section import render_datasets_section
+from src.ui.components.general_section import render_general_section
 from src.ui.components.models_section import render_models_section
 from src.ui.components.results_section import render_results_section
 from src.ui.components.tasks_section import render_tasks_section
@@ -42,6 +43,12 @@ st.markdown(
 # Карточки-кнопки для навигации
 features = [
     {
+        "icon": "\U0001f6e1",
+        "title": "GENERAL",
+        "description": "Guide information and task monitoring",
+        "key": "general",
+    },
+    {
         "icon": "\U0001f4c2",
         "title": "DATASETS",
         "description": "Upload and manage test datasets",
@@ -52,12 +59,6 @@ features = [
         "title": "MODELS",
         "description": "Register and configure LLM models",
         "key": "models",
-    },
-    {
-        "icon": "\U0001f6e1",
-        "title": "TEMPLATES",
-        "description": "Define evaluation templates and metrics",
-        "key": "templates",
     },
     {
         "icon": "\U0001f680",
@@ -99,8 +100,8 @@ if st.session_state.selected_section is not None:
         render_datasets_section()
     elif st.session_state.selected_section == "models":
         render_models_section()
-    elif st.session_state.selected_section == "templates":
-        render_tasks_section()  # TODO: think about templates
+    elif st.session_state.selected_section == "general":
+        render_general_section()
     elif st.session_state.selected_section == "tasks":
         render_tasks_section()
     elif st.session_state.selected_section == "results":

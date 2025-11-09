@@ -37,7 +37,7 @@ def render_models_section():
         with col2:
             provider_filter = st.selectbox(
                 "Provider",
-                ["All", "ollama", "huggingface", "openai", "anthropic"],
+                ["All", "ollama", "huggingface", "openai"],
                 key="model_provider_filter",
             )
 
@@ -70,7 +70,6 @@ def render_models_section():
                                 "ollama": "🦙",
                                 "huggingface": "🤗",
                                 "openai": "🟢",
-                                "anthropic": "🔵",
                             }
                             icon = provider_icons.get(model.provider, "🤖")
                             st.markdown(f"{icon} **{model.provider.upper()}**")

@@ -1,202 +1,18 @@
 # src/ui/components/results_section.py
+from collections import defaultdict
 
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
 
 from src.core.schemas.task import TaskStatus
 from src.ui.api_client import get_api_client
+from src.ui.components.spider_chart_variations import (
+    plot_multi_model_comparison_spider,
+    plot_variation_spider_chart,
+)
 
-
-def _render_results_overview(api_client):
-    """Обзор всех результатов"""
-
-    st.markdown("### 📊 Overview of Completed Tasks")
-
-    # Селектор задачи
-    try:
-        completed_tasks = api_client.list_tasks(status=TaskStatus.COMPLETED)
-        # completed_tasks = [t for t in tasks if t.status == "completed"]
-
-        if completed_tasks:
-            # Выбор задачи
-            task_options = {
-                f"{t.name} ({t.created_at.strftime('%Y-%m-%d %H:%M')})": t.id
-                for t in completed_tasks
-            }
-
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                selected_label = st.selectbox(
-                    "Select a task to view results",
-                    list(task_options.keys()),
-                    key="results_task_selector",
-                )
-
-            with col2:
-                st.markdown("<br>", unsafe_allow_html=True)
-                if st.button("📊 View Results", width="stretch"):
-                    st.session_state.selected_task_id = task_options[selected_label]
-                    st.rerun()
-
-            st.divider()
-
-            # Сводная таблица всех задач
-            st.markdown("### 📋 All Completed Tasks")
-
-            tasks_data = []
-            for task in completed_tasks:
-                duration = (
-                    (task.completed_at - task.started_at).total_seconds()
-                    if task.completed_at and task.started_at
-                    else 0
-                )
-
-                tasks_data.append(
-                    {
-                        "Task": task.name,
-                        "Samples": task.total_samples,
-                        "Duration (s)": f"{duration:.1f}",
-                        "Avg Time/Sample": f"{duration / task.total_samples:.2f}s"
-                        if task.total_samples > 0
-                        else "N/A",
-                        **{
-                            # k.replace("_", " ").title(): f"{v:.2f}"
-                            # for k, v in task.aggregated_metrics.items()
-                            metric.replace("_", " ").title(): f"{value:.2f}"
-                            for model_id, metrics in task.aggregated_metrics.items()
-                            for metric, value in metrics.items()
-                        },
-                        "Created": task.created_at.strftime("%Y-%m-%d %H:%M"),
-                    }
-                )
-
-            df = pd.DataFrame(tasks_data)
-            st.dataframe(df, width="stretch", height=400)
-
-            # Сравнительные графики
-            if len(completed_tasks) > 1:
-                st.divider()
-                st.markdown("### 📊 Comparative Analysis")
-
-                col1, col2 = st.columns(2)
-
-                with col1:
-                    # График метрик
-                    _plot_metrics_comparison(completed_tasks)
-
-                with col2:
-                    # График производительности
-                    _plot_performance_comparison(completed_tasks)
-
-        else:
-            st.info(
-                "📭 No completed tasks yet. Complete some tasks to see results here!"
-            )
-
-    except Exception as e:
-        st.error(f"❌ Error loading results: {e}")
-
-
-def _plot_metrics_comparison(tasks):
-    """График сравнения метрик"""
-
-    st.markdown("**Metrics Comparison**")
-
-    # Собираем все метрики
-    all_metrics = set()
-    for task in tasks:
-        all_metrics.update(task.aggregated_metrics.keys())
-
-    if not all_metrics:
-        st.info("No metrics to compare")
-        return
-
-    # Готовим данные для графика
-    data = []
-    for task in tasks:
-        for metric in all_metrics:
-            data.append(
-                {
-                    "Task": task.name[:20],
-                    "Metric": metric.replace("_", " ").title(),
-                    "Value": task.aggregated_metrics.get(metric, 0),
-                }
-            )
-
-    df = pd.DataFrame(data)
-
-    fig = px.bar(
-        df,
-        x="Task",
-        y="Value",
-        color="Metric",
-        barmode="group",
-        title="Metrics Comparison Across Tasks",
-    )
-
-    fig.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white"),
-        xaxis_title="Task",
-        yaxis_title="Score (%)",
-    )
-
-    st.plotly_chart(fig, width="stretch")
-
-
-def _plot_performance_comparison(tasks):
-    """График сравнения производительности"""
-
-    st.markdown("**Performance Comparison**")
-
-    # Готовим данные
-    data = []
-    for task in tasks:
-        if task.started_at and task.completed_at:
-            duration = (task.completed_at - task.started_at).total_seconds()
-            avg_time = duration / task.total_samples if task.total_samples > 0 else 0
-
-            data.append(
-                {
-                    "Task": task.name[:20],
-                    "Total Duration (s)": duration,
-                    "Avg Time/Sample (s)": avg_time,
-                    "Throughput (samples/s)": task.total_samples / duration
-                    if duration > 0
-                    else 0,
-                }
-            )
-
-    df = pd.DataFrame(data)
-
-    fig = go.Figure()
-
-    fig.add_trace(
-        go.Bar(
-            name="Avg Time/Sample",
-            x=df["Task"],
-            y=df["Avg Time/Sample (s)"],
-            marker_color="rgb(102, 126, 234)",
-        )
-    )
-
-    fig.update_layout(
-        title="Average Time per Sample",
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white"),
-        xaxis_title="Task",
-        yaxis_title="Time (s)",
-    )
-
-    st.plotly_chart(fig, width="stretch")
-
-
-# src/ui/components/results_section.py (дополнение)
-from collections import defaultdict
+plotly_config = dict(use_container_width=True)
 
 
 def render_results_section():
@@ -216,10 +32,11 @@ def render_results_section():
 
 
 def _render_task_results(task_id, api_client):
-    """Детальные результаты с поддержкой множественных моделей"""
+    """Детальные результаты с поддержкой всех новых функций"""
 
     try:
         task = api_client.get_task(task_id)
+        models = api_client.list_models()
 
         if not task:
             st.error("Task not found")
@@ -230,170 +47,454 @@ def _render_task_results(task_id, api_client):
         with col1:
             st.markdown(f"## 📊 {task.name}")
             st.caption(f"Task ID: {task.id}")
+
+            # Информация о типе задачи
+            badges = []
             if len(task.model_ids) > 1:
-                st.info(f"ℹ️ This task compared {len(task.model_ids)} models")
+                badges.append(f"**{len(task.model_ids)} Models**")
+            if task.config.variations.enabled:
+                badges.append("**Variations ✓**")
+            if task.config.judge.enabled:
+                badges.append("**Judge ✓**")
+            if task.config.rta.enabled:
+                badges.append("**RTA ✓**")
+            if task.config.ab_test.enabled:
+                badges.append("**A/B Test ✓**")
+
+            if badges:
+                st.markdown(" | ".join(badges))
 
         with col2:
-            if st.button("⬅️ Back to Overview", width="stretch"):
+            if st.button("⬅️ Back", use_container_width=True):
                 del st.session_state.selected_task_id
                 st.rerun()
 
         st.divider()
 
-        # Tabs для разных видов анализа
+        # Динамические табы в зависимости от конфигурации
+        tab_names = ["📊 Overview", "📈 Metrics"]
+
         if len(task.model_ids) > 1:
-            tabs = st.tabs(
-                [
-                    "📊 Model Comparison",
-                    "📈 Metrics",
-                    "📄 Detailed Results",
-                    "🔄 Variations Analysis",
-                ]
-            )
-        else:
-            tabs = st.tabs(
-                ["📈 Metrics", "📄 Detailed Results", "🔄 Variations Analysis"]
-            )
+            tab_names.append("🔍 Model Comparison")
 
-        # TAB: Model Comparison (только если > 1 модели)
+        if task.config.variations.enabled:
+            tab_names.append("🔄 Variations Analysis")
+
+        if task.config.rta.enabled:
+            tab_names.append("🛑 RTA Analysis")
+
+        if task.config.ab_test.enabled:
+            tab_names.append("🧪 A/B Test Results")
+
+        tab_names.append("📄 Detailed Results")
+
+        tabs = st.tabs(tab_names)
+        tab_idx = 0
+
+        # ===== TAB: Overview =====
+        with tabs[tab_idx]:
+            _render_overview_tab(task, models, api_client)
+        tab_idx += 1
+
+        # ===== TAB: Metrics =====
+        with tabs[tab_idx]:
+            _render_metrics_tab(task, models)
+        tab_idx += 1
+
+        # ===== TAB: Model Comparison (если > 1 модели) =====
         if len(task.model_ids) > 1:
-            with tabs[0]:
-                _render_model_comparison(task, api_client)
-            tab_offset = 1
-        else:
-            tab_offset = 0
+            with tabs[tab_idx]:
+                _render_model_comparison_tab(task, models, api_client)
+            tab_idx += 1
 
-        # TAB: Metrics
-        with tabs[tab_offset]:
-            _render_metrics_tab(task, api_client)
+        # ===== TAB: Variations Analysis (если включены) =====
+        if task.config.variations.enabled:
+            with tabs[tab_idx]:
+                _render_variations_tab(task, models)
+            tab_idx += 1
 
-        # TAB: Detailed Results
-        with tabs[tab_offset + 1]:
-            _render_detailed_results(task, api_client)
+        # ===== TAB: RTA Analysis (если включен) =====
+        if task.config.rta.enabled:
+            with tabs[tab_idx]:
+                _render_rta_tab(task, models)
+            tab_idx += 1
 
-        # TAB: Variations Analysis
-        with tabs[tab_offset + 2]:
-            if task.config.enable_variations:
-                _render_variations_analysis(task)
-            else:
-                st.info("Variations were not enabled for this task")
+        # ===== TAB: A/B Test Results (если включен) =====
+        if task.config.ab_test.enabled:
+            with tabs[tab_idx]:
+                _render_ab_test_tab(task, models)
+            tab_idx += 1
+
+        # ===== TAB: Detailed Results =====
+        with tabs[tab_idx]:
+            _render_detailed_results_tab(task, models)
 
     except Exception as e:
         st.error(f"❌ Error loading task results: {e}")
+        import traceback
+
+        st.code(traceback.format_exc())
 
 
-def _render_model_comparison(task, api_client):
-    """Сравнение моделей"""
+def _render_overview_tab(task, models, api_client):
+    """Вкладка обзора"""
+    st.markdown("### Task Information")
 
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("**📝 Task Details**")
+        st.write(f"**Type:** {task.task_type.replace('_', ' ').title()}")
+        st.write(f"**Status:** {task.status.upper()}")
+        st.write(f"**Created:** {task.created_at.strftime('%Y-%m-%d %H:%M')}")
+
+    with col2:
+        st.markdown("**📊 Dataset**")
+        try:
+            dataset = api_client.get_dataset(task.dataset_id)
+            if dataset:
+                st.write(f"**Name:** {dataset.name}")
+                st.write(f"**Size:** {dataset.size} items")
+                st.write(f"**Task Type:** {dataset.task_type}")
+        except:
+            st.write(f"**ID:** {task.dataset_id[:12]}...")
+
+    with col3:
+        st.markdown("**🤖 Models**")
+        model_names = []
+        for model_id in task.model_ids:
+            model = next((m for m in models if m.id == model_id), None)
+            model_names.append(model.name if model else model_id[:12] + "...")
+
+        for name in model_names:
+            st.write(f"• {name}")
+
+    st.divider()
+
+    # Прогресс
+    if task.status in ["running", "completed"]:
+        st.markdown("### Execution Progress")
+
+        col1, col2, col3, col4 = st.columns(4)
+
+        col1.metric("Total Samples", task.total_samples)
+        col2.metric("Processed", task.processed_samples)
+        col3.metric("Progress", f"{task.progress:.0f}%")
+
+        if task.started_at and task.completed_at:
+            duration = (task.completed_at - task.started_at).total_seconds()
+            col4.metric("Duration", f"{duration:.1f}s")
+
+        if task.status == "running":
+            st.progress(task.progress / 100)
+
+    # Ошибки
+    if task.error:
+        st.error(f"**Error:** {task.error}")
+
+
+def _render_metrics_tab(task, models):
+    """Вкладка метрик"""
+    st.markdown("### 📊 Performance Metrics")
+
+    if not task.aggregated_metrics:
+        st.info("No metrics available yet")
+        return
+
+    # Группируем по моделям
+    for model_id, model_metrics in task.aggregated_metrics.items():
+        model = next((m for m in models if m.id == model_id), None)
+        model_name = model.name if model else model_id[:12] + "..."
+
+        with st.expander(f"📦 {model_name}", expanded=True):
+            # Разделяем метрики по категориям
+            standard_metrics = {}
+            special_metrics = {}
+
+            for metric_name, value in model_metrics.items():
+                if metric_name in [
+                    "include_exclude_score",
+                    "include_success_rate",
+                    "exclude_violation_rate",
+                ]:
+                    special_metrics[metric_name] = value
+                elif metric_name in [
+                    "refusal_rate",
+                    "explicit_refusals",
+                    "implicit_refusals",
+                ]:
+                    special_metrics[metric_name] = value
+                else:
+                    standard_metrics[metric_name] = value
+
+            # Стандартные метрики
+            if standard_metrics:
+                st.markdown("**Standard Metrics**")
+                cols = st.columns(min(len(standard_metrics), 4))
+                for i, (metric, value) in enumerate(standard_metrics.items()):
+                    cols[i % 4].metric(
+                        metric.replace("_", " ").title(),
+                        f"{value:.2f}%" if value < 200 else f"{value:.2f}",
+                    )
+
+            # Специальные метрики
+            if special_metrics:
+                st.markdown("**Special Metrics**")
+                cols = st.columns(min(len(special_metrics), 4))
+                for i, (metric, value) in enumerate(special_metrics.items()):
+                    cols[i % 4].metric(
+                        metric.replace("_", " ").title(),
+                        f"{value:.2f}%"
+                        if "rate" in metric or "score" in metric
+                        else f"{value:.0f}",
+                    )
+
+    # Сравнительные графики
+    if len(task.aggregated_metrics) > 1:
+        st.divider()
+        st.markdown("### Comparative Analysis")
+        _plot_comparative_metrics(task, models)
+
+
+def _render_model_comparison_tab(task, models, api_client):
+    """Вкладка сравнения моделей"""
     st.markdown("### 🏆 Model Performance Comparison")
 
     try:
-        # Получаем сравнение
-        response = api_client.compare_results(task.id)
+        comparison = api_client.compare_models(task.id)
 
-        if not response:
+        if not comparison:
             st.warning("Comparison data not available")
             return
 
-        # Лучшая модель
-        if "best_model" in response:
-            best = response["best_model"]
+        # Победитель
+        if "best_model" in comparison:
+            best = comparison["best_model"]
+            best_model = next((m for m in models if m.id == best["model_id"]), None)
+            best_name = best_model.name if best_model else best["model_id"][:12]
+
             st.success(
-                f"🥇 Best Model: {best['model_id'][:12]}... ({best['reason']}) - Score: {best['score']:.2f}"
+                f"🥇 **Best Model:** {best_name} — {best['reason'].replace('_', ' ').title()} (Score: {best['score']:.2f})"
             )
 
         st.divider()
 
         # Таблица сравнения
+        st.markdown("### Detailed Comparison")
+
         comparison_data = []
-        for model_id, stats in response["models"].items():
+        for model_id, stats in comparison["models"].items():
+            model = next((m for m in models if m.id == model_id), None)
+            model_name = model.name if model else model_id[:12] + "..."
+
             row = {
-                "Model ID": model_id[:12] + "...",
+                "Model": model_name,
                 "Results": stats["total_results"],
-                "Avg Time": f"{stats['avg_execution_time']:.3f}s",
+                "Avg Time (s)": f"{stats['avg_execution_time']:.3f}",
             }
 
             # Метрики
             for metric, value in stats.get("metrics", {}).items():
-                row[metric.title()] = f"{value:.2f}"
+                row[metric.replace("_", " ").title()] = f"{value:.2f}"
 
             # Judge score
             if "avg_judge_score" in stats:
-                row["Judge Score"] = f"{stats['avg_judge_score']:.2f}"
+                row["Judge Score"] = f"{stats['avg_judge_score']:.2f}/10"
 
             comparison_data.append(row)
 
         df = pd.DataFrame(comparison_data)
-        st.dataframe(df, width="stretch")
+        st.dataframe(df, use_container_width=True)
 
         st.divider()
 
-        # Визуализации
-        col1, col2 = st.columns(2)
-
-        with col1:
-            # График метрик
-            _plot_model_metrics_comparison(response["models"])
-
-        with col2:
-            # График производительности
-            _plot_model_performance(response["models"])
-
-        # Judge scores (если есть)
-        if any("avg_judge_score" in stats for stats in response["models"].values()):
-            st.divider()
-            st.markdown("### 🎯 LLM Judge Scores")
-            _plot_judge_scores(response["models"])
+        # Spider chart для сравнения моделей
+        st.markdown("### Spider Chart Comparison")
+        plot_multi_model_comparison_spider(
+            task.results,
+            list(comparison["models"].keys()),
+            task.config.evaluation_metrics,
+        )
 
     except Exception as e:
         st.error(f"Error loading comparison: {e}")
 
 
-def _render_metrics_tab(task, api_client):
-    """Вкладка метрик"""
+def _render_variations_tab(task, models):
+    """Вкладка анализа вариаций"""
+    st.markdown("### 🔄 Variations Analysis")
 
-    st.markdown("### 📊 Performance Metrics")
+    # Выбор модели для анализа
+    model_options = {}
+    for model_id in task.model_ids:
+        model = next((m for m in models if m.id == model_id), None)
+        model_name = model.name if model else model_id[:12] + "..."
+        model_options[model_name] = model_id
 
-    # Группируем результаты по моделям
-    results_by_model = defaultdict(list)
+    selected_model_name = st.selectbox(
+        "Select Model for Analysis", list(model_options.keys())
+    )
+    selected_model_id = model_options[selected_model_name]
+
+    st.divider()
+
+    # Spider chart
+    st.markdown("### Spider Chart - Performance by Variation")
+    plot_variation_spider_chart(
+        task.results, selected_model_id, task.config.evaluation_metrics
+    )
+
+    st.divider()
+
+    # Детальная статистика по вариациям
+    st.markdown("### Detailed Statistics")
+
+    variation_stats = defaultdict(lambda: defaultdict(list))
+
     for result in task.results:
-        results_by_model[result.model_id].append(result)
+        if result.model_id == selected_model_id:
+            var_type = result.variation_type or "original"
 
-    # Для каждой модели
-    for model_id, model_results in results_by_model.items():
-        with st.expander(f"📦 Model: {model_id[:12]}...", expanded=True):
-            # Базовые метрики
-            col1, col2, col3, col4 = st.columns(4)
+            variation_stats[var_type]["execution_time"].append(result.execution_time)
 
-            col1.metric("Total Results", len(model_results))
+            if result.judge_score:
+                variation_stats[var_type]["judge_score"].append(result.judge_score)
 
-            avg_time = sum(r.execution_time for r in model_results) / len(model_results)
-            col2.metric("Avg Time", f"{avg_time:.3f}s")
+            if result.include_score is not None:
+                variation_stats[var_type]["include_score"].append(result.include_score)
 
-            # Standard metrics
-            if model_id in task.aggregated_metrics:
-                metrics = task.aggregated_metrics[model_id]
-                for i, (metric, value) in enumerate(metrics.items()):
-                    if i < 2:
-                        [col3, col4][i].metric(metric.title(), f"{value:.2f}")
+    # Таблица статистики
+    stats_data = []
+    for var_type, stats in variation_stats.items():
+        row = {"Variation": var_type.replace("_", " ").title()}
+        row["Count"] = len(stats["execution_time"])
+        row["Avg Time (s)"] = (
+            f"{sum(stats['execution_time']) / len(stats['execution_time']):.3f}"
+        )
 
-            # Judge scores
-            judge_scores = [
-                r.judge_score for r in model_results if r.judge_score is not None
-            ]
-            if judge_scores:
-                st.divider()
-                col1, col2, col3 = st.columns(3)
-                col1.metric(
-                    "Avg Judge Score", f"{sum(judge_scores) / len(judge_scores):.2f}"
-                )
-                col2.metric("Min Judge Score", f"{min(judge_scores):.2f}")
-                col3.metric("Max Judge Score", f"{max(judge_scores):.2f}")
+        if stats["judge_score"]:
+            row["Avg Judge Score"] = (
+                f"{sum(stats['judge_score']) / len(stats['judge_score']):.2f}"
+            )
+
+        if stats["include_score"]:
+            row["Avg Include Score"] = (
+                f"{sum(stats['include_score']) / len(stats['include_score']):.2f}"
+            )
+
+        stats_data.append(row)
+
+    df_stats = pd.DataFrame(stats_data)
+    st.dataframe(df_stats, use_container_width=True)
 
 
-def _render_detailed_results(task, api_client):
-    """Детальные результаты"""
+def _render_rta_tab(task, models):
+    """Вкладка RTA анализа"""
+    st.markdown("### 🛑 Refuse-to-Answer Analysis")
 
+    # Группируем по моделям
+    for model_id in task.model_ids:
+        model = next((m for m in models if m.id == model_id), None)
+        model_name = model.name if model else model_id[:12] + "..."
+
+        model_results = [r for r in task.results if r.model_id == model_id]
+
+        with st.expander(f"📦 {model_name}", expanded=True):
+            refused_count = sum(1 for r in model_results if r.refused)
+            total = len(model_results)
+            refusal_rate = (refused_count / total * 100) if total > 0 else 0
+
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Total Responses", total)
+            col2.metric("Refusals", refused_count)
+            col3.metric("Refusal Rate", f"{refusal_rate:.1f}%")
+
+            # Примеры отказов
+            if refused_count > 0:
+                st.markdown("**Refusal Examples:**")
+                refused_examples = [r for r in model_results if r.refused][:5]
+
+                for i, result in enumerate(refused_examples, 1):
+                    with st.expander(f"Example {i}: {result.input[:50]}..."):
+                        st.markdown("**Input:**")
+                        st.code(result.input, language=None)
+                        st.markdown("**Output:**")
+                        st.code(result.output, language=None)
+                        if "rta_reasoning" in result.metadata:
+                            st.markdown("**RTA Reasoning:**")
+                            st.info(result.metadata["rta_reasoning"])
+
+
+def _render_ab_test_tab(task, models):
+    """Вкладка A/B тестов"""
+    st.markdown("### 🧪 A/B Test Results")
+
+    if not task.ab_test_results:
+        st.info("A/B test results not available yet")
+        return
+
+    ab_results = task.ab_test_results
+
+    # Победитель
+    if "winner" in ab_results and ab_results["winner"].get("variant"):
+        winner = ab_results["winner"]
+        st.success(
+            f"🏆 **Winner:** {winner['variant']} — {winner['reason']} (Confidence: {winner['confidence']})"
+        )
+    else:
+        st.warning("No clear winner found")
+
+    st.divider()
+
+    # Статистика по вариантам
+    st.markdown("### Variant Statistics")
+
+    variant_data = []
+    for variant, metrics in ab_results.get("variant_metrics", {}).items():
+        row = {"Variant": variant}
+        row.update(
+            {k: f"{v:.2f}" for k, v in metrics.items() if isinstance(v, (int, float))}
+        )
+        variant_data.append(row)
+
+    if variant_data:
+        df_variants = pd.DataFrame(variant_data)
+        st.dataframe(df_variants, use_container_width=True)
+
+    st.divider()
+
+    # Статистические тесты
+    st.markdown("### Statistical Tests")
+
+    tests = ab_results.get("statistical_tests", {})
+
+    if tests:
+        for test_name, test_result in tests.items():
+            if test_result.get("significant"):
+                badge = "✅ Significant"
+                color = "green"
+            else:
+                badge = "❌ Not Significant"
+                color = "red"
+
+            with st.expander(f"{test_name} - {badge}"):
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.write(f"**P-Value:** {test_result.get('p_value', 'N/A')}")
+                    st.write(f"**Test:** {test_result.get('test', 'N/A')}")
+
+                with col2:
+                    if "mean_a" in test_result:
+                        st.write(f"**Mean A:** {test_result['mean_a']:.2f}")
+                        st.write(f"**Mean B:** {test_result['mean_b']:.2f}")
+                    elif "median_a" in test_result:
+                        st.write(f"**Median A:** {test_result['median_a']:.2f}")
+                        st.write(f"**Median B:** {test_result['median_b']:.2f}")
+
+
+def _render_detailed_results_tab(task, models):
+    """Вкладка детальных результатов"""
     st.markdown("### 📄 Detailed Results")
 
     # Фильтры
@@ -401,11 +502,19 @@ def _render_detailed_results(task, api_client):
 
     with col1:
         # Фильтр по модели
-        model_options = ["All"] + list(set(r.model_id for r in task.results))
-        selected_model = st.selectbox("Model", model_options, key="filter_model")
+        model_options = {"All": None}
+        for model_id in task.model_ids:
+            model = next((m for m in models if m.id == model_id), None)
+            model_name = model.name if model else model_id[:12] + "..."
+            model_options[model_name] = model_id
+
+        selected_model_name = st.selectbox(
+            "Model", list(model_options.keys()), key="filter_model"
+        )
+        selected_model = model_options[selected_model_name]
 
     with col2:
-        # Фильтр по вариациям
+        # Фильтр по вариации
         variation_types = ["All"] + list(
             set(r.variation_type for r in task.results if r.variation_type)
         )
@@ -420,9 +529,9 @@ def _render_detailed_results(task, api_client):
         limit = st.number_input("Limit", 10, 100, 20, key="limit_results")
 
     # Фильтрация
-    filtered_results = task.results[:limit]
+    filtered_results = task.results[: limit * 10]  # Берем больше для фильтрации
 
-    if selected_model != "All":
+    if selected_model:
         filtered_results = [r for r in filtered_results if r.model_id == selected_model]
 
     if selected_variation != "All":
@@ -437,30 +546,32 @@ def _render_detailed_results(task, api_client):
             if search.lower() in r.input.lower() or search.lower() in r.output.lower()
         ]
 
+    filtered_results = filtered_results[:limit]
+
     # Отображение
     for i, result in enumerate(filtered_results, 1):
-        is_correct = result.output == str(result.target) if result.target else None
+        # Определяем модель
+        model = next((m for m in models if m.id == result.model_id), None)
+        model_name = model.name if model else result.model_id[:12] + "..."
 
-        title = f"**Result {i}:** {result.input[:60]}..."
+        # Формируем заголовок
+        title_parts = [f"**Result {i}**", f"[{model_name}]"]
+
         if result.variation_type:
-            title += f" [Variation: {result.variation_type}]"
-        if is_correct is not None:
-            title += f" {'✅' if is_correct else '❌'}"
-        if result.judge_score:
-            title += f" [Judge: {result.judge_score:.1f}/10]"
+            title_parts.append(f"*{result.variation_type}*")
 
-        with st.expander(title, expanded=False):
+        if result.judge_score:
+            title_parts.append(f"⭐ {result.judge_score:.1f}/10")
+
+        if result.refused:
+            title_parts.append("🛑 REFUSED")
+
+        title = " — ".join(title_parts)
+
+        with st.expander(f"{title}: {result.input[:50]}...", expanded=False):
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown(f"**Model:** {result.model_id[:12]}...")
-
-                if result.variation_type:
-                    st.markdown(f"**Variation:** {result.variation_type}")
-                    if result.original_input:
-                        st.markdown("**Original Prompt:**")
-                        st.code(result.original_input, language=None)
-
                 st.markdown("**Input:**")
                 st.code(result.input, language=None)
 
@@ -477,83 +588,28 @@ def _render_detailed_results(task, api_client):
                 if result.judge_score:
                     st.markdown(f"**🎯 Judge Score:** {result.judge_score:.2f}/10")
                     if result.judge_reasoning:
-                        st.markdown("**Judge Reasoning:**")
-                        st.info(result.judge_reasoning)
+                        with st.expander("Judge Reasoning"):
+                            st.write(result.judge_reasoning)
+
+                if result.include_score is not None:
+                    st.markdown(f"**📊 Include Score:** {result.include_score:.2f}")
+
+                if result.refused:
+                    st.warning("🛑 Model refused to answer")
 
 
-def _render_variations_analysis(task):
-    """Анализ вариаций"""
-
-    st.markdown("### 🔄 Variations Analysis")
-
-    # Группируем по типам вариаций
-    variation_results = defaultdict(lambda: defaultdict(list))
-
-    for result in task.results:
-        if result.variation_type:
-            variation_results[result.variation_type][result.model_id].append(result)
-
-    if not variation_results:
-        st.info("No variations found in results")
-        return
-
-    # Для каждого типа вариации
-    for variation_type, models_data in variation_results.items():
-        st.markdown(f"#### {variation_type.replace('_', ' ').title()}")
-
-        # Статистика
-        total_variations = sum(len(results) for results in models_data.values())
-        st.write(f"Total variations: {total_variations}")
-
-        # Сравнение моделей на этих вариациях
-        col1, col2 = st.columns(2)
-
-        with col1:
-            # Avg execution time
-            avg_times = {}
-            for model_id, results in models_data.items():
-                avg_time = sum(r.execution_time for r in results) / len(results)
-                avg_times[model_id[:12]] = avg_time
-
-            fig = px.bar(
-                x=list(avg_times.keys()),
-                y=list(avg_times.values()),
-                title=f"Avg Time - {variation_type}",
-                labels={"x": "Model", "y": "Time (s)"},
-            )
-            st.plotly_chart(fig, width="stretch")
-
-        with col2:
-            # Judge scores (если есть)
-            if any(r.judge_score for results in models_data.values() for r in results):
-                avg_scores = {}
-                for model_id, results in models_data.items():
-                    scores = [r.judge_score for r in results if r.judge_score]
-                    if scores:
-                        avg_scores[model_id[:12]] = sum(scores) / len(scores)
-
-                fig = px.bar(
-                    x=list(avg_scores.keys()),
-                    y=list(avg_scores.values()),
-                    title=f"Avg Judge Score - {variation_type}",
-                    labels={"x": "Model", "y": "Score"},
-                )
-                st.plotly_chart(fig, width="stretch")
-
-        st.divider()
-
-
-def _plot_model_metrics_comparison(models_data):
-    """График сравнения метрик моделей"""
-
-    st.markdown("**Metrics Comparison**")
-
+def _plot_comparative_metrics(task, models):
+    """График сравнительных метрик"""
     data = []
-    for model_id, stats in models_data.items():
-        for metric, value in stats.get("metrics", {}).items():
+
+    for model_id, metrics in task.aggregated_metrics.items():
+        model = next((m for m in models if m.id == model_id), None)
+        model_name = model.name if model else model_id[:12] + "..."
+
+        for metric, value in metrics.items():
             data.append(
                 {
-                    "Model": model_id[:12],
+                    "Model": model_name,
                     "Metric": metric.replace("_", " ").title(),
                     "Value": value,
                 }
@@ -567,67 +623,55 @@ def _plot_model_metrics_comparison(models_data):
             y="Value",
             color="Metric",
             barmode="group",
-            title="Metrics by Model",
+            title="Metrics Comparison",
         )
-        st.plotly_chart(fig, width="stretch")
-
-
-def _plot_model_performance(models_data):
-    """График производительности моделей"""
-
-    st.markdown("**Performance Comparison**")
-
-    data = {"Model": [], "Avg Time (s)": [], "Total Results": []}
-
-    for model_id, stats in models_data.items():
-        data["Model"].append(model_id[:12])
-        data["Avg Time (s)"].append(stats["avg_execution_time"])
-        data["Total Results"].append(stats["total_results"])
-
-    fig = go.Figure()
-    fig.add_trace(
-        go.Bar(
-            name="Avg Time",
-            x=data["Model"],
-            y=data["Avg Time (s)"],
-            marker_color="rgb(102, 126, 234)",
-        )
-    )
-
-    fig.update_layout(
-        title="Average Execution Time by Model",
-        xaxis_title="Model",
-        yaxis_title="Time (s)",
-    )
-    st.plotly_chart(fig, width="stretch")
-
-
-def _plot_judge_scores(models_data):
-    """График Judge scores"""
-
-    data = {"Model": [], "Avg Score": [], "Min Score": [], "Max Score": []}
-
-    for model_id, stats in models_data.items():
-        if "avg_judge_score" in stats:
-            data["Model"].append(model_id[:12])
-            data["Avg Score"].append(stats["avg_judge_score"])
-            data["Min Score"].append(stats.get("min_judge_score", 0))
-            data["Max Score"].append(stats.get("max_judge_score", 10))
-
-    if data["Model"]:
-        fig = go.Figure()
-        fig.add_trace(
-            go.Bar(
-                name="Avg Judge Score",
-                x=data["Model"],
-                y=data["Avg Score"],
-                marker_color="rgb(76, 175, 80)",
-            )
-        )
-
         fig.update_layout(
-            title="LLM Judge Scores by Model",
-            xaxis_title="Model",
-            yaxis_title="Score (1-10)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="white"),
         )
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, config=plotly_config)
+
+
+def _render_results_overview(api_client):
+    """Обзор результатов (список задач)"""
+    st.markdown("### 📊 Select a Completed Task")
+
+    try:
+        completed_tasks = api_client.list_tasks(status=TaskStatus.COMPLETED)
+        models = api_client.list_models()
+
+        if completed_tasks:
+            for task in completed_tasks[:10]:
+                with st.container():
+                    col1, col2, col3 = st.columns([3, 2, 1])
+
+                    with col1:
+                        st.markdown(f"**{task.name}**")
+                        st.caption(
+                            f"{task.task_type.replace('_', ' ').title()} — {task.created_at.strftime('%Y-%m-%d %H:%M')}"
+                        )
+
+                    with col2:
+                        # Показываем модели
+                        model_names = []
+                        for model_id in task.model_ids[:2]:
+                            model = next((m for m in models if m.id == model_id), None)
+                            model_names.append(model.name if model else model_id[:8])
+
+                        st.write(
+                            ", ".join(model_names)
+                            + ("..." if len(task.model_ids) > 2 else "")
+                        )
+
+                    with col3:
+                        if st.button("📊 View", key=f"view_{task.id}"):
+                            st.session_state.selected_task_id = task.id
+                            st.rerun()
+
+                    st.divider()
+        else:
+            st.info("📭 No completed tasks yet")
+
+    except Exception as e:
+        st.error(f"Error: {e}")
