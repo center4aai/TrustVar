@@ -55,8 +55,8 @@ services:
   api:
     # build:
     #   context: .
-    #   dockerfile: Dockerfile.celery # Используем тот же Dockerfile, т.к. зависимости похожи
-    image: trustvar2-api
+    #   dockerfile: Dockerfile.celery
+    image: trustvar-api
     container_name: api_backend
     command: python -m src.api.main
     restart: unless-stopped
@@ -70,6 +70,7 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - HF_TOKEN=${HF_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
     depends_on:
       - mongodb
       - redis
@@ -84,13 +85,16 @@ services:
     # build:
     #   context: .
     #   dockerfile: Dockerfile.streamlit
-    image: trustvar2-streamlit
+    image: trustvar-streamlit
     container_name: frontend
     restart: unless-stopped
     ports:
       - "8501:8501"
     environment:
       - API_BASE_URL=http://api:8000
+      - HF_TOKEN=${HF_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
     depends_on:
       - api
     volumes:
@@ -102,7 +106,7 @@ services:
     # build:
     #   context: .
     #   dockerfile: Dockerfile.celery
-    image: trustvar2-celery-worker
+    image: trustvar-celery-worker
     container_name: celery_worker
     command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=info
     environment:
@@ -113,6 +117,7 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - HF_TOKEN=${HF_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
     depends_on:
       - mongodb
       - redis
