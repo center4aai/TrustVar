@@ -23,12 +23,17 @@ class TaskType(str, Enum):
 class VariationStrategy(str, Enum):
     """Стратегии вариаций"""
 
-    PARAPHRASE = "paraphrase"  # Перефразирование
-    STYLE_CHANGE = "style_change"  # Изменение стиля
-    COMPLEXITY = "complexity"  # Изменение сложности
-    LANGUAGE = "language"  # Перевод на другой язык
-    PERSPECTIVE = "perspective"  # Изменение перспективы
-    CUSTOM = "custom"  # Кастомная инструкция
+    INCREASE_SENTENCE_LEN = "increase_sentence_len"
+    SHORTEN_SENTENCE_LEN = "shorten_sentence_len"
+    PARAPHRASING = "paraphrasing"
+    SYNONYMY = "synonymy"
+    STYLE_CHANGE = "style_change"
+    DISCOURSE_СONNECTIVE_VAR = "discourse_сonnective_var"
+    SPLIT_MERGE_SENT = "split_merge_sent"
+    POLITENESS_HEDGING = "politeness_hedging"
+    PUNCTUATION_NOISE = "punctuation_noise"
+    TRANSLATE_RU = "translate_ru"
+    TRANSLATE_EN = "translate_en"
 
 
 class ABTestStrategy(str, Enum):
@@ -39,36 +44,6 @@ class ABTestStrategy(str, Enum):
     TEMPERATURE_TEST = "temperature_test"  # Тестирование температур
     SYSTEM_PROMPT_TEST = "system_prompt_test"  # Тестирование системных промптов
     PARAMETER_SWEEP = "parameter_sweep"  # Перебор параметров
-
-
-class TaskResult(BaseModel):
-    """Результат выполнения задачи"""
-
-    input: str
-    output: str
-    model_id: str  # ID модели, которая сгенерировала результат
-    target: Optional[str] = None
-    metrics: Dict[str, float] = {}
-    execution_time: float = 0.0
-    metadata: Dict[str, Any] = {}
-
-    # Для вариаций
-    original_input: Optional[str] = None  # Оригинальный промпт
-    variation_type: Optional[str] = None  # Тип вариации
-
-    # Для LLM judge и RTA
-    judge_score: Optional[float] = None
-    judge_reasoning: Optional[str] = None
-
-    # Для RTA
-    refused: Optional[bool] = None  # Отказалась ли модель отвечать
-
-    # Для Include/Exclude
-    include_score: Optional[float] = None
-    exclude_violations: Optional[int] = None
-
-    # Для A/B тестов
-    ab_variant: Optional[str] = None  # Вариант A/B теста
 
 
 class VariationConfig(BaseModel):
@@ -111,7 +86,7 @@ class ABTestConfig(BaseModel):
     """Конфигурация A/B тестов"""
 
     enabled: bool = False
-    strategy: ABTestStrategy = ABTestStrategy.MODEL_COMPARISON
+    strategy: Optional[ABTestStrategy] = None
 
     # Для PROMPT_VARIANTS
     prompt_variants: Optional[Dict[str, str]] = None  # variant_name -> prompt
@@ -128,6 +103,39 @@ class ABTestConfig(BaseModel):
     # Общие настройки
     sample_size_per_variant: Optional[int] = None  # Размер выборки для каждого варианта
     statistical_test: str = "t_test"  # t_test, chi_square, mann_whitney
+
+    balance_variants: bool = True  # Автоматическое балансирование
+    random_seed: Optional[int] = None  # Для воспроизводимости
+
+
+class TaskResult(BaseModel):
+    """Результат выполнения задачи"""
+
+    input: str
+    output: str
+    model_id: str  # ID модели, которая сгенерировала результат
+    target: Optional[str] = None
+    metrics: Dict[str, str] = {}
+    execution_time: float = 0.0
+    metadata: Dict[str, Any] = {}
+
+    # Для вариаций
+    original_input: Optional[str] = None  # Оригинальный промпт
+    variation_type: Optional[str] = None  # Тип вариации
+
+    # Для LLM judge и RTA
+    judge_score: Optional[float] = None
+    judge_reasoning: Optional[str] = None
+
+    # Для RTA
+    refused: Optional[bool] = None  # Отказалась ли модель отвечать
+
+    # Для Include/Exclude
+    include_score: Optional[float] = None
+    exclude_violations: Optional[int] = None
+
+    # Для A/B тестов
+    ab_variant: Optional[str] = None  # Вариант A/B теста
 
 
 class TaskConfig(BaseModel):

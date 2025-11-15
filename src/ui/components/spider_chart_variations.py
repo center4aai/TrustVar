@@ -1,126 +1,120 @@
-# src/ui/components/spider_chart_variations.py
 from collections import defaultdict
-from typing import List
+from typing import Dict, List
 
+import numpy as np
+import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.core.schemas.task import TaskResult
+from src.core.schemas.task import Task, TaskResult
+from src.core.services.eval_service import EvaluationService
 
-plotly_config = dict(use_container_width=True)
+plotly_config = dict(width="stretch")
+
+eval_service = EvaluationService()
 
 
-def plot_variation_spider_chart(
-    results: List[TaskResult], selected_model_id: str, metric_names: List[str]
+def get_model_name(model_id: str, models: List) -> str:
+    """Get model name from model_id"""
+    model = next((m for m in models if m.id == model_id), None)
+    return model.name if model else model_id[:12] + "..."
+
+
+def plot_task_centric_spider(
+    task: Task,
+    models: List,
 ):
     """
-    Создать паутинный график для анализа вариаций
+    Task-centric spider chart with dispersion metrics:
+    - Axes (theta): Variations
+    - Colors: Different models (one line per model)
+    - Metrics: CV, IQR_CV, JSD
 
-    Args:
-        results: Результаты задачи
-        selected_model_id: ID выбранной модели для анализа
-        metric_names: Список метрик для отображения
+    Для каждой вариации собираем accuracy по всем моделям и вычисляем дисперсию.
     """
+    st.markdown(f"#### 🕸️ Task: {task.name}")
 
-    # Фильтруем результаты по модели
-    model_results = [r for r in results if r.model_id == selected_model_id]
+    # Get all variations
+    variations = sorted(task.config.variations.strategies)
 
-    if not model_results:
-        st.warning("No results found for selected model")
+    if len(variations) < 3:
+        st.info("Need at least 3 variations for spider chart")
         return
 
-    # Группируем по типам вариаций
-    variation_groups = defaultdict(list)
+    # Dispersion metrics to display
+    metric_names = {
+        "cv": "Coefficient of Variation",
+        "iqr_cv": "IQR-based CV",
+    }
 
-    for result in model_results:
-        variation_type = result.variation_type or "original"
-        variation_groups[variation_type].append(result)
-
-    if len(variation_groups) < 2:
-        st.info("Need at least 2 variation types for spider chart (including original)")
-        return
-
-    # Вычисляем средние метрики для каждого типа вариации
-    variation_metrics = {}
-
-    for variation_type, var_results in variation_groups.items():
-        metrics = {}
-
-        # Judge score
-        judge_scores = [r.judge_score for r in var_results if r.judge_score is not None]
-        if judge_scores:
-            metrics["Judge Score"] = sum(judge_scores) / len(judge_scores)
-
-        # Include/Exclude score
-        include_scores = [
-            r.include_score for r in var_results if r.include_score is not None
-        ]
-        if include_scores:
-            metrics["Include Score"] = sum(include_scores) / len(include_scores)
-
-        # Execution time (инвертируем для графика - меньше = лучше)
-        exec_times = [r.execution_time for r in var_results]
-        if exec_times:
-            avg_time = sum(exec_times) / len(exec_times)
-            # Нормализуем: 10 - (time / max_time * 10)
-            max_time = max(r.execution_time for r in model_results)
-            metrics["Speed"] = 10 - (avg_time / max_time * 10) if max_time > 0 else 5
-
-        # Custom metrics
-        for metric_name in metric_names:
-            values = [
-                r.metrics.get(metric_name)
-                for r in var_results
-                if metric_name in r.metrics
-            ]
-            if values:
-                # Нормализуем к шкале 0-10
-                avg_val = sum(values) / len(values)
-                metrics[metric_name.replace("_", " ").title()] = (
-                    avg_val / 10
-                )  # Предполагаем что метрики в процентах
-
-        variation_metrics[variation_type] = metrics
-
-    # Получаем все уникальные метрики
-    all_metrics = set()
-    for metrics in variation_metrics.values():
-        all_metrics.update(metrics.keys())
-
-    all_metrics = sorted(all_metrics)
-
-    if not all_metrics:
-        st.warning("No metrics available for spider chart")
-        return
-
-    # Создаем паутинный график
+    # Create spider chart
     fig = go.Figure()
 
-    for variation_type, metrics in variation_metrics.items():
-        # Значения для каждой метрики
-        values = [metrics.get(metric, 0) for metric in all_metrics]
+    # For each metric, create a trace
+    for metric_key, metric_name in metric_names.items():
+        variation_scores = []
+        variation_names = []
 
-        # Замыкаем круг (добавляем первое значение в конец)
-        values_closed = values + [values[0]]
-        metrics_closed = list(all_metrics) + [all_metrics[0]]
+        # For each variation, collect accuracy from all models
+        for variation in variations:
+            values = []
+
+            # Collect accuracy for each model on this variation
+            for model in models:
+                if model.id not in task.model_ids:
+                    continue
+
+                # Get results for this model and variation
+                per_model_var_results = [
+                    r
+                    for r in task.results
+                    if r.model_id == model.id and r.variation_type == variation
+                ]
+
+                if per_model_var_results:
+                    # Calculate accuracy for this model on this variation
+                    accuracy = eval_service._accuracy(per_model_var_results)
+                    values.append(accuracy)
+
+            # Calculate dispersion metric for this variation
+            if len(values) >= 2:  # Need at least 2 values for dispersion
+                if metric_key == "cv":
+                    score = eval_service._calculate_cv(values)
+                elif metric_key == "iqr_cv":
+                    score = eval_service._calculate_iqr_cv(values)
+                else:
+                    score = 0
+
+                if not np.isnan(score):
+                    variation_scores.append(score)
+                    variation_names.append(variation)
+
+        if not variation_scores:
+            continue
+
+        # Close the loop
+        scores_closed = variation_scores + [variation_scores[0]]
+        variations_closed = variation_names + [variation_names[0]]
 
         fig.add_trace(
             go.Scatterpolar(
-                r=values_closed,
-                theta=metrics_closed,
+                r=scores_closed,
+                theta=variations_closed,
                 fill="toself",
-                name=variation_type.replace("_", " ").title(),
-                hovertemplate="%{theta}: %{r:.2f}<extra></extra>",
+                name=metric_name,
+                hovertemplate="%{theta}<br>%{fullData.name}<br>"
+                + "Score: %{r:.2f}<extra></extra>",
             )
         )
 
     fig.update_layout(
         polar=dict(
-            radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(size=10)),
+            radialaxis=dict(visible=True, tickfont=dict(size=10)),
             angularaxis=dict(tickfont=dict(size=11)),
         ),
         showlegend=True,
-        title=f"Variation Analysis - {selected_model_id[:12]}...",
+        title="Variation Stability Across Models",
         height=500,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -129,126 +123,288 @@ def plot_variation_spider_chart(
 
     st.plotly_chart(fig, config=plotly_config)
 
-    # Таблица с детальными значениями
-    st.markdown("### Detailed Metrics")
 
-    import pandas as pd
-
-    table_data = []
-    for variation_type, metrics in variation_metrics.items():
-        row = {"Variation": variation_type.replace("_", " ").title()}
-        row.update({k: f"{v:.2f}" for k, v in metrics.items()})
-        table_data.append(row)
-
-    df = pd.DataFrame(table_data)
-    st.dataframe(df, use_container_width=True)
-
-
-def plot_multi_model_comparison_spider(
-    results: List[TaskResult], model_ids: List[str], metric_names: List[str]
+def plot_model_centric_spider(
+    all_tasks: List[Task],
+    selected_model_id: str,
+    models: List,
+    selected_task_names: List[str],
 ):
     """
-    Паутинный график для сравнения нескольких моделей
+    Model-centric spider chart with dispersion metrics:
+    - Axes (theta): Variations
+    - Colors: Different tasks (one line per selected task)
+    - Selected model: User selects ONE model to analyze
+
+    Для выбранной модели, для каждой задачи вычисляем CV по вариациям.
 
     Args:
-        results: Все результаты
-        model_ids: Список ID моделей для сравнения
-        metric_names: Метрики для отображения
+        all_tasks: List of all completed tasks
+        selected_model_id: ID of the model to analyze
+        models: List of all models
+        selected_task_names: List of task names selected by user
     """
+    model_name = get_model_name(selected_model_id, models)
 
-    # Группируем по моделям
-    model_groups = defaultdict(list)
+    st.markdown(f"#### 🕸️ Model: {model_name}")
+
+    if not selected_task_names:
+        st.warning("Please select at least one task")
+        return
+
+    # Collect all variations across selected tasks
+    all_variations = set()
+
+    # First pass: collect all variations
+    for task in all_tasks:
+        if task.name not in selected_task_names:
+            continue
+        if not task.config.variations.enabled:
+            continue
+
+        for result in task.results:
+            if result.model_id == selected_model_id:
+                variation = result.variation_type or "original"
+                all_variations.add(variation)
+
+    if len(all_variations) < 3:
+        st.info("Need at least 3 variations for spider chart")
+        return
+
+    variations_sorted = sorted(list(all_variations))
+
+    # Create spider chart - one trace per task
+    fig = go.Figure()
+
+    for task in all_tasks:
+        if task.name not in selected_task_names:
+            continue
+        if not task.config.variations.enabled:
+            continue
+
+        # Filter results for selected model
+        model_results = [r for r in task.results if r.model_id == selected_model_id]
+
+        if not model_results:
+            continue
+
+        # Calculate CV for each variation
+        variation_scores = []
+        variation_names = []
+
+        # Collect accuracy values across all variations for CV calculation
+        values = []
+
+        for variation in variations_sorted:
+            var_results = [r for r in model_results if r.variation_type == variation]
+
+            if var_results:
+                # Calculate accuracy for this variation
+                accuracy = eval_service._accuracy(var_results)
+                values.append(accuracy)
+                variation_names.append(variation)
+
+        # Calculate CV across all variations for this task
+        if len(values) >= 2:
+            cv_score = eval_service._calculate_cv(values)
+
+            if not np.isnan(cv_score):
+                # For spider chart, we need one value per variation
+                # So we'll show the same CV for all variations of this task
+                variation_scores = [cv_score] * len(variation_names)
+            else:
+                continue
+        else:
+            continue
+
+        if not variation_scores:
+            continue
+
+        # Close the loop
+        scores_closed = variation_scores + [variation_scores[0]]
+        variations_closed = variation_names + [variation_names[0]]
+
+        fig.add_trace(
+            go.Scatterpolar(
+                r=scores_closed,
+                theta=variations_closed,
+                fill="toself",
+                name=task.name,
+                hovertemplate="%{theta}<br>%{fullData.name}<br>"
+                + "CV: %{r:.2f}<extra></extra>",
+            )
+        )
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(visible=True, tickfont=dict(size=10)),
+            angularaxis=dict(tickfont=dict(size=11)),
+        ),
+        showlegend=True,
+        title=f"Task Stability (CV) for Model: {model_name}",
+        height=500,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white"),
+    )
+
+    st.plotly_chart(fig, config=plotly_config)
+
+
+def plot_augmentation_impact_chart(
+    results: List[TaskResult],
+    task_name: str,
+    model_ids: List[str],
+    models: List,
+):
+    """
+    Bar chart comparing augmentation impact on metrics
+    """
+    # Group by model and variation, calculate accuracy
+    grouped_data = defaultdict(lambda: defaultdict(list))
 
     for result in results:
         if result.model_id in model_ids:
-            model_groups[result.model_id].append(result)
+            variation = result.variation_type or "original"
+            grouped_data[result.model_id][variation].append(result)
 
-    if len(model_groups) < 2:
-        st.info("Need at least 2 models for comparison spider chart")
-        return
+    # Calculate metrics
+    data_rows = []
 
-    # Вычисляем метрики для каждой модели
-    model_metrics = {}
+    for model_id, variations in grouped_data.items():
+        model_name = get_model_name(model_id, models)
 
-    for model_id, model_results in model_groups.items():
-        metrics = {}
+        for variation, var_results in variations.items():
+            # Calculate accuracy (всегда есть)
+            accuracy = eval_service._accuracy(var_results)
 
-        # Judge score
-        judge_scores = [
-            r.judge_score for r in model_results if r.judge_score is not None
-        ]
-        if judge_scores:
-            metrics["Judge Score"] = sum(judge_scores) / len(judge_scores)
+            if accuracy >= 0:  # Даже 0 - валидное значение
+                data_rows.append(
+                    {
+                        "Model": model_name,
+                        "Variation": variation,
+                        "Metric": "Accuracy",
+                        "Value": accuracy,
+                    }
+                )
 
-        # Include score
-        include_scores = [
-            r.include_score for r in model_results if r.include_score is not None
-        ]
-        if include_scores:
-            metrics["Include Score"] = (
-                sum(include_scores) / len(include_scores) / 10
-            )  # Нормализация
-
-        # Speed
-        exec_times = [r.execution_time for r in model_results]
-        if exec_times:
-            avg_time = sum(exec_times) / len(exec_times)
-            max_time = max(r.execution_time for r in results)
-            metrics["Speed"] = 10 - (avg_time / max_time * 10) if max_time > 0 else 5
-
-        # Custom metrics
-        for metric_name in metric_names:
-            values = [
-                r.metrics.get(metric_name)
-                for r in model_results
-                if metric_name in r.metrics
+            # Also add judge scores if available
+            judge_scores = [
+                r.judge_score for r in var_results if r.judge_score is not None
             ]
-            if values:
-                avg_val = sum(values) / len(values)
-                metrics[metric_name.replace("_", " ").title()] = avg_val / 10
+            if judge_scores:
+                avg_judge = sum(judge_scores) / len(judge_scores)
+                data_rows.append(
+                    {
+                        "Model": model_name,
+                        "Variation": variation,
+                        "Metric": "Judge Score",
+                        "Value": avg_judge,
+                    }
+                )
 
-        model_metrics[model_id] = metrics
+            # Add include scores if available
+            include_scores = [
+                r.include_score for r in var_results if r.include_score is not None
+            ]
+            if include_scores:
+                avg_include = sum(include_scores) / len(include_scores)
+                data_rows.append(
+                    {
+                        "Model": model_name,
+                        "Variation": variation,
+                        "Metric": "Include Score",
+                        "Value": avg_include,
+                    }
+                )
 
-    # Получаем все метрики
-    all_metrics = set()
-    for metrics in model_metrics.values():
-        all_metrics.update(metrics.keys())
-
-    all_metrics = sorted(all_metrics)
-
-    if not all_metrics:
-        st.warning("No metrics available")
+    if not data_rows:
+        st.warning("No data available for augmentation impact chart")
         return
 
-    # Создаем график
-    fig = go.Figure()
+    df = pd.DataFrame(data_rows)
 
-    for model_id, metrics in model_metrics.items():
-        values = [metrics.get(metric, 0) for metric in all_metrics]
-        values_closed = values + [values[0]]
-        metrics_closed = list(all_metrics) + [all_metrics[0]]
+    # Create grouped bar chart
+    fig = px.bar(
+        df,
+        x="Variation",
+        y="Value",
+        color="Model",
+        facet_col="Metric",
+        barmode="group",
+        title=f"Impact of Variations on Metrics - {task_name}",
+        labels={"Value": "Metric Value", "Variation": "Variation Type"},
+    )
 
-        fig.add_trace(
-            go.Scatterpolar(
-                r=values_closed,
-                theta=metrics_closed,
-                fill="toself",
-                name=model_id[:12] + "...",
-                hovertemplate="%{theta}: %{r:.2f}<extra></extra>",
-            )
-        )
-
+    fig.update_xaxes(tickangle=45)
     fig.update_layout(
-        polar=dict(
-            radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(size=10)),
-            angularaxis=dict(tickfont=dict(size=11)),
-        ),
-        showlegend=True,
-        title="Model Comparison",
-        height=500,
+        height=400,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(color="white"),
     )
 
     st.plotly_chart(fig, config=plotly_config)
+
+
+def create_task_metrics_table(
+    all_tasks_results: Dict[str, List[TaskResult]],
+    selected_model_id: str,
+    models: List,
+    selected_task_names: List[str],
+) -> pd.DataFrame:
+    """
+    Create a table showing dispersion metrics for each selected task
+
+    Args:
+        all_tasks_results: Dict mapping task_name -> list of TaskResult
+        selected_model_id: ID of the model to analyze
+        models: List of all models
+        selected_task_names: List of task names selected by user
+    """
+    table_data = []
+
+    for task_name in selected_task_names:
+        if task_name not in all_tasks_results:
+            continue
+
+        task_results = all_tasks_results[task_name]
+        model_results = [r for r in task_results if r.model_id == selected_model_id]
+
+        if not model_results:
+            continue
+
+        # Get all variations for this task
+        variations = set()
+        for result in model_results:
+            variation = result.variation_type or "original"
+            variations.add(variation)
+
+        # Collect accuracy for each variation
+        values = []
+        for variation in variations:
+            var_results = [r for r in model_results if r.variation_type == variation]
+            if var_results:
+                accuracy = eval_service._accuracy(var_results)
+                values.append(accuracy)
+
+        if len(values) < 2:
+            continue
+
+        # Calculate dispersion metrics
+        cv = eval_service._calculate_cv(values)
+        iqr_cv = eval_service._calculate_iqr_cv(values)
+        jsd = eval_service._calculate_jsd_divergence(values)
+
+        row = {
+            "Task": task_name,
+            "Result Count": len(model_results),
+            "Mean Accuracy": f"{np.mean(values):.2f}",
+            "TSI (%)": cv if not np.isnan(cv) else np.nan,
+            "IQR-CV (%)": iqr_cv if not np.isnan(iqr_cv) else np.nan,
+            "JSD": jsd if not np.isnan(jsd) else np.nan,
+        }
+
+        table_data.append(row)
+
+    return pd.DataFrame(table_data)

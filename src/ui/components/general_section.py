@@ -76,7 +76,7 @@ def render_general_section():
                     )
 
                 df = pd.DataFrame(activity_data)
-                st.dataframe(df, use_container_width=True, height=400)
+                st.dataframe(df, width="stretch", height=400)
             else:
                 st.info("No tasks yet. Create your first task!")
 
@@ -124,7 +124,7 @@ def render_general_section():
 
                 if model_stats:
                     df_models = pd.DataFrame(model_stats)
-                    st.dataframe(df_models, use_container_width=True)
+                    st.dataframe(df_models, width="stretch")
                 else:
                     st.info("No completed tasks with judge scores yet")
 
@@ -235,9 +235,7 @@ def render_general_section():
 
                 df_sorted = df.sort_values(by=sort_column, ascending=False)
 
-                st.dataframe(
-                    df_sorted, use_container_width=True, height=600, hide_index=True
-                )
+                st.dataframe(df_sorted, width="stretch", height=600, hide_index=True)
 
                 # Кнопки действий
                 st.markdown("### Actions")

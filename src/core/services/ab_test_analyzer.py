@@ -131,24 +131,42 @@ class ABTestAnalyzer:
         metric_names: List[str] = None,
         test_type: str = "t_test",
     ) -> Dict[str, Any]:
-        """
-        Полный анализ A/B теста
+        """Полный анализ A/B теста с улучшенной валидацией"""
 
-        Args:
-            results: Результаты с заполненным ab_variant
-            metric_names: Метрики для анализа
-            test_type: 't_test' или 'mann_whitney'
-        """
         metric_names = metric_names or []
+
+        # Валидация входных данных
+        if not results:
+            return {
+                "error": "No results provided",
+                "variants": [],
+                "total_samples": 0,
+            }
+
+        # Проверяем наличие маркировки вариантов
+        unmarked = [r for r in results if r.ab_variant is None]
+        if unmarked:
+            logger.warning(f"Found {len(unmarked)} results without ab_variant marker")
 
         # Группируем по вариантам
         grouped = ABTestAnalyzer.group_results_by_variant(results)
+
+        # Детальная информация о группировке
+        variant_counts = {k: len(v) for k, v in grouped.items()}
+        logger.info(f"Variant distribution: {variant_counts}")
 
         if len(grouped) < 2:
             return {
                 "error": "Need at least 2 variants for A/B test",
                 "variants": list(grouped.keys()),
+                "variant_counts": variant_counts,
+                "total_samples": len(results),
             }
+
+        # Проверяем достаточность данных
+        min_samples = min(variant_counts.values())
+        if min_samples < 2:
+            logger.warning(f"Some variants have less than 2 samples: {variant_counts}")
 
         # Вычисляем метрики для каждого варианта
         variant_metrics = {}
@@ -215,12 +233,47 @@ class ABTestAnalyzer:
 
         return {
             "variants": list(grouped.keys()),
+            "variant_counts": variant_counts,  # НОВОЕ
             "variant_metrics": variant_metrics,
             "statistical_tests": statistical_tests,
             "winner": winner,
             "test_type": test_type,
             "total_samples": len(results),
+            "warnings": ABTestAnalyzer._generate_warnings(grouped, statistical_tests),
         }
+
+    @staticmethod
+    def _generate_warnings(
+        grouped: Dict[str, List[TaskResult]],
+        statistical_tests: Dict[str, Dict[str, Any]],
+    ) -> List[str]:
+        """Генерация предупреждений о качестве A/B теста"""
+
+        warnings = []
+
+        # Проверка размеров выборок
+        counts = {k: len(v) for k, v in grouped.items()}
+        min_count = min(counts.values())
+        max_count = max(counts.values())
+
+        if min_count < 30:
+            warnings.append(
+                f"Small sample size detected (min={min_count}). Results may not be reliable."
+            )
+
+        if max_count / min_count > 2:
+            warnings.append(
+                f"Imbalanced sample sizes: {counts}. Consider equal distribution."
+            )
+
+        # Проверка мощности тестов
+        failed_tests = [k for k, v in statistical_tests.items() if v.get("error")]
+        if failed_tests:
+            warnings.append(
+                f"{len(failed_tests)} statistical tests failed: {failed_tests[:3]}"
+            )
+
+        return warnings
 
     @staticmethod
     def _determine_winner(

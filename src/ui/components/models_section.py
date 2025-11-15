@@ -227,8 +227,8 @@ def render_models_section():
                 max_tokens = st.number_input(
                     "Max Tokens",
                     min_value=1,
-                    max_value=8192,
-                    value=512,
+                    max_value=65536,
+                    value=8192,
                     help="Maximum length of generated text",
                 )
 

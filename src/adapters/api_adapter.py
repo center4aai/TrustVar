@@ -1,4 +1,5 @@
 # src/adapters/api_adapter.py
+import asyncio
 from typing import List
 
 import aiohttp
@@ -18,7 +19,7 @@ class OpenAIAdapter(BaseLLMAdapter):
         self.api_key = settings.OPENAI_API_KEY
         self.base_url = settings.OPENAI_BASE_URL
 
-    async def generate(self, prompt: str, **kwargs) -> str:
+    async def generate(self, prompt: str, max_retries: int = 3, **kwargs) -> str:
         """Генерация через OpenAI API"""
         url = f"{self.base_url}/chat/completions"
 
@@ -27,27 +28,43 @@ class OpenAIAdapter(BaseLLMAdapter):
             "Content-Type": "application/json",
         }
 
+        messages = (
+            [{"role": "system", "content": kwargs.get("system_prompt")}]
+            if kwargs.get("system_prompt")
+            else []
+        )
+
+        messages.append({"role": "user", "content": prompt})
+
         payload = {
             "model": self.model.model_name,
-            "messages": [{"role": "user", "content": prompt}],
+            "messages": messages,
             "temperature": kwargs.get("temperature", self.config.temperature),
             "max_tokens": kwargs.get("max_tokens", self.config.max_tokens),
             "top_p": kwargs.get("top_p", self.config.top_p),
         }
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=payload, headers=headers) as response:
-                    if response.status == 200:
-                        result = await response.json()
-                        return result["choices"][0]["message"]["content"]
-                    else:
-                        error = await response.text()
-                        logger.error(f"OpenAI API error: {error}")
-                        raise Exception(f"OpenAI API error: {response.status}")
-        except Exception as e:
-            logger.error(f"Error generating with OpenAI: {e}")
-            raise
+        for attempt in range(max_retries):
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(
+                        url, json=payload, headers=headers
+                    ) as response:
+                        if response.status == 200:
+                            result = await response.json()
+                            return result["choices"][0]["message"]["content"]
+                        else:
+                            error = await response.text()
+                            logger.error(f"OpenAI API error: {error}")
+                            raise Exception(f"OpenAI API error: {response.status}")
+            except Exception as e:
+                logger.warning(
+                    f"Attempt {attempt + 1}/{max_retries}: Network error: {e}"
+                )
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(2**attempt)
+                else:
+                    raise
 
     async def batch_generate(self, prompts: List[str], **kwargs) -> List[str]:
         """Пакетная генерация"""

@@ -76,7 +76,14 @@ class HuggingFaceAdapter(BaseLLMAdapter):
         """Генерация с HuggingFace моделью"""
         await self._load_model()
 
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+        message = kwargs.get("system_prompt", "")
+
+        if message:
+            message = message + "\n" + prompt
+        else:
+            message = prompt
+
+        inputs = self.tokenizer(message, return_tensors="pt").to(self.device)
 
         with torch.no_grad():
             outputs = self.hf_model.generate(

@@ -26,9 +26,6 @@ class DatasetService:
         created = await self.repository.create(dataset)
         logger.info(f"Dataset created: {created.id}")
 
-        # Инвалидируем кэш
-        # cache.clear_pattern("datasets:*")
-
         return created
 
     async def upload_from_file(
@@ -65,9 +62,17 @@ class DatasetService:
         else:
             raise ValueError(f"Unsupported format: {file_format}")
 
-        # print(f'----- \nItems: {items[:2]} \n---')
         # Сохраняем items
-        dataset_items = [DatasetItem(**item) for item in items]
+        dataset_items = [
+            DatasetItem.from_row(
+                row=item,
+                prompt_column=prompt_column,
+                target_column=target_column,
+                include_column=include_column,
+                exclude_column=exclude_column,
+            )
+            for item in items
+        ]
         await self.repository.add_items(dataset_id, dataset_items)
 
         logger.info(f"Uploaded {len(items)} items to dataset {dataset_id}")

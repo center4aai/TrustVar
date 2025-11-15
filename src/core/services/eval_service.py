@@ -1,6 +1,9 @@
 # src/core/services/eval_service.py
 from typing import Dict, List
 
+import numpy as np
+from scipy.spatial.distance import jensenshannon
+
 from src.core.schemas.task import TaskResult
 from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
 from src.core.services.rta_evaluator import RTAEvaluator
@@ -43,6 +46,135 @@ class EvaluationService:
                 aggregated["implicit_refusals"] = rta_results["implicit_refusals"]
 
         return aggregated
+
+    # def compute_dispersion_indices(
+    #     self,
+    #     results: List[TaskResult],
+    #     models: List[str],
+    #     variations: List[str],
+    #     metrics_to_compute: List[str],
+    #     centricity: str,
+    # ) -> Dict[str, float]:
+    #     if centricity == "var-centric":
+    #         scores_per_metric = defaultdict(
+    #             lambda: defaultdict(dict)
+    #         )  # ['Metric']['Variation']['Values']
+
+    #         for metric in metrics_to_compute:
+    #             for v in variations:
+    #                 values = []
+    #                 per_augment_results = [r for r in results if r.variation_type == v]
+
+    #                 for model in models:
+    #                     per_model_results = [
+    #                         r for r in per_augment_results if r.model_id == model.id
+    #                     ]
+
+    #                     values.append(self._accuracy(per_model_results))
+
+    #                 if metric == "cv":
+    #                     scores_per_metric[metric][v] = self._calculate_cv(values)
+
+    #                 elif metric == "iqr_cv":
+    #                     scores_per_metric[metric][v] = self._calculate_iqr_cv(values)
+
+    #                 elif metric == "jsd":
+    #                     scores_per_metric[metric][v] = self._calculate_jsd_divergence(
+    #                         values
+    #                     )
+
+    #         return scores_per_metric
+
+    #     elif centricity == "model-centric":
+    #         scores_per_metric = defaultdict(
+    #             lambda: defaultdict(dict)
+    #         )  # ['Metric']['Model']['Values']
+    #         logger.info(scores_per_metric)
+    #         for metric in metrics_to_compute:
+    #             for model in models:
+    #                 per_model_results = [r for r in results if r.model_id == model.id]
+
+    #                 for v in variations:
+    #                     values = []
+    #                     per_augment_results = [
+    #                         r for r in per_model_results if r.variation_type == v
+    #                     ]
+    #                     values.append(self._accuracy(per_augment_results))
+
+    #                 if metric == "cv_star":
+    #                     scores_per_metric[metric][model.name] = self._calculate_cv(
+    #                         values
+    #                     )
+
+    #                 elif metric == "iqr_cv":
+    #                     scores_per_metric[metric][model.name] = self._calculate_iqr_cv(
+    #                         values
+    #                     )
+
+    #                 elif metric == "jsd":
+    #                     scores_per_metric[metric][model.name] = (
+    #                         self._calculate_jsd_divergence(values)
+    #                     )
+
+    #                 logger.info(scores_per_metric)
+
+    #         return scores_per_metric
+
+    def _calculate_cv(self, values: List[float]) -> float:
+        """Calculates the coefficient of variation (CV = std/mean * 100%)."""
+        if not values or len(values) < 2:
+            return np.nan
+        mean_val = np.mean(values)
+        if mean_val == 0:
+            return np.nan
+        return (np.std(values) / mean_val) * 100
+
+    def _calculate_corrected_cv(self, values: List[float]) -> float:
+        """Calculates the corrected coefficient of variation for small sample sizes."""
+        if not values or len(values) < 2:
+            return np.nan
+
+        arr = np.array(values)
+        n = arr.size
+        mean_val = arr.mean()
+        std_val = arr.std(ddof=0)
+
+        if mean_val == 0:
+            return np.nan
+
+        cv = std_val / mean_val
+        return (1 + 1 / (4 * n)) * cv * 100
+
+    def _calculate_iqr_cv(self, values: List[float]) -> float:
+        """Calculates IQR-based coefficient of variation: (Q3-Q1) / midhinge."""
+        if not values or len(values) < 2:
+            return np.nan
+
+        arr = np.array(values)
+        q1 = np.percentile(arr, 25)
+        q3 = np.percentile(arr, 75)
+        midhinge = (q1 + q3) / 2
+
+        if midhinge == 0:
+            return np.nan
+
+        return ((q3 - q1) / midhinge) * 100
+
+    def _calculate_jsd_divergence(self, values: List[float]) -> float:
+        """Calculates Jensen-Shannon Divergence for measuring distribution heterogeneity."""
+        if not values or len(values) < 2:
+            return np.nan
+
+        arr = np.array(values)
+        arr_sum = arr.sum()
+        if arr_sum == 0:
+            return np.nan
+
+        P = arr / arr_sum
+        P_mean = P.mean()
+
+        jsd = jensenshannon(P, [P_mean] * len(P)) ** 2
+        return jsd * 100
 
     def _exact_match(self, results: List[TaskResult]) -> float:
         """Exact Match метрика"""

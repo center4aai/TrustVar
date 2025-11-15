@@ -157,7 +157,7 @@ class TaskService:
             comparison["models"][model_id] = model_stats
 
         # Определяем лучшую модель
-        if task.config.judge.enable:
+        if task.config.judge.enabled:
             # По judge score
             best_model = max(
                 comparison["models"].items(),

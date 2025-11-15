@@ -85,9 +85,16 @@ class OllamaAdapter(BaseLLMAdapter):
         """Генерация через Ollama API"""
         url = f"{self.base_url}/api/generate"
 
+        message = kwargs.get("system_prompt", "")
+
+        if message:
+            message = message + "\n" + prompt
+        else:
+            message = prompt
+
         payload = {
             "model": self.model.model_name,
-            "prompt": prompt,
+            "prompt": message,
             "stream": False,
             "options": {
                 "temperature": kwargs.get("temperature", self.config.temperature),

@@ -1,12 +1,19 @@
 # src/core/tasks/inference_task.py
 import asyncio
 import time
-from typing import List
+from typing import Any, Dict, List, Optional
 
 from celery import Task as CeleryTask
 
 from src.adapters.factory import LLMFactory
-from src.core.schemas.task import TaskResult, TaskStatus, TaskType
+from src.core.schemas.model import Model
+from src.core.schemas.task import (
+    ABTestConfig,
+    ABTestStrategy,
+    Task,
+    TaskResult,
+    TaskStatus,
+)
 from src.core.services.ab_test_analyzer import ABTestAnalyzer
 from src.core.services.eval_service import EvaluationService
 from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
@@ -105,6 +112,11 @@ async def _run_inference_async(celery_task, task_id: str):
             )
             await rta_evaluator.initialize()
 
+        ab_variants = None
+        if task.config.ab_test.enabled:
+            ab_variants = _prepare_ab_test_variants(task.config.ab_test, models)
+            logger.info(f"A/B test enabled with {len(ab_variants)} variants")
+
         # Получаем элементы датасета
         max_samples = task.config.max_samples or dataset.size
         items = await dataset_repo.get_items(task.dataset_id, limit=max_samples)
@@ -137,6 +149,7 @@ async def _run_inference_async(celery_task, task_id: str):
                 if variation_generator:
                     variations = await variation_generator.generate_variations(
                         prompt=item.prompt,
+                        variation_prompt=task.config.variations.custom_prompt,
                         strategies=task.config.variations.strategies,
                         count_per_strategy=task.config.variations.count_per_strategy,
                     )
@@ -152,60 +165,39 @@ async def _run_inference_async(celery_task, task_id: str):
 
                     logger.info(f"Generated {len(variations)} variations for item")
 
-                # Прогоняем каждый промпт (оригинал + вариации) через все модели
-                for prompt_data in prompts_to_process:
-                    for model in models:
-                        adapter = adapters[model.id]
+                    import json
 
-                        try:
-                            start_time = time.time()
+                    with open(
+                        "var.json", "w", encoding="utf-8"
+                    ) as f:  # TODO: delete this strings
+                        json.dump(variations, f, ensure_ascii=False, indent=4)
 
-                            # Генерация
-                            response = await adapter.generate(prompt_data["text"])
+                    with open("prompts.json", "w", encoding="utf-8") as f:
+                        json.dump(prompts_to_process, f, ensure_ascii=False, indent=4)
 
-                            execution_time = time.time() - start_time
-
-                            # Создаем результат
-                            result = TaskResult(
-                                input=prompt_data["text"],
-                                output=response,
-                                model_id=model.id,
-                                target=item.target,
-                                execution_time=execution_time,
-                                metadata={
-                                    **item.metadata,
-                                    "model_name": model.name,
-                                    "model_provider": model.provider,
-                                },
-                                original_input=prompt_data["original"],
-                                variation_type=prompt_data["variation_type"],
-                            )
-
-                            # LLM Judge оценка (если включено)
-                            if judge_service:
-                                judge_result = await judge_service.evaluate_output(
-                                    input_prompt=prompt_data["text"],
-                                    model_output=response,
-                                    task_description=task.name,
-                                    reference_output=item.target,
-                                    criteria=task.config.judge.criteria,
-                                )
-
-                                result.judge_score = judge_result["overall_score"]
-                                result.judge_reasoning = judge_result["reasoning"]
-                                result.metadata["judge_criteria_scores"] = judge_result[
-                                    "criteria_scores"
-                                ]
-
-                                logger.info(f"Judge score: {result.judge_score:.2f}")
-
-                            all_results.append(result)
-
-                        except Exception as e:
-                            logger.error(
-                                f"Error processing with model {model.name}: {e}"
-                            )
-                            continue
+                logger.info("Start main processing.")
+                if ab_variants:
+                    # Режим A/B тестирования
+                    all_results = await _process_with_ab_test(
+                        item=item,
+                        prompts_to_process=prompts_to_process,
+                        adapters=adapters,
+                        ab_variants=ab_variants,
+                        task=task,
+                        judge_service=judge_service,
+                        rta_evaluator=rta_evaluator,
+                    )
+                else:
+                    # Обычный режим
+                    all_results = await _process_standard(
+                        item=item,
+                        prompts_to_process=prompts_to_process,
+                        models=models,
+                        adapters=adapters,
+                        task=task,
+                        judge_service=judge_service,
+                        rta_evaluator=rta_evaluator,
+                    )
 
             # Обновляем прогресс
             processed = min(i + batch_size, total_items)
@@ -243,28 +235,31 @@ async def _run_inference_async(celery_task, task_id: str):
                 )
                 aggregated_metrics[model_id] = model_metrics
 
-            # В цикле обработки результатов
-            if rta_evaluator:
-                rta_result = await rta_evaluator.evaluate_output(
-                    input_prompt=prompt_data["text"], model_output=response
-                )
-                result.refused = rta_result["refused"]
-                result.metadata["rta_reasoning"] = rta_result["reasoning"]
-                result.metadata["refusal_type"] = rta_result["refusal_type"]
-
         # После основного цикла - Include/Exclude
         if dataset.include_column or dataset.exclude_column:
             ie_metrics = IncludeExcludeEvaluator.evaluate_results(all_results)
             aggregated_metrics["include_exclude"] = ie_metrics
 
         # Если A/B тест
-        if task.task_type == TaskType.AB_TEST:
-            ab_results = ABTestAnalyzer.analyze_ab_test(
-                all_results,
-                task.config.evaluation_metrics,
-                task.config.ab_test.statistical_test,
-            )
-            await task_repo.update(task_id, {"ab_test_results": ab_results})
+        if task.config.ab_test.enabled and all_results:
+            logger.info(f"Running A/B analysis on {len(all_results)} results")
+
+            # Проверяем, что есть маркированные результаты
+            marked_results = [r for r in all_results if r.ab_variant is not None]
+            logger.info(f"Found {len(marked_results)} results with A/B variant markers")
+
+            if len(marked_results) >= 2:
+                ab_results = ABTestAnalyzer.analyze_ab_test(
+                    marked_results,
+                    task.config.evaluation_metrics,
+                    task.config.ab_test.statistical_test,
+                )
+                await task_repo.update(task_id, {"ab_test_results": ab_results})
+                logger.info(f"A/B test completed: {ab_results.get('winner', {})}")
+            else:
+                logger.warning(
+                    f"Not enough marked results for A/B test: {len(marked_results)}"
+                )
 
         # Сохраняем результаты
         await task_repo.set_results(task_id, all_results, aggregated_metrics)
@@ -289,3 +284,265 @@ async def _run_inference_async(celery_task, task_id: str):
         logger.error(f"Error in task {task_id}: {e}", exc_info=True)
         await task_repo.update_status(task_id, TaskStatus.FAILED, error=str(e))
         raise
+
+
+def _prepare_ab_test_variants(
+    ab_config: ABTestConfig, models: List[Any]
+) -> List[Dict[str, Any]]:
+    """Подготовка вариантов для A/B тестирования"""
+
+    variants = []
+
+    if ab_config.strategy == ABTestStrategy.PROMPT_VARIANTS:
+        # Разные промпты
+        for variant_name, prompt_template in ab_config.prompt_variants.items():
+            for model in models:
+                variants.append(
+                    {
+                        "name": f"{variant_name}_{model.id}",
+                        "model_id": model.id,
+                        "model_name": model.name,
+                        "prompt_template": prompt_template,
+                        "system_prompt": None,
+                        "temperature": None,
+                    }
+                )
+
+    elif ab_config.strategy == ABTestStrategy.MODEL_COMPARISON:
+        # Сравнение моделей на одинаковых данных
+        for model in models:
+            variants.append(
+                {
+                    "name": f"model_{model.id}",
+                    "model_id": model.id,
+                    "model_name": model.name,
+                    "prompt_template": None,
+                    "system_prompt": None,
+                    "temperature": None,
+                }
+            )
+
+    elif ab_config.strategy == ABTestStrategy.TEMPERATURE_TEST:
+        # Разные температуры
+        for temp in ab_config.temperatures:
+            for model in models:
+                variants.append(
+                    {
+                        "name": f"temp_{temp}_{model.id}",
+                        "model_id": model.id,
+                        "model_name": model.name,
+                        "prompt_template": None,
+                        "system_prompt": None,
+                        "temperature": temp,
+                    }
+                )
+
+    elif ab_config.strategy == ABTestStrategy.SYSTEM_PROMPT_TEST:
+        # Разные системные промпты
+        for variant_name, sys_prompt in ab_config.system_prompts.items():
+            for model in models:
+                variants.append(
+                    {
+                        "name": f"{variant_name}_{model.id}",
+                        "model_id": model.id,
+                        "model_name": model.name,
+                        "prompt_template": None,
+                        "system_prompt": sys_prompt,
+                        "temperature": None,
+                    }
+                )
+
+    elif ab_config.strategy == ABTestStrategy.PARAMETER_SWEEP:
+        # Перебор параметров
+        import itertools
+
+        param_combinations = list(
+            itertools.product(*ab_config.parameter_ranges.values())
+        )
+        param_names = list(ab_config.parameter_ranges.keys())
+
+        for combo in param_combinations:
+            params = dict(zip(param_names, combo))
+            for model in models:
+                variant_name = "_".join([f"{k}_{v}" for k, v in params.items()])
+                variants.append(
+                    {
+                        "name": f"{variant_name}_{model.id}",
+                        "model_id": model.id,
+                        "model_name": model.name,
+                        "prompt_template": None,
+                        "system_prompt": None,
+                        "parameters": params,
+                    }
+                )
+
+    return variants
+
+
+async def _process_with_ab_test(
+    item: Any,
+    prompts_to_process: List[Dict],
+    adapters: Dict[str, Model],
+    ab_variants: List[Dict[str, Any]],
+    task: Task,
+    judge_service: Optional[Any],
+    rta_evaluator: Optional[Any],
+) -> List[TaskResult]:
+    """Обработка элемента в режиме A/B теста"""
+
+    results = []
+
+    # Определяем, сколько семплов на вариант
+    samples_per_variant = task.config.ab_test.sample_size_per_variant or 1
+
+    for prompt_data in prompts_to_process:
+        for variant in ab_variants:
+            # Ограничиваем количество запросов на вариант
+            for sample_idx in range(samples_per_variant):
+                try:
+                    adapter = adapters[variant["model_id"]]
+
+                    # Формируем промпт для варианта
+                    final_prompt = prompt_data["text"]
+                    if variant.get("prompt_template"):
+                        final_prompt = variant["prompt_template"].format(
+                            input=prompt_data["text"]
+                        )
+
+                    # Параметры генерации
+                    gen_params = {}
+                    if variant.get("temperature") is not None:
+                        gen_params["temperature"] = variant["temperature"]
+                    if variant.get("system_prompt"):
+                        gen_params["system_prompt"] = variant["system_prompt"]
+                    if variant.get("parameters"):
+                        gen_params.update(variant["parameters"])
+
+                    start_time = time.time()
+
+                    # Генерация
+                    response = await adapter.generate(final_prompt, **gen_params)
+
+                    execution_time = time.time() - start_time
+
+                    # Создаем результат с маркировкой варианта
+                    result = TaskResult(
+                        input=final_prompt,
+                        output=response,
+                        model_id=variant["model_id"],
+                        target=item.target,
+                        execution_time=execution_time,
+                        metadata={
+                            **item.metadata,
+                            "model_name": variant["model_name"],
+                            "ab_variant_config": variant,
+                            "sample_index": sample_idx,
+                        },
+                        metrics=task.config.evaluation_metrics,
+                        original_input=prompt_data["original"],
+                        variation_type=prompt_data["variation_type"],
+                        ab_variant=variant["name"],
+                    )
+
+                    # Judge оценка
+                    if judge_service:
+                        judge_result = await judge_service.evaluate_output(
+                            input_prompt=final_prompt,
+                            model_output=response,
+                            task_description=task.name,
+                            reference_output=item.target,
+                            criteria=task.config.judge.criteria,
+                        )
+                        result.judge_score = judge_result["overall_score"]
+                        result.judge_reasoning = judge_result["reasoning"]
+                        result.metadata["judge_criteria_scores"] = judge_result[
+                            "criteria_scores"
+                        ]
+
+                    # RTA оценка
+                    if rta_evaluator:
+                        rta_result = await rta_evaluator.evaluate_output(
+                            input_prompt=final_prompt,
+                            model_output=response,
+                        )
+                        result.refused = rta_result["refused"]
+                        result.metadata["rta_reasoning"] = rta_result["reasoning"]
+
+                    results.append(result)
+
+                except Exception as e:
+                    logger.error(f"Error in A/B variant {variant['name']}: {e}")
+                    continue
+
+    return results
+
+
+async def _process_standard(
+    item: Any,
+    prompts_to_process: List[Dict],
+    models: List[Any],
+    adapters: Dict[str, Any],
+    task: Task,
+    judge_service: Optional[Any],
+    rta_evaluator: Optional[Any],
+) -> List[TaskResult]:
+    """Стандартная обработка без A/B теста"""
+
+    results = []
+
+    for prompt_data in prompts_to_process:
+        for model in models:
+            adapter = adapters[model.id]
+
+            try:
+                start_time = time.time()
+                response = await adapter.generate(prompt_data["text"])
+                execution_time = time.time() - start_time
+
+                result = TaskResult(
+                    input=prompt_data["text"],
+                    output=response,
+                    model_id=model.id,
+                    target=item.target,
+                    execution_time=execution_time,
+                    metrics=task.config.evaluation_metrics,
+                    metadata={
+                        **item.metadata,
+                        "model_name": model.name,
+                        "model_provider": model.provider,
+                    },
+                    original_input=prompt_data["original"],
+                    variation_type=prompt_data["variation_type"],
+                )
+
+                # Judge оценка
+                if judge_service:
+                    judge_result = await judge_service.evaluate_output(
+                        input_prompt=prompt_data["text"],
+                        model_output=response,
+                        task_description=task.name,
+                        reference_output=item.target,
+                        criteria=task.config.judge.criteria,
+                    )
+                    result.judge_score = judge_result["overall_score"]
+                    result.judge_reasoning = judge_result["reasoning"]
+                    result.metadata["judge_criteria_scores"] = judge_result[
+                        "criteria_scores"
+                    ]
+
+                # RTA оценка
+                if rta_evaluator:
+                    rta_result = await rta_evaluator.evaluate_output(
+                        input_prompt=prompt_data["text"],
+                        model_output=response,
+                    )
+                    result.refused = rta_result["refused"]
+                    result.metadata["rta_reasoning"] = rta_result["reasoning"]
+
+                results.append(result)
+
+            except Exception as e:
+                logger.error(f"Error processing with model {model.name}: {e}")
+                continue
+
+    return results
