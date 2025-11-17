@@ -6,7 +6,6 @@ from scipy.spatial.distance import jensenshannon
 
 from src.core.schemas.task import TaskResult
 from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
-from src.core.services.rta_evaluator import RTAEvaluator
 from src.utils.logger import logger
 
 
@@ -28,6 +27,14 @@ class EvaluationService:
                 aggregated[metric] = self._rouge_score(results)
             elif metric == "accuracy":
                 aggregated[metric] = self._accuracy(results)
+            elif metric == "cv":
+                aggregated[metric] = self._calculate_cv(results)
+            elif metric == "rta":
+                aggregated[metric] = self._rta_score(results)
+            elif metric == "iqr_cv":
+                aggregated[metric] = self._calculate_iqr_cv(results)
+            elif metric == "jsd":
+                aggregated[metric] = self._calculate_jsd_divergence(results)
             elif metric == "include_exclude":
                 # Интегрируем Include/Exclude оценщик
                 ie_results = IncludeExcludeEvaluator.evaluate_results(results)
@@ -38,87 +45,8 @@ class EvaluationService:
                 aggregated["exclude_violation_rate"] = ie_results[
                     "exclude_violation_rate"
                 ]
-            elif metric == "rta":
-                # Интегрируем RTA метрики
-                rta_results = RTAEvaluator.compute_rta_metrics(results)
-                aggregated["refusal_rate"] = rta_results["refusal_rate"]
-                aggregated["explicit_refusals"] = rta_results["explicit_refusals"]
-                aggregated["implicit_refusals"] = rta_results["implicit_refusals"]
 
         return aggregated
-
-    # def compute_dispersion_indices(
-    #     self,
-    #     results: List[TaskResult],
-    #     models: List[str],
-    #     variations: List[str],
-    #     metrics_to_compute: List[str],
-    #     centricity: str,
-    # ) -> Dict[str, float]:
-    #     if centricity == "var-centric":
-    #         scores_per_metric = defaultdict(
-    #             lambda: defaultdict(dict)
-    #         )  # ['Metric']['Variation']['Values']
-
-    #         for metric in metrics_to_compute:
-    #             for v in variations:
-    #                 values = []
-    #                 per_augment_results = [r for r in results if r.variation_type == v]
-
-    #                 for model in models:
-    #                     per_model_results = [
-    #                         r for r in per_augment_results if r.model_id == model.id
-    #                     ]
-
-    #                     values.append(self._accuracy(per_model_results))
-
-    #                 if metric == "cv":
-    #                     scores_per_metric[metric][v] = self._calculate_cv(values)
-
-    #                 elif metric == "iqr_cv":
-    #                     scores_per_metric[metric][v] = self._calculate_iqr_cv(values)
-
-    #                 elif metric == "jsd":
-    #                     scores_per_metric[metric][v] = self._calculate_jsd_divergence(
-    #                         values
-    #                     )
-
-    #         return scores_per_metric
-
-    #     elif centricity == "model-centric":
-    #         scores_per_metric = defaultdict(
-    #             lambda: defaultdict(dict)
-    #         )  # ['Metric']['Model']['Values']
-    #         logger.info(scores_per_metric)
-    #         for metric in metrics_to_compute:
-    #             for model in models:
-    #                 per_model_results = [r for r in results if r.model_id == model.id]
-
-    #                 for v in variations:
-    #                     values = []
-    #                     per_augment_results = [
-    #                         r for r in per_model_results if r.variation_type == v
-    #                     ]
-    #                     values.append(self._accuracy(per_augment_results))
-
-    #                 if metric == "cv_star":
-    #                     scores_per_metric[metric][model.name] = self._calculate_cv(
-    #                         values
-    #                     )
-
-    #                 elif metric == "iqr_cv":
-    #                     scores_per_metric[metric][model.name] = self._calculate_iqr_cv(
-    #                         values
-    #                     )
-
-    #                 elif metric == "jsd":
-    #                     scores_per_metric[metric][model.name] = (
-    #                         self._calculate_jsd_divergence(values)
-    #                     )
-
-    #                 logger.info(scores_per_metric)
-
-    #         return scores_per_metric
 
     def _calculate_cv(self, values: List[float]) -> float:
         """Calculates the coefficient of variation (CV = std/mean * 100%)."""
@@ -243,3 +171,14 @@ class EvaluationService:
         except ImportError:
             logger.warning("rouge not installed, ROUGE score unavailable")
             return 0.0
+
+    def _rta_score(self, results: List[TaskResult]) -> float:
+        """Accuracy для классификации"""
+        if not results:
+            return 0.0
+
+        refused = sum(int(r.refused) for r in results if r.refused)
+
+        total = sum(1 for r in results if r.refused)
+
+        return (refused / total * 100) if total > 0 else 0.0

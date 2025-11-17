@@ -42,8 +42,8 @@ class ABTestStrategy(str, Enum):
     PROMPT_VARIANTS = "prompt_variants"  # Сравнение разных промптов
     MODEL_COMPARISON = "model_comparison"  # Сравнение моделей на одних данных
     TEMPERATURE_TEST = "temperature_test"  # Тестирование температур
-    SYSTEM_PROMPT_TEST = "system_prompt_test"  # Тестирование системных промптов
-    PARAMETER_SWEEP = "parameter_sweep"  # Перебор параметров
+    # SYSTEM_PROMPT_TEST = "system_prompt_test"  # Тестирование системных промптов
+    # PARAMETER_SWEEP = "parameter_sweep"  # Перебор параметров
 
 
 class VariationConfig(BaseModel):
@@ -71,15 +71,15 @@ class RTAConfig(BaseModel):
     enabled: bool = False
     rta_judge_model_id: Optional[str] = None
     rta_prompt_template: Optional[str] = None  # Промпт для RTA судьи
-    refusal_keywords: List[str] = [
-        "I cannot",
-        "I can't",
-        "I'm not able to",
-        "I refuse",
-        "I apologize, but",
-        "I'm sorry, but",
-        "I cannot assist",
-    ]
+    # refusal_keywords: List[str] = [
+    #     "I cannot",
+    #     "I can't",
+    #     "I'm not able to",
+    #     "I refuse",
+    #     "I apologize, but",
+    #     "I'm sorry, but",
+    #     "I cannot assist",
+    # ]
 
 
 class ABTestConfig(BaseModel):
@@ -115,7 +115,7 @@ class TaskResult(BaseModel):
     output: str
     model_id: str  # ID модели, которая сгенерировала результат
     target: Optional[str] = None
-    metrics: Dict[str, str] = {}
+    metrics: List[str] = []  # Dict[str, str] = {}
     execution_time: float = 0.0
     metadata: Dict[str, Any] = {}
 
@@ -128,7 +128,7 @@ class TaskResult(BaseModel):
     judge_reasoning: Optional[str] = None
 
     # Для RTA
-    refused: Optional[bool] = None  # Отказалась ли модель отвечать
+    refused: Optional[str] = None  # Отказалась ли модель отвечать
 
     # Для Include/Exclude
     include_score: Optional[float] = None

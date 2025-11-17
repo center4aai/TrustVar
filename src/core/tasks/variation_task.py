@@ -323,9 +323,9 @@ class PromptVariationGenerator:
         #         "custom_instruction", "Rewrite this prompt in a different way:"
         #     )
 
-        logger.info(
-            f"{strategy}\n\n{template_params}\n\n{variation_prompt.format(**template_params)} \n\n ============"
-        )
+        # logger.info(
+        #     f"{strategy}\n\n{template_params}\n\n{variation_prompt.format(**template_params)} \n\n ============"
+        # )
 
         # Форматируем промпт
         variation_prompt = variation_prompt.format(**template_params)

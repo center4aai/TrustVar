@@ -211,7 +211,9 @@ def plot_model_centric_spider(
             if not np.isnan(cv_score):
                 # For spider chart, we need one value per variation
                 # So we'll show the same CV for all variations of this task
-                variation_scores = [cv_score] * len(variation_names)
+                variation_scores = [cv_score] * len(
+                    variation_names
+                )  # TODO: утончить, не очень понятно
             else:
                 continue
         else:
@@ -241,7 +243,7 @@ def plot_model_centric_spider(
             angularaxis=dict(tickfont=dict(size=11)),
         ),
         showlegend=True,
-        title=f"Task Stability (CV) for Model: {model_name}",
+        title=f"Task Stability Index for Model: {model_name}",
         height=500,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -276,7 +278,7 @@ def plot_augmentation_impact_chart(
 
         for variation, var_results in variations.items():
             # Calculate accuracy (всегда есть)
-            accuracy = eval_service._accuracy(var_results)
+            accuracy = eval_service._accuracy(var_results)  # TODO: не только accuracy
 
             if accuracy >= 0:  # Даже 0 - валидное значение
                 data_rows.append(
@@ -350,7 +352,6 @@ def plot_augmentation_impact_chart(
 def create_task_metrics_table(
     all_tasks_results: Dict[str, List[TaskResult]],
     selected_model_id: str,
-    models: List,
     selected_task_names: List[str],
 ) -> pd.DataFrame:
     """
@@ -408,3 +409,106 @@ def create_task_metrics_table(
         table_data.append(row)
 
     return pd.DataFrame(table_data)
+
+
+def plot_rta_spider_chart(
+    task: Task,
+    models: List,
+):
+    """
+    RTA spider chart:
+    - Axes (theta): Variations
+    - Colors: Different models (one line per model)
+    - Metric: RTA (Refuse-to-Answer) rate per variation
+
+    For each variation, we calculate the refusal rate for each model.
+    """
+    import plotly.graph_objects as go
+    import streamlit as st
+
+    st.markdown("#### 🕸️ RTA Rates Across Variations")
+    st.caption("Shows refusal rates for each model across different variations")
+
+    # Get all variations
+    variations = sorted(set(r.variation_type for r in task.results if r.variation_type))
+
+    # Add 'original' if there are results without variation
+    if any(not r.variation_type for r in task.results):
+        variations = ["original"] + variations
+
+    if len(variations) < 3:
+        st.info("Need at least 3 variations for spider chart")
+        return
+
+    # Create spider chart
+    fig = go.Figure()
+
+    # For each model, create a trace
+    for model in models:
+        if model.id not in task.model_ids:
+            continue
+
+        model_name = get_model_name(model.id, models)
+        variation_scores = []
+        variation_names = []
+
+        # For each variation, calculate RTA rate for this model
+        for variation in variations:
+            # Get results for this model and variation
+            if variation == "original":
+                var_results = [
+                    r
+                    for r in task.results
+                    if r.model_id == model.id and not r.variation_type
+                ]
+            else:
+                var_results = [
+                    r
+                    for r in task.results
+                    if r.model_id == model.id and r.variation_type == variation
+                ]
+
+            if var_results:
+                # Calculate refusal rate
+                refused_count = sum(1 for r in var_results if r.refused == "1")
+                refusal_rate = (refused_count / len(var_results)) * 100
+
+                variation_scores.append(refusal_rate)
+                variation_names.append(variation)
+
+        if not variation_scores:
+            continue
+
+        # Close the loop for spider chart
+        scores_closed = variation_scores + [variation_scores[0]]
+        variations_closed = variation_names + [variation_names[0]]
+
+        fig.add_trace(
+            go.Scatterpolar(
+                r=scores_closed,
+                theta=variations_closed,
+                fill="toself",
+                name=model_name,
+                hovertemplate="%{theta}<br>%{fullData.name}<br>"
+                + "Refusal Rate: %{r:.2f}%<extra></extra>",
+            )
+        )
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                tickfont=dict(size=10),
+                range=[0, 100],  # RTA rate is 0-100%
+            ),
+            angularaxis=dict(tickfont=dict(size=11)),
+        ),
+        showlegend=True,
+        title="Refusal Rates Across Variations by Model",
+        height=500,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white"),
+    )
+
+    st.plotly_chart(fig, config={"width": "stretch"})

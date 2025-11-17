@@ -12,7 +12,7 @@ class DatasetItem(BaseModel):
     """Элемент датасета"""
 
     prompt: str
-    target: Optional[str] = None
+    target: Optional[str] = "1"
 
     include_list: Optional[List[str]] = None
     exclude_list: Optional[List[str]] = None
@@ -42,8 +42,11 @@ class DatasetItem(BaseModel):
         item_data = {"prompt": row.get(prompt_column)}
 
         # Маппинг опциональных полей
-        if target_column and row.get(target_column) is not None:
-            item_data["target"] = row.get(target_column)
+        if target_column:
+            if "_default" in target_column:
+                item_data["target"] = target_column.split("_default")[0]
+            elif row.get(target_column) is not None:
+                item_data["target"] = row.get(target_column)
 
         if include_column and row.get(include_column) is not None:
             item_data["include_list"] = row.get(include_column)

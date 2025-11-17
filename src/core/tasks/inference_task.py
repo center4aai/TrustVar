@@ -108,7 +108,7 @@ async def _run_inference_async(celery_task, task_id: str):
             rta_evaluator = RTAEvaluator(
                 task.config.rta.rta_judge_model_id,
                 task.config.rta.rta_prompt_template,
-                task.config.rta.refusal_keywords,
+                # task.config.rta.refusal_keywords,
             )
             await rta_evaluator.initialize()
 
@@ -175,10 +175,10 @@ async def _run_inference_async(celery_task, task_id: str):
                     with open("prompts.json", "w", encoding="utf-8") as f:
                         json.dump(prompts_to_process, f, ensure_ascii=False, indent=4)
 
-                logger.info("Start main processing.")
+                logger.info(f"Start inference for item. {prompts_to_process}\n")
                 if ab_variants:
                     # Режим A/B тестирования
-                    all_results = await _process_with_ab_test(
+                    results = await _process_with_ab_test(
                         item=item,
                         prompts_to_process=prompts_to_process,
                         adapters=adapters,
@@ -189,7 +189,7 @@ async def _run_inference_async(celery_task, task_id: str):
                     )
                 else:
                     # Обычный режим
-                    all_results = await _process_standard(
+                    results = await _process_standard(
                         item=item,
                         prompts_to_process=prompts_to_process,
                         models=models,
@@ -198,6 +198,8 @@ async def _run_inference_async(celery_task, task_id: str):
                         judge_service=judge_service,
                         rta_evaluator=rta_evaluator,
                     )
+
+                all_results.extend(results)
 
             # Обновляем прогресс
             processed = min(i + batch_size, total_items)
@@ -262,6 +264,8 @@ async def _run_inference_async(celery_task, task_id: str):
                 )
 
         # Сохраняем результаты
+
+        logger.info(f"Agg metrics: {aggregated_metrics}")
         await task_repo.set_results(task_id, all_results, aggregated_metrics)
 
         # Завершаем задачу
@@ -337,44 +341,44 @@ def _prepare_ab_test_variants(
                     }
                 )
 
-    elif ab_config.strategy == ABTestStrategy.SYSTEM_PROMPT_TEST:
-        # Разные системные промпты
-        for variant_name, sys_prompt in ab_config.system_prompts.items():
-            for model in models:
-                variants.append(
-                    {
-                        "name": f"{variant_name}_{model.id}",
-                        "model_id": model.id,
-                        "model_name": model.name,
-                        "prompt_template": None,
-                        "system_prompt": sys_prompt,
-                        "temperature": None,
-                    }
-                )
+    # elif ab_config.strategy == ABTestStrategy.SYSTEM_PROMPT_TEST:
+    #     # Разные системные промпты
+    #     for variant_name, sys_prompt in ab_config.system_prompts.items():
+    #         for model in models:
+    #             variants.append(
+    #                 {
+    #                     "name": f"{variant_name}_{model.id}",
+    #                     "model_id": model.id,
+    #                     "model_name": model.name,
+    #                     "prompt_template": None,
+    #                     "system_prompt": sys_prompt,
+    #                     "temperature": None,
+    #                 }
+    #             )
 
-    elif ab_config.strategy == ABTestStrategy.PARAMETER_SWEEP:
-        # Перебор параметров
-        import itertools
+    # elif ab_config.strategy == ABTestStrategy.PARAMETER_SWEEP:
+    #     # Перебор параметров
+    #     import itertools
 
-        param_combinations = list(
-            itertools.product(*ab_config.parameter_ranges.values())
-        )
-        param_names = list(ab_config.parameter_ranges.keys())
+    #     param_combinations = list(
+    #         itertools.product(*ab_config.parameter_ranges.values())
+    #     )
+    #     param_names = list(ab_config.parameter_ranges.keys())
 
-        for combo in param_combinations:
-            params = dict(zip(param_names, combo))
-            for model in models:
-                variant_name = "_".join([f"{k}_{v}" for k, v in params.items()])
-                variants.append(
-                    {
-                        "name": f"{variant_name}_{model.id}",
-                        "model_id": model.id,
-                        "model_name": model.name,
-                        "prompt_template": None,
-                        "system_prompt": None,
-                        "parameters": params,
-                    }
-                )
+    #     for combo in param_combinations:
+    #         params = dict(zip(param_names, combo))
+    #         for model in models:
+    #             variant_name = "_".join([f"{k}_{v}" for k, v in params.items()])
+    #             variants.append(
+    #                 {
+    #                     "name": f"{variant_name}_{model.id}",
+    #                     "model_id": model.id,
+    #                     "model_name": model.name,
+    #                     "prompt_template": None,
+    #                     "system_prompt": None,
+    #                     "parameters": params,
+    #                 }
+    #             )
 
     return variants
 
@@ -538,7 +542,10 @@ async def _process_standard(
                     )
                     result.refused = rta_result["refused"]
                     result.metadata["rta_reasoning"] = rta_result["reasoning"]
+                    result.metadata["rta_confidence"] = rta_result["confidence"]
+                    result.metadata["raw_response"] = rta_result["raw_response"]
 
+                logger.info(f"Success inference: {result}")
                 results.append(result)
 
             except Exception as e:

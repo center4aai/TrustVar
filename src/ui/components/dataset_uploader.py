@@ -299,6 +299,11 @@ class DatasetUploader:
                         help="Column containing expected answers/outputs",
                     )
 
+                    target_column_default_value = st.text_input(
+                        "*Default Target value*",
+                        placeholder="e.g., '1' or '5' or any other text",
+                    )
+
                 with col2:
                     include_column = st.selectbox(
                         "➕ Include List Column (Optional)",
@@ -358,9 +363,8 @@ class DatasetUploader:
                                 file=uploaded_file,
                                 file_format=detected_format,
                                 prompt_column=prompt_column,
-                                target_column=None
-                                if target_column == "None"
-                                else target_column,
+                                target_column=target_column
+                                or str(target_column_default_value) + "_default",
                                 include_column=None
                                 if include_column == "None"
                                 else include_column,

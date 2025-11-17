@@ -79,25 +79,30 @@ class DatasetService:
 
         return len(items)
 
-    def _parse_jsonl(self, file: BinaryIO, dataset: Dataset) -> List[dict]:
+    def _parse_jsonl(
+        self,
+        file: BinaryIO,
+        prompt_column: str,
+        target_column: str,
+        include_column: str,
+        exclude_column: str,
+    ) -> List[dict]:
         items = []
         content = file.read().decode("utf-8")
         for line in content.strip().split("\n"):
             if line:
                 raw = json.loads(line)
                 item = {
-                    "prompt": raw.get(dataset.prompt_column, ""),
-                    "target": raw.get(dataset.target_column)
-                    if dataset.target_column
-                    else None,
+                    "prompt": raw.get(prompt_column, ""),
+                    "target": raw.get(target_column) if target_column else None,
                     "metadata": {},
                 }
 
-                if dataset.include_column and dataset.include_column in raw:
-                    item["metadata"]["include_list"] = raw[dataset.include_column]
+                if include_column and include_column in raw:
+                    item["metadata"]["include_list"] = raw[include_column]
 
-                if dataset.exclude_column and dataset.exclude_column in raw:
-                    item["metadata"]["exclude_list"] = raw[dataset.exclude_column]
+                if exclude_column and exclude_column in raw:
+                    item["metadata"]["exclude_list"] = raw[exclude_column]
 
                 items.append(item)
         return items

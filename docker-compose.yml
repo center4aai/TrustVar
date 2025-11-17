@@ -51,6 +51,13 @@ services:
       - ollama_models:/root/.ollama/models
     networks:
       - llm_net
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           device_ids: [ '1' ]
+    #           capabilities: [ gpu ]
 
   api:
     # build:
@@ -108,7 +115,7 @@ services:
     #   dockerfile: Dockerfile.celery
     image: trustvar-celery-worker
     container_name: celery_worker
-    command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=info
+    command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=error
     environment:
       - MONGODB_URL=mongodb://root:example@mongodb:27017
       - REDIS_URL=redis://redis:6379/0

@@ -8,11 +8,11 @@ import streamlit as st
 from src.core.schemas.task import TaskStatus
 from src.ui.api_client import get_api_client
 from src.ui.components.spider_chart_variations import (
-    # compute_dispersion_indices,
     create_task_metrics_table,
     get_model_name,
     plot_augmentation_impact_chart,
     plot_model_centric_spider,
+    plot_rta_spider_chart,
     plot_task_centric_spider,
 )
 
@@ -431,10 +431,6 @@ def _render_model_centric_tab(task, models, api_client):
         st.markdown("### 🕸️ Model Performance Across Tasks")
         st.caption("Lower values indicate more stable performance")
 
-        # metric_name = st.selectbox(
-
-        # )
-
         plot_model_centric_spider(
             all_tasks,
             selected_model_id,
@@ -448,14 +444,12 @@ def _render_model_centric_tab(task, models, api_client):
         task_metrics_df = create_task_metrics_table(
             all_tasks_results,
             selected_model_id,
-            models,
             selected_task_names,
         )
 
         if not task_metrics_df.empty:
             st.dataframe(task_metrics_df, use_container_width=True)
 
-            # Ranking by stability
             # Ranking by stability
             st.markdown("### 🏆 Task Stability Ranking")
 
@@ -618,14 +612,65 @@ def _render_model_centric_tab_ranking_fix(task_metrics_df):
         st.write(f"**{task_name}**: {ranking_metric} = {metric_value:.2f} — {badge}")
 
 
+# def _render_rta_tab(task, models):
+#     """Вкладка RTA анализа"""
+
+#     if not task.config.rta.enabled:
+#         st.info("RTA (Refuse-to-Answer) is not enabled for this task")
+#         return
+
+#     st.markdown("### 🛑 Refuse-to-Answer Analysis")
+
+#     for model_id in task.model_ids:
+#         model_name = get_model_name(model_id, models)
+#         model_results = [r for r in task.results if r.model_id == model_id]
+
+#         with st.expander(f"📦 {model_name}", expanded=True):
+#             refused_count = sum(1 for r in model_results if r.refused)
+#             total = len(model_results)
+#             refusal_rate = (refused_count / total * 100) if total > 0 else 0
+
+#             col1, col2, col3 = st.columns(3)
+#             col1.metric("Total Responses", total)
+#             col2.metric("Refusals", refused_count)
+#             col3.metric("Refusal Rate", f"{refusal_rate:.1f}%")
+
+#             # Примеры отказов
+#             if refused_count > 0:
+#                 st.markdown("**Refusal Examples:**")
+#                 refused_examples = [r for r in model_results if r.refused][:5]
+
+#                 for i, result in enumerate(refused_examples, 1):
+#                     with st.expander(f"Example {i}: {result.input[:50]}..."):
+#                         st.markdown("**Input:**")
+#                         st.code(result.input, language=None)
+#                         st.markdown("**Output:**")
+#                         st.code(result.output, language=None)
+#                         if "rta_reasoning" in result.metadata:
+#                             st.markdown("**RTA Reasoning:**")
+#                             st.info(result.metadata["rta_reasoning"])
+
+
 def _render_rta_tab(task, models):
-    """Вкладка RTA анализа"""
+    """Вкладка RTA анализа с spider chart"""
 
     if not task.config.rta.enabled:
         st.info("RTA (Refuse-to-Answer) is not enabled for this task")
         return
 
     st.markdown("### 🛑 Refuse-to-Answer Analysis")
+
+    # Spider chart в начале (если есть вариации)
+    if task.config.variations.enabled:
+        variations = set(r.variation_type for r in task.results if r.variation_type)
+        if len(variations) >= 3 or (
+            len(variations) >= 2 and any(not r.variation_type for r in task.results)
+        ):
+            plot_rta_spider_chart(task, models)
+            st.divider()
+
+    # Общая статистика по моделям
+    st.markdown("### 📊 Model-wise Refusal Statistics")
 
     for model_id in task.model_ids:
         model_name = get_model_name(model_id, models)
@@ -641,13 +686,63 @@ def _render_rta_tab(task, models):
             col2.metric("Refusals", refused_count)
             col3.metric("Refusal Rate", f"{refusal_rate:.1f}%")
 
+            # Если есть вариации, показываем разбивку по вариациям
+            if task.config.variations.enabled:
+                st.markdown("**Refusal Rate by Variation:**")
+
+                variation_stats = {}
+
+                # Original (без вариации)
+                original_results = [r for r in model_results if not r.variation_type]
+                if original_results:
+                    orig_refused = sum(1 for r in original_results if r.refused)
+                    orig_rate = (orig_refused / len(original_results)) * 100
+                    variation_stats["Original"] = {
+                        "total": len(original_results),
+                        "refused": orig_refused,
+                        "rate": orig_rate,
+                    }
+
+                # Вариации
+                variations = set(
+                    r.variation_type for r in model_results if r.variation_type
+                )
+                for variation in sorted(variations):
+                    var_results = [
+                        r for r in model_results if r.variation_type == variation
+                    ]
+                    var_refused = sum(1 for r in var_results if r.refused)
+                    var_rate = (var_refused / len(var_results)) * 100
+                    variation_stats[variation] = {
+                        "total": len(var_results),
+                        "refused": var_refused,
+                        "rate": var_rate,
+                    }
+
+                # Показываем в колонках
+                if variation_stats:
+                    var_cols = st.columns(min(len(variation_stats), 4))
+                    for idx, (var_name, stats) in enumerate(variation_stats.items()):
+                        with var_cols[idx % 4]:
+                            st.metric(
+                                var_name.replace("_", " ").title(),
+                                f"{stats['rate']:.1f}%",
+                                f"{stats['refused']}/{stats['total']}",
+                            )
+
             # Примеры отказов
             if refused_count > 0:
                 st.markdown("**Refusal Examples:**")
                 refused_examples = [r for r in model_results if r.refused][:5]
 
                 for i, result in enumerate(refused_examples, 1):
-                    with st.expander(f"Example {i}: {result.input[:50]}..."):
+                    variation_label = ""
+                    if result.variation_type:
+                        variation_label = f" [{result.variation_type}]"
+
+                    with st.expander(
+                        f"Example {i}{variation_label}: {result.input[:50]}..."
+                    ):
                         st.markdown("**Input:**")
                         st.code(result.input, language=None)
                         st.markdown("**Output:**")
@@ -795,7 +890,7 @@ def _render_detailed_results_tab(task, models):
         if result.judge_score:
             title_parts.append(f"⭐ {result.judge_score:.1f}/10")
 
-        if result.refused:
+        if result.refused == "1":
             title_parts.append("🛑 REFUSED")
 
         title = " — ".join(title_parts)
@@ -824,7 +919,7 @@ def _render_detailed_results_tab(task, models):
                 if result.include_score is not None:
                     st.markdown(f"**📊 Include Score:** {result.include_score:.2f}")
 
-                if result.refused:
+                if result.refused == "1":
                     st.warning("🛑 Model refused to answer")
 
 

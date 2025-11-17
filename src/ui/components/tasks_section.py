@@ -280,15 +280,6 @@ def render_tasks_section():
             else:
                 rta_model_id = None
                 st.warning("No models available for RTA")
-            rta_keywords = st.text_area(
-                "Refusal Keywords (one per line)",
-                value="I cannot\nI can't\nI'm not able to\nI refuse\nI apologize, but\nI'm sorry, but",
-                key="rta_keywords_area",
-                help="Keywords that indicate refusal",
-            )
-            rta_keywords_list = [
-                k.strip() for k in rta_keywords.split("\n") if k.strip()
-            ]
         with col2:
             use_custom_rta_prompt = st.checkbox(
                 "Use Custom RTA Prompt",
@@ -306,7 +297,7 @@ def render_tasks_section():
                 rta_custom_prompt = None
     else:
         rta_model_id = None
-        rta_keywords_list = []
+        # rta_keywords_list = []
         rta_custom_prompt = None
 
     st.divider()
@@ -383,29 +374,29 @@ def render_tasks_section():
             ]
             prompt_variants = None
             system_prompts = None
-        elif ab_strategy == ABTestStrategy.SYSTEM_PROMPT_TEST.value:
-            st.markdown("**System Prompt Variants**")
-            n_system_prompts = st.number_input(
-                "Number of System Prompts",
-                min_value=2,
-                max_value=4,
-                value=2,
-                key="n_system_prompts_input",
-            )
-            system_prompts = {}
-            for i in range(n_system_prompts):
-                sp_name = st.text_input(
-                    f"System Prompt {i + 1} Name",
-                    value=f"system_{i + 1}",
-                    key=f"sp_name_{i}_input",
-                )
-                sp_text = st.text_area(
-                    f"System Prompt {i + 1}", key=f"sp_text_{i}_area"
-                )
-                if sp_text:
-                    system_prompts[sp_name] = sp_text
-            temperatures = None
-            prompt_variants = None
+        # elif ab_strategy == ABTestStrategy.SYSTEM_PROMPT_TEST.value:
+        #     st.markdown("**System Prompt Variants**")
+        #     n_system_prompts = st.number_input(
+        #         "Number of System Prompts",
+        #         min_value=2,
+        #         max_value=4,
+        #         value=2,
+        #         key="n_system_prompts_input",
+        #     )
+        #     system_prompts = {}
+        #     for i in range(n_system_prompts):
+        #         sp_name = st.text_input(
+        #             f"System Prompt {i + 1} Name",
+        #             value=f"system_{i + 1}",
+        #             key=f"sp_name_{i}_input",
+        #         )
+        #         sp_text = st.text_area(
+        #             f"System Prompt {i + 1}", key=f"sp_text_{i}_area"
+        #         )
+        #         if sp_text:
+        #             system_prompts[sp_name] = sp_text
+        #     temperatures = None
+        #     prompt_variants = None
         else:
             temperatures = None
             prompt_variants = None
@@ -428,7 +419,7 @@ def render_tasks_section():
             submitted = st.form_submit_button(
                 "🚀 Launch Task",
                 type="primary",
-                use_container_width=True,  # width="stretch" - устарело
+                use_container_width=True,
             )
 
         if submitted:
@@ -465,7 +456,7 @@ def render_tasks_section():
                             enabled=enable_rta,
                             rta_judge_model_id=rta_model_id,
                             rta_prompt_template=rta_custom_prompt,
-                            refusal_keywords=rta_keywords_list,
+                            # refusal_keywords=rta_keywords_list,
                         ),
                         # A/B Test
                         ab_test=ABTestConfig(
@@ -477,9 +468,7 @@ def render_tasks_section():
                             temperatures=temperatures
                             if ab_strategy == ABTestStrategy.TEMPERATURE_TEST.value
                             else None,
-                            system_prompts=system_prompts
-                            if ab_strategy == ABTestStrategy.SYSTEM_PROMPT_TEST.value
-                            else None,
+                            system_prompts=system_prompts,
                             sample_size_per_variant=sample_size_per_variant
                             if sample_size_per_variant > 0
                             else None,
