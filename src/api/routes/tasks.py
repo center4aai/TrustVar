@@ -89,3 +89,58 @@ async def compare_models(
     if not comparison:
         raise HTTPException(status_code=404, detail="Task not found or not completed")
     return comparison
+
+
+@router.post("/{task_id}/pause")
+async def pause_task(
+    task_id: str,
+    service: TaskService = Depends(get_task_service),
+):
+    """Приостановить выполнение задачи"""
+    paused = await service.pause_task(task_id)
+    if not paused:
+        raise HTTPException(
+            status_code=404, detail="Task not found or could not be paused"
+        )
+    return {"message": "Task paused successfully"}
+
+
+@router.post("/{task_id}/resume")
+async def resume_task(
+    task_id: str,
+    service: TaskService = Depends(get_task_service),
+):
+    """Возобновить выполнение задачи"""
+    resumed = await service.resume_task(task_id)
+    if not resumed:
+        raise HTTPException(
+            status_code=404, detail="Task not found or could not be resumed"
+        )
+    return {"message": "Task resumed successfully"}
+
+
+@router.post("/{task_id}/recover")
+async def recover_task(
+    task_id: str,
+    service: TaskService = Depends(get_task_service),
+):
+    """
+    Восстановить состояние задачи вручную
+
+    Полезно если задача зависла или данные повреждены
+    """
+    from src.core.tasks.inference_task import _recover_task_state
+    from src.database.repositories.task_repository import TaskRepository
+
+    task_repo = TaskRepository()
+
+    try:
+        recovery_info = await _recover_task_state(task_id, task_repo)
+
+        return {
+            "status": "success",
+            "recovery_info": recovery_info,
+            "message": "Task state recovered successfully",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Recovery failed: {str(e)}")

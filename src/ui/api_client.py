@@ -208,6 +208,21 @@ class ApiClient:
         response = requests.post(f"{self.base_url}/api/v1/tasks/{task_id}/cancel")
         self._handle_response(response)
 
+    def pause_task(self, task_id: str):
+        """Приостановить задачу"""
+        response = requests.post(f"{self.base_url}/api/v1/tasks/{task_id}/pause")
+        self._handle_response(response)
+
+    def resume_task(self, task_id: str):
+        """Возобновить задачу"""
+        response = requests.post(f"{self.base_url}/api/v1/tasks/{task_id}/resume")
+        self._handle_response(response)
+
+    def recover_task(self, task_id: str):
+        """Восстановить состояние задачи"""
+        response = requests.post(f"{self.base_url}/api/v1/tasks/{task_id}/recover")
+        return self._handle_response(response)
+
 
 # Функция для получения синглтона клиента
 @st.cache_resource

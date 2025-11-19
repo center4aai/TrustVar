@@ -36,7 +36,7 @@ class Model(BaseModel):
     description: Optional[str] = None
     config: ModelConfig = Field(default_factory=ModelConfig)
     status: ModelStatus = ModelStatus.REGISTERED
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime.now)
     metadata: Dict[str, Any] = {}
 
     class Config:

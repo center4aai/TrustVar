@@ -4,3 +4,4 @@ legacy/*
 *.pyc
 .env
 *.txt
+migrate_tasks.py

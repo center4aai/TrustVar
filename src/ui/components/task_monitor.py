@@ -195,8 +195,6 @@ class TaskMonitor:
                                 st.metric(
                                     metric.replace("_", " ").title(), f"{value:.2f}"
                                 )
-                        # for metric, value in list(task.aggregated_metrics.items())[:2]:
-                        #     st.metric(metric.replace("_", " ").title(), f"{value:.1f}")
 
                 with col5:
                     # Кнопки действий
@@ -270,7 +268,7 @@ class TaskMonitor:
         on_view_click: Optional[Callable] = None,
         on_cancel_click: Optional[Callable] = None,
     ):
-        """Отрисовка кнопок действий"""
+        """Отрисовка кнопок действий с правильной навигацией"""
 
         # Кнопка просмотра результатов
         if task.status == TaskStatus.COMPLETED:
@@ -278,15 +276,28 @@ class TaskMonitor:
                 if on_view_click:
                     on_view_click(task)
                 else:
+                    # ИСПРАВЛЕНИЕ: Правильно устанавливаем ID задачи
                     st.session_state.selected_task_id = task.id
                     st.session_state.selected_section = "results"
                     st.rerun()
 
-        # Кнопка отмены
-        if task.status in [TaskStatus.PENDING, TaskStatus.RUNNING]:
+        # Кнопки для running задач
+        if task.status == TaskStatus.RUNNING:
+            # Кнопка паузы
+            if st.button(
+                "⏸️ Pause", key=f"pause_{task.id}", width="stretch", help="Pause task"
+            ):
+                try:
+                    self.api_client.pause_task(task.id)
+                    st.success("Task paused!")
+                    time.sleep(1)
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+
+            # Кнопка отмены
             if st.button("❌ Cancel", key=f"cancel_{task.id}", width="stretch"):
                 confirm_key = f"confirm_cancel_{task.id}"
-
                 if st.session_state.get(confirm_key):
                     if on_cancel_click:
                         on_cancel_click(task)
@@ -296,7 +307,47 @@ class TaskMonitor:
                         st.rerun()
                 else:
                     st.session_state[confirm_key] = True
-                    st.warning("Click again to confirm")
+                    st.warning("Click again")
+
+        # Кнопки для паузированных задач
+        if task.status == TaskStatus.PAUSED:
+            # Кнопка возобновления
+            if st.button(
+                "▶️ Resume", key=f"resume_{task.id}", width="stretch", help="Resume task"
+            ):
+                try:
+                    self.api_client.resume_task(task.id)
+                    st.success("Task resumed!")
+                    time.sleep(1)
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+
+            # Кнопка отмены
+            if st.button("❌ Cancel", key=f"cancel_paused_{task.id}", width="stretch"):
+                confirm_key = f"confirm_cancel_paused_{task.id}"
+                if st.session_state.get(confirm_key):
+                    self.api_client.cancel_task(task.id)
+                    st.success("Cancelled!")
+                    st.rerun()
+                else:
+                    st.session_state[confirm_key] = True
+                    st.warning("Click again")
+
+        # Кнопка отмены для pending задач
+        if task.status == TaskStatus.PENDING:
+            if st.button("❌ Cancel", key=f"cancel_{task.id}", width="stretch"):
+                confirm_key = f"confirm_cancel_{task.id}"
+                if st.session_state.get(confirm_key):
+                    if on_cancel_click:
+                        on_cancel_click(task)
+                    else:
+                        self.api_client.cancel_task(task.id)
+                        st.success("Cancelled!")
+                        st.rerun()
+                else:
+                    st.session_state[confirm_key] = True
+                    st.warning("Click again")
 
         # Кнопка повтора для failed задач
         if task.status == TaskStatus.FAILED:
@@ -306,26 +357,23 @@ class TaskMonitor:
                         task_data=dict(
                             name=f"{task.name} (Retry)",
                             dataset_id=task.dataset_id,
-                            model_id=task.model_id,
+                            model_ids=task.model_ids,
                             task_type=task.task_type,
-                            batch_size=task.batch_size,
-                            max_samples=task.max_samples,
-                            evaluate=task.evaluate,
-                            evaluation_metrics=task.evaluation_metrics,
+                            config=task.config.model_dump(),
                         )
                     )
-
                     st.success("Task retried!")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error retrying task: {e}")
 
     def _get_status_badge(self, status: str) -> str:
-        """Генерация HTML для бейджа статуса"""
+        """Генерация HTML для бейджа статуса с поддержкой PAUSED"""
 
         badges = {
             "pending": '<span class="status-badge status-pending">🟡 PENDING</span>',
             "running": '<span class="status-badge status-running">🔵 RUNNING</span>',
+            "paused": '<span class="status-badge status-paused">🟠 PAUSED</span>',  # НОВЫЙ
             "completed": '<span class="status-badge status-completed">🟢 COMPLETED</span>',
             "failed": '<span class="status-badge status-failed">🔴 FAILED</span>',
             "cancelled": '<span class="status-badge">⚫ CANCELLED</span>',
@@ -341,7 +389,7 @@ class TaskMonitor:
                 duration = (task.completed_at - task.started_at).total_seconds()
                 return f"⏱️ Completed in {duration:.0f}s"
             else:
-                duration = (datetime.utcnow() - task.started_at).total_seconds()
+                duration = (datetime.now() - task.started_at).total_seconds()
                 return f"⏱️ Running {duration:.0f}s"
 
         return None

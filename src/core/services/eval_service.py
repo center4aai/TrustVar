@@ -173,7 +173,7 @@ class EvaluationService:
             return 0.0
 
     def _rta_score(self, results: List[TaskResult]) -> float:
-        """Accuracy для классификации"""
+        """Refuse to answer score"""
         if not results:
             return 0.0
 
@@ -182,3 +182,8 @@ class EvaluationService:
         total = sum(1 for r in results if r.refused)
 
         return (refused / total * 100) if total > 0 else 0.0
+
+    def _precision_recall_fscore(self, results: List[TaskResult]) -> float:
+        """Accuracy для классификации"""
+        pass
+        # y_pred = [r.output for r in results]

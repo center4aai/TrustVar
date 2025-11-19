@@ -309,6 +309,48 @@ def apply_custom_styles():
     .animated {
         animation: fadeIn 0.5s ease-out;
     }
+    /* Компактный вид датасетов */
+    .compact-dataset-row {
+        padding: 8px 0;
+        border-bottom: 1px solid #333;
+    }
+    
+    .compact-dataset-row:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+    
+    /* Компактные метрики */
+    div[data-testid="metric-container"] {
+        padding: 0.5rem;
+    }
+    
+    /* Статус-бейджи для паузированных задач */
+    .status-badge.status-paused {
+        background-color: #FFA500;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    
+    /* Стили для мониторинга активных задач */
+    .task-execution-box {
+        background-color: rgba(0, 100, 255, 0.1);
+        border-left: 3px solid #0064FF;
+        padding: 8px;
+        margin: 4px 0;
+        border-radius: 4px;
+    }
+    
+    .recent-execution-box {
+        background-color: rgba(0, 255, 100, 0.05);
+        border-left: 3px solid #00FF64;
+        padding: 6px;
+        margin: 4px 0;
+        border-radius: 4px;
+        font-size: 0.85rem;
+    }
 </style>
 """,
         unsafe_allow_html=True,

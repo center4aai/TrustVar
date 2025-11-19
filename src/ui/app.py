@@ -25,16 +25,19 @@ st.set_page_config(
 # Применяем кастомные стили
 apply_custom_styles()
 
-# Инициализация состояния
+# ВАЖНО: Инициализация session state с защитой от дублирования
 if "selected_section" not in st.session_state:
     st.session_state.selected_section = None
+
+if "previous_section" not in st.session_state:
+    st.session_state.previous_section = None
 
 # Заголовок приложения
 st.markdown(
     """
 <div class="main-header">
     <h1 class="main-title">TrustVar</h1>
-    <p class="main-subtitle">A Dynamic Framework for Trustworthiness Evaluation and Task Variation Analysis in LLMs</p>
+    <p class="main-subtitle">A Dynamic Framework for Trustworthiness Evaluation</p>
 </div>
 """,
     unsafe_allow_html=True,
@@ -43,46 +46,94 @@ st.markdown(
 # Карточки-кнопки для навигации
 features = [
     {
-        "icon": "\U0001f6e1",
+        "icon": "🛡",
         "title": "GENERAL",
-        "description": "Guide information and task monitoring",
+        "description": "Guide and monitoring",
         "key": "general",
     },
     {
-        "icon": "\U0001f4c2",
+        "icon": "📂",
         "title": "DATASETS",
-        "description": "Upload and manage test datasets",
+        "description": "Upload and manage",
         "key": "datasets",
     },
     {
-        "icon": "\U0001f9e9",
+        "icon": "🧩",
         "title": "MODELS",
-        "description": "Register and configure LLM models",
+        "description": "Register and configure",
         "key": "models",
     },
     {
-        "icon": "\U0001f680",
+        "icon": "🚀",
         "title": "TASKS",
-        "description": "Create and monitor tasks for testing",
+        "description": "Create and monitor",
         "key": "tasks",
     },
     {
-        "icon": "\U0001f3af",
+        "icon": "🎯",
         "title": "RESULTS",
-        "description": "Analyze performance and metrics",
+        "description": "Analyze performance",
         "key": "results",
     },
 ]
 
-# Создаем 4 колонки для карточек
+# # Карточки-кнопки для навигации
+# features = [
+#     {
+#         "icon": "\U0001f6e1",
+#         "title": "GENERAL",
+#         "description": "Guide information and task monitoring",
+#         "key": "general",
+#     },
+#     {
+#         "icon": "\U0001f4c2",
+#         "title": "DATASETS",
+#         "description": "Upload and manage test datasets",
+#         "key": "datasets",
+#     },
+#     {
+#         "icon": "\U0001f9e9",
+#         "title": "MODELS",
+#         "description": "Register and configure LLM models",
+#         "key": "models",
+#     },
+#     {
+#         "icon": "\U0001f680",
+#         "title": "TASKS",
+#         "description": "Create and monitor tasks for testing",
+#         "key": "tasks",
+#     },
+#     {
+#         "icon": "\U0001f3af",
+#         "title": "RESULTS",
+#         "description": "Analyze performance and metrics",
+#         "key": "results",
+#     },
+# ]
+
 cols = st.columns(5)
 for idx, (col, feature) in enumerate(zip(cols, features)):
     with col:
         button_text = f"{feature['icon']}\n\n ### {feature['title']}  \n\n {feature['description']}"
 
-        if st.button(button_text, key=f"nav_{feature['key']}", width="stretch"):
+        if st.button(
+            button_text, key=f"nav_{feature['key']}", use_container_width=True
+        ):
+            # Сохраняем предыдущую секцию
+            st.session_state.previous_section = st.session_state.selected_section
             st.session_state.selected_section = feature["key"]
-            # st.rerun()
+
+            # Очищаем временные данные при смене секции
+            keys_to_clear = [
+                "current_general_tab",
+                "selected_task_id_for_results",
+                "dashboard_placeholder",
+            ]
+            for key in keys_to_clear:
+                if key in st.session_state:
+                    del st.session_state[key]
+
+            st.rerun()
 
 # Отображаем выбранную секцию
 if st.session_state.selected_section is not None:
@@ -92,28 +143,42 @@ if st.session_state.selected_section is not None:
     col1, col2, col3 = st.columns([1, 10, 1])
     with col3:
         if st.button("✕ Close", key="close_section", help="Close current section"):
+            st.session_state.previous_section = st.session_state.selected_section
             st.session_state.selected_section = None
+
+            # Очищаем все временные данные
+            keys_to_clear = [
+                k for k in st.session_state.keys() if k.startswith("temp_")
+            ]
+            for key in keys_to_clear:
+                del st.session_state[key]
+
             st.rerun()
 
-    # Отображаем соответствующий контент
-    if st.session_state.selected_section == "datasets":
-        render_datasets_section()
-    elif st.session_state.selected_section == "models":
-        render_models_section()
-    elif st.session_state.selected_section == "general":
-        render_general_section()
-    elif st.session_state.selected_section == "tasks":
-        render_tasks_section()
-    elif st.session_state.selected_section == "results":
-        render_results_section()
+    # КРИТИЧНО: Используем container для каждой секции
+    section_container = st.container()
 
+    with section_container:
+        # Отображаем соответствующий контент
+        current_section = st.session_state.selected_section
+
+        if current_section == "datasets":
+            render_datasets_section()
+        elif current_section == "models":
+            render_models_section()
+        elif current_section == "general":
+            render_general_section()
+        elif current_section == "tasks":
+            render_tasks_section()
+        elif current_section == "results":
+            render_results_section()
 
 else:
-    # Показываем приветственную информацию, когда ничего не выбрано
+    # Показываем приветственную информацию
     st.markdown("<hr>", unsafe_allow_html=True)
 
     st.markdown(
-        '<h3 style="text-align: center;">\U0001f9e0 Quick Start Guide</h3><br>',
+        '<h3 style="text-align: center;">🧠 Quick Start Guide</h3><br>',
         unsafe_allow_html=True,
     )
 
@@ -162,3 +227,21 @@ else:
         """,
             unsafe_allow_html=True,
         )
+
+
+def cleanup_session_state():
+    """Очистка временных данных из session state"""
+    temp_keys = [
+        "current_general_tab",
+        "dashboard_placeholder",
+        "confirm_cancel_dash_",
+        "confirm_cancel_paused_",
+    ]
+
+    for key in list(st.session_state.keys()):
+        if any(temp_key in key for temp_key in temp_keys):
+            del st.session_state[key]
+
+
+# Вызываем при каждом рендере
+cleanup_session_state()

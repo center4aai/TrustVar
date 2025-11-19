@@ -93,8 +93,8 @@ class Dataset(BaseModel):
     include_column: Optional[str] = None  # Имя столбца с include_list
     exclude_column: Optional[str] = None  # Имя столбца с exclude_list
 
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
     metadata: Dict[str, Any] = {}
 
     class Config:

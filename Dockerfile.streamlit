@@ -1,21 +1,4 @@
 # # Dockerfile.streamlit
-# FROM python:3.11-slim
-
-# # Установка uv
-# RUN pip install --no-cache-dir uv
-
-# WORKDIR /app
-
-# COPY pyproject.toml .
-# COPY src/ app/src/
-
-# # Установка только нужных зависимостей через uv
-# RUN uv pip install --system .[ui,db,adapters,celery]
-
-# EXPOSE 8501
-
-# CMD ["streamlit", "run", "src/ui/home.py", "--server.port=8501", "--server.address=0.0.0.0"]
-
 FROM python:3.11-slim
 
 RUN pip install --no-cache-dir uv

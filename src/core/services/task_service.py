@@ -182,3 +182,56 @@ class TaskService:
             }
 
         return comparison
+
+    async def pause_task(self, task_id: str) -> bool:
+        """Приостановить задачу"""
+        task = await self.get_task(task_id)
+
+        if not task:
+            return False
+
+        if task.status != TaskStatus.RUNNING:
+            return False
+
+        # Обновляем статус на PAUSED
+        from datetime import datetime
+
+        await self.repository.update(
+            task_id,
+            {"status": TaskStatus.PAUSED, "paused_at": datetime.now()},
+        )
+
+        logger.info(f"Task paused: {task_id}")
+        return True
+
+    async def resume_task(self, task_id: str) -> bool:
+        """Возобновить задачу с recovery"""
+        task = await self.get_task(task_id)
+
+        if not task:
+            return False
+
+        if task.status != TaskStatus.PAUSED:
+            logger.warning(f"Task {task_id} is not paused (status: {task.status})")
+            return False
+
+        # Возобновляем задачу
+        from datetime import datetime
+
+        await self.repository.update(
+            task_id, {"status": TaskStatus.RUNNING, "resumed_at": datetime.utcnow()}
+        )
+
+        logger.info(f"Task {task_id} status set to RUNNING, launching Celery task...")
+
+        # Запускаем Celery задачу снова
+        # Recovery будет выполнено внутри _run_inference_async
+        from src.core.tasks.inference_task import run_inference_task
+
+        celery_task = run_inference_task.delay(task_id)
+
+        await self.repository.update(task_id, {"celery_task_id": celery_task.id})
+
+        logger.info(f"Task resumed: {task_id}, celery_task_id: {celery_task.id}")
+
+        return True

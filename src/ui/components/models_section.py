@@ -55,7 +55,7 @@ def render_models_section():
             if models:
                 for model in models:
                     with st.container():
-                        st.markdown('<div class="custom-card">', unsafe_allow_html=True)
+                        # st.markdown('<div class="custom-card">', unsafe_allow_html=True)
 
                         col1, col2, col3, col4 = st.columns([3, 2, 2, 2])
 
@@ -172,6 +172,7 @@ def render_models_section():
 
                         st.markdown("</div>", unsafe_allow_html=True)
                         st.markdown("<br>", unsafe_allow_html=True)
+                        st.divider()
             else:
                 st.info("🤖 No models registered. Add your first model!")
 

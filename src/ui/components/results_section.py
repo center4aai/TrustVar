@@ -20,7 +20,7 @@ plotly_config = dict(width="stretch")
 
 
 def render_results_section():
-    """Рендер секции результатов"""
+    """Рендер секции результатов с правильной навигацией"""
 
     st.markdown('<div class="animated">', unsafe_allow_html=True)
     st.markdown("## 📈 Results & Analytics")
@@ -34,7 +34,7 @@ def render_results_section():
 
 
 def _render_task_selector(api_client):
-    """Выбор задачи для анализа"""
+    """Выбор задачи для анализа с правильной навигацией"""
 
     try:
         # Получаем все завершенные задачи
@@ -45,17 +45,34 @@ def _render_task_selector(api_client):
             st.info("📭 No completed tasks yet")
             return
 
-        # Создаем селектор задач
+        # ИСПРАВЛЕНИЕ: Проверяем правильный ключ
+        preselected_task_id = st.session_state.get("selected_task_id")
+
+        # Создаем словарь задач
         task_options = {}
-        for task in completed_tasks:
+        preselected_index = 0
+
+        for idx, task in enumerate(completed_tasks):
             task_label = f"{task.name} ({task.task_type.replace('_', ' ').title()})"
             task_options[task_label] = task
 
+            # Находим индекс предвыбранной задачи
+            if preselected_task_id and task.id == preselected_task_id:
+                preselected_index = idx
+
+        # Селектор с предвыбранной задачей
         selected_task_label = st.selectbox(
-            "Select Task for Analysis", list(task_options.keys()), key="task_selector"
+            "Select Task for Analysis",
+            list(task_options.keys()),
+            index=preselected_index,
+            key="task_selector_results",
         )
 
         selected_task = task_options[selected_task_label]
+
+        # ИСПРАВЛЕНИЕ: НЕ удаляем ключ, просто обновляем его
+        # Это позволит сохранить выбор при переключении табов
+        st.session_state.selected_task_id = selected_task.id
 
         st.divider()
 

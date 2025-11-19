@@ -178,7 +178,7 @@ class Task(BaseModel):
     config: TaskConfig = Field(default_factory=TaskConfig)
 
     # Временные метки
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime.now)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
 
@@ -197,6 +197,12 @@ class Task(BaseModel):
     # Метаданные
     celery_task_id: Optional[str] = None
     metadata: Dict[str, Any] = {}
+
+    paused_at: Optional[datetime] = None
+    resumed_at: Optional[datetime] = None
+    last_processed_index: int = 0  # Индекс последнего обработанного элемента
+    current_execution: Optional[Dict[str, Any]] = None  # Текущее выполняемое задание
+    recent_executions: List[Dict[str, Any]] = []  # Последние 2 выполненных задания
 
     class Config:
         use_enum_values = True
