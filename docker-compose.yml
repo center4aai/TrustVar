@@ -51,19 +51,19 @@ services:
       - ollama_models:/root/.ollama/models
     networks:
       - llm_net
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           device_ids: [ '1' ]
-    #           capabilities: [ gpu ]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ '1' ]
+              capabilities: [ gpu ]
 
   api:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.celery
-    image: trustvar-api
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    #image: trustvar-api
     container_name: api_backend
     command: python -m src.api.main
     restart: unless-stopped
@@ -89,19 +89,21 @@ services:
       - llm_net
 
   streamlit:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.streamlit
-    image: trustvar-streamlit
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    #image: trustvar-streamlit
     container_name: frontend
     restart: unless-stopped
-    ports:
-      - "8501:8501"
     environment:
       - API_BASE_URL=http://api:8000
       - HF_TOKEN=${HF_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - FRONTEND_PORT=${FRONTEND_PORT}
+    command: streamlit run src/ui/app.py  --server.port=${FRONTEND_PORT}
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - api
     volumes:
@@ -110,10 +112,10 @@ services:
       - llm_net
 
   celery-worker:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.celery
-    image: trustvar-celery-worker
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    #image: trustvar-celery-worker
     container_name: celery_worker
     command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=error
     environment:

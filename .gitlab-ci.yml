@@ -1,0 +1,36 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Stopping and removing existing containers..."
+    - docker-compose down --remove-orphans
+    
+    - echo "Building and starting containers..."
+    - docker-compose up -d --build --remove-orphans
+    
+    - echo "Checking container status..."
+    - docker-compose ps
+    
+    - echo "Cleaning up unused images..."
+    - docker image prune -a -f
+    
+    - echo "Cleaning up unused volumes..."
+    - docker volume prune -f
+    
+    - echo "Cleaning up unused networks..."
+    - docker network prune -f
+  after_script:
+    - echo "Container logs:"
+    - docker-compose logs --tail=50
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  tags:
+    - trust_llm_61
+  allow_failure: false
+  
+
+
+
+
