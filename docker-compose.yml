@@ -2,9 +2,9 @@
 version: '3.8'
 
 services:
-  mongodb:
+  mongodb_service:
     image: mongo:6-jammy
-    container_name: mongodb
+    container_name: mongodb_service
     restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
@@ -16,11 +16,11 @@ services:
     networks:
       - llm_net
 
-  mongo-express:
+  mongo-express-service:
     image: mongo-express
-    container_name: mongodb-express
+    container_name: mongodb-express-service
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_SERVER: mongodb_service
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
@@ -29,7 +29,7 @@ services:
     ports:
       - '27374:8082'
     depends_on:
-      - mongodb
+      - mongodb_service
     restart: on-failure
     networks:
       - llm_net
@@ -41,14 +41,14 @@ services:
     networks:
       - llm_net
 
-  ollama:
+  ollama_service:
     image: ollama/ollama:latest
-    container_name: ollama
+    container_name: ollama_service
     restart: unless-stopped
     ports:
       - "11435:11434"
     volumes:
-      - ollama_models:/root/.ollama/models
+      - ollama_data:/root/.ollama/models
     networks:
       - llm_net
     deploy:
@@ -70,18 +70,18 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MONGODB_URL=mongodb://root:example@mongodb:27017
+      - MONGODB_URL=mongodb://root:example@mongodb_service:27017
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_BASE_URL=http://ollama_service:11434
       - HF_TOKEN=${HF_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
     depends_on:
-      - mongodb
+      - mongodb_service
       - redis
-      - ollama
+      - ollama_service
     volumes:
       - hf_volume:/app/cache
       - ./src:/app/src
@@ -119,18 +119,18 @@ services:
     container_name: celery_worker
     command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=error
     environment:
-      - MONGODB_URL=mongodb://root:example@mongodb:27017
+      - MONGODB_URL=mongodb://root:example@mongodb_service:27017
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_BASE_URL=http://ollama_service:11434
       - HF_TOKEN=${HF_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
     depends_on:
-      - mongodb
+      - mongodb_service
       - redis
-      - ollama
+      - ollama_service
     volumes:
       - ./src:/app/src
     networks:
@@ -138,7 +138,7 @@ services:
 
 volumes:
   mongodb_data:
-  ollama_models:
+  ollama_data:
   hf_volume:
 
 
