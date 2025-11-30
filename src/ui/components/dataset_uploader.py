@@ -300,7 +300,7 @@ class DatasetUploader:
                     )
 
                     target_column_default_value = st.text_input(
-                        "*Default Target value*",
+                        "Default Target value (Optional)",
                         placeholder="e.g., '1' or '5' or any other text",
                     )
 

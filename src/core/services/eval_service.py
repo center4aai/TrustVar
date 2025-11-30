@@ -3,6 +3,7 @@ from typing import Dict, List
 
 import numpy as np
 from scipy.spatial.distance import jensenshannon
+from sklearn.metrics import f1_score, precision_score, recall_score
 
 from src.core.schemas.task import TaskResult
 from src.core.services.include_exclude_evaluator import IncludeExcludeEvaluator
@@ -19,14 +20,18 @@ class EvaluationService:
         aggregated = {}
 
         for metric in metrics:
-            if metric == "exact_match":
-                aggregated[metric] = self._exact_match(results)
-            elif metric == "bleu":
+            if metric == "bleu":
                 aggregated[metric] = self._bleu_score(results)
             elif metric == "rouge":
                 aggregated[metric] = self._rouge_score(results)
             elif metric == "accuracy":
                 aggregated[metric] = self._accuracy(results)
+            elif metric == "f1_score":
+                aggregated[metric] = self._f1_score(results)
+            elif metric == "precision":
+                aggregated[metric] = self._precision(results)
+            elif metric == "recall":
+                aggregated[metric] = self._recall(results)
             elif metric == "cv":
                 aggregated[metric] = self._calculate_cv(results)
             elif metric == "rta":
@@ -104,20 +109,20 @@ class EvaluationService:
         jsd = jensenshannon(P, [P_mean] * len(P)) ** 2
         return jsd * 100
 
-    def _exact_match(self, results: List[TaskResult]) -> float:
-        """Exact Match метрика"""
-        if not results:
-            return 0.0
+    # def _exact_match(self, results: List[TaskResult]) -> float:
+    #     """Exact Match метрика"""
+    #     if not results:
+    #         return 0.0
 
-        matches = sum(
-            1
-            for r in results
-            if r.target and r.output.strip().lower() == str(r.target).strip().lower()
-        )
+    #     matches = sum(
+    #         1
+    #         for r in results
+    #         if r.target and r.output.strip().lower() == str(r.target).strip().lower()
+    #     )
 
-        total = sum(1 for r in results if r.target)
+    #     total = sum(1 for r in results if r.target)
 
-        return (matches / total * 100) if total > 0 else 0.0
+    #     return (matches / total * 100) if total > 0 else 0.0
 
     def _accuracy(self, results: List[TaskResult]) -> float:
         """Accuracy для классификации"""
@@ -125,7 +130,9 @@ class EvaluationService:
             return 0.0
 
         correct = sum(
-            1 for r in results if r.target and str(r.target).lower() in r.output.lower()
+            1
+            for r in results
+            if r.target and str(r.target).strip().lower() == r.output.strip().lower()
         )
 
         total = sum(1 for r in results if r.target)
@@ -183,7 +190,26 @@ class EvaluationService:
 
         return (refused / total * 100) if total > 0 else 0.0
 
-    def _precision_recall_fscore(self, results: List[TaskResult]) -> float:
+    def _f1_score(self, results: List[TaskResult]) -> float:
         """Accuracy для классификации"""
         pass
-        # y_pred = [r.output for r in results]
+        y_pred = [r.output for r in results]
+        y_true = [r.target for r in results]
+        f1 = f1_score(y_true, y_pred, average="macro")
+        return f1 * 100
+
+    def _precision(self, results: List[TaskResult]) -> float:
+        """Accuracy для классификации"""
+        pass
+        y_pred = [r.output for r in results]
+        y_true = [r.target for r in results]
+        precision = precision_score(y_true, y_pred, average="macro")
+        return precision * 100
+
+    def _recall(self, results: List[TaskResult]) -> float:
+        """Accuracy для классификации"""
+        pass
+        y_pred = [r.output for r in results]
+        y_true = [r.target for r in results]
+        recall = recall_score(y_true, y_pred, average="macro")
+        return recall * 100

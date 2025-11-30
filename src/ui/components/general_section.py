@@ -56,8 +56,13 @@ def render_general_section():
 
             st.divider()
 
-            # НОВАЯ СЕКЦИЯ: Детальный мониторинг активных задач
-            st.markdown("### ⚡ Active Tasks Monitor")
+            col1, col2 = st.columns([7, 1])
+            with col1:
+                st.markdown("### ⚡ Active Tasks Monitor")
+
+            with col2:
+                if st.button("🔄 Refresh", use_container_width=True):
+                    st.rerun()
 
             running_tasks = [t for t in tasks if t.status == "running"]
 

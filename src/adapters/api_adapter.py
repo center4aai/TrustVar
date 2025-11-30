@@ -1,5 +1,6 @@
 # src/adapters/api_adapter.py
 import asyncio
+import re
 from typing import List
 
 import aiohttp
@@ -52,7 +53,9 @@ class OpenAIAdapter(BaseLLMAdapter):
                     ) as response:
                         if response.status == 200:
                             result = await response.json()
-                            return result["choices"][0]["message"]["content"]
+                            text = result["choices"][0]["message"]["content"]
+                            clean_text = re.sub(r"<think>[\s\S]*?</think>", "", text)
+                            return clean_text
                         else:
                             error = await response.text()
                             logger.error(f"OpenAI API error: {error}")
@@ -72,3 +75,38 @@ class OpenAIAdapter(BaseLLMAdapter):
 
         tasks = [self.generate(prompt, **kwargs) for prompt in prompts]
         return await asyncio.gather(*tasks)
+
+    async def health_check(self) -> bool:
+        """Генерация через OpenAI API"""
+        url = f"{self.base_url}/chat/completions"
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+
+        messages = [{"role": "user", "content": "Write '1' symbol"}]
+
+        payload = {
+            "model": self.model.model_name,
+            "messages": messages,
+            "temperature": 1.0,
+            "max_tokens": 10,
+            "top_p": 0.9,
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload, headers=headers) as response:
+                    if response.status == 200:
+                        return True
+
+                    else:
+                        error = await response.text()
+                        logger.error(
+                            f"OpenAI API error: {error}. Status: {response.status}"
+                        )
+                        return False
+        except Exception as e:
+            logger.warning(f"API Model is not available: {e}")
+            return False

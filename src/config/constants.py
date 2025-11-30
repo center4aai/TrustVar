@@ -36,11 +36,12 @@ SUPPORTED_TASKS = [
 # Evaluation metrics
 EVALUATION_METRICS = [
     "accuracy",
-    "bleu",
-    "rouge",
-    "perplexity",
-    "exact_match",
+    # "bleu",
+    # "rouge",
     "f1_score",
+    "precision",
+    "recall",
+    "rta",
 ]
 
 AUGMENT_PROMPT = """

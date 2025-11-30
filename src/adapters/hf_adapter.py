@@ -1,5 +1,6 @@
 # src/adapters/huggingface_adapter.py
 import asyncio
+import re
 from typing import List
 
 import torch
@@ -45,7 +46,7 @@ class HuggingFaceAdapter(BaseLLMAdapter):
 
             logger.info(f"Model loaded on {self.device}")
 
-    async def download_model(self):
+    async def download_model(self) -> bool:
         """Скачивает модель через Transformers в отдельном потоке"""
         logger.info(f"Downloading HuggingFace model: {self.model.model_name}")
 
@@ -68,9 +69,16 @@ class HuggingFaceAdapter(BaseLLMAdapter):
         self.tokenizer = tokenizer
         self.hf_model = hf_model.to(self.device)
 
-        logger.info(
-            f"Model {self.model.model_name} downloaded and loaded on {self.device}"
-        )
+        if self.tokenizer and self.hf_model:
+            logger.info(
+                f"Model {self.model.model_name} downloaded and loaded on {self.device}"
+            )
+            return True
+        else:
+            logger.info(
+                f"Downloading Error: Model {self.model.model_name} was NOT downloaded and loaded"
+            )
+            return False
 
     async def generate(self, prompt: str, **kwargs) -> str:
         """Генерация с HuggingFace моделью"""
@@ -99,8 +107,9 @@ class HuggingFaceAdapter(BaseLLMAdapter):
         generated_text = self.tokenizer.decode(
             outputs[0][inputs.input_ids.shape[1] :], skip_special_tokens=True
         )
+        clean_text = re.sub(r"<think>[\s\S]*?</think>", "", generated_text)
 
-        return generated_text.strip()
+        return clean_text.strip()
 
     async def batch_generate(self, prompts: List[str], **kwargs) -> List[str]:
         """Пакетная генерация"""

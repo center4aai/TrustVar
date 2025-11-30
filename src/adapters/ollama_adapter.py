@@ -1,5 +1,6 @@
 # src/adapters/ollama_adapter.py
 import json
+import re
 from typing import List
 
 import aiohttp
@@ -32,7 +33,7 @@ class OllamaAdapter(BaseLLMAdapter):
         url = f"{self.base_url}/api/pull"
         payload = {
             "name": self.model.model_name,
-            "stream": True,  # Важно: Ollama возвращает поток событий
+            "stream": True,
         }
 
         try:
@@ -111,7 +112,9 @@ class OllamaAdapter(BaseLLMAdapter):
                 async with session.post(url, json=payload, timeout=300) as response:
                     if response.status == 200:
                         result = await response.json()
-                        return result.get("response", "")
+                        text = result.get("response", "")
+                        clean_text = re.sub(r"<think>[\s\S]*?</think>", "", text)
+                        return clean_text.strip()
                     else:
                         error = await response.text()
                         logger.error(f"Ollama API error: {error}")

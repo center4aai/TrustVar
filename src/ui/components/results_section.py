@@ -45,7 +45,6 @@ def _render_task_selector(api_client):
             st.info("📭 No completed tasks yet")
             return
 
-        # ИСПРАВЛЕНИЕ: Проверяем правильный ключ
         preselected_task_id = st.session_state.get("selected_task_id")
 
         # Создаем словарь задач
@@ -70,8 +69,6 @@ def _render_task_selector(api_client):
 
         selected_task = task_options[selected_task_label]
 
-        # ИСПРАВЛЕНИЕ: НЕ удаляем ключ, просто обновляем его
-        # Это позволит сохранить выбор при переключении табов
         st.session_state.selected_task_id = selected_task.id
 
         st.divider()
@@ -320,34 +317,34 @@ def _render_task_centric_tab(task, models):
             variation_stats[var_type]["include_score"].append(result.include_score)
 
     # Создаем таблицу со статистикой
-    stats_rows = []
-    for var_type, stats in variation_stats.items():
-        # Collect all values for dispersion calculation
-        all_values = []
-        for values_list in stats.values():
-            all_values.extend(values_list)
+    # stats_rows = []
+    # for var_type, stats in variation_stats.items():
+    #     # Collect all values for dispersion calculation
+    #     all_values = []
+    #     for values_list in stats.values():
+    #         all_values.extend(values_list)
 
-        if not all_values:
-            continue
-        # TODO: this table
+    #     if not all_values:
+    #         continue
+    #     # TODO: this table
 
-        # dispersion = compute_dispersion_indices(all_values)
+    # dispersion = compute_dispersion_indices(all_values)
 
-        # row = {
-        #     "Variation": var_type.replace("_", " ").title(),
-        #     "Count": len(all_values),
-        #     "Mean": f"{np.mean(all_values):.2f}",
-        #     "TSI (%)": f"{dispersion['tsi']:.2f}",
-        #     "Corrected CV (%)": f"{dispersion['cv_corrected']:.2f}",
-        #     "IQR-CV (%)": f"{dispersion['iqr_cv']:.2f}",
-        #     "JSD": f"{dispersion['jsd']:.4f}",
-        # }
+    # row = {
+    #     "Variation": var_type.replace("_", " ").title(),
+    #     "Count": len(all_values),
+    #     "Mean": f"{np.mean(all_values):.2f}",
+    #     "TSI (%)": f"{dispersion['tsi']:.2f}",
+    #     "Corrected CV (%)": f"{dispersion['cv_corrected']:.2f}",
+    #     "IQR-CV (%)": f"{dispersion['iqr_cv']:.2f}",
+    #     "JSD": f"{dispersion['jsd']:.4f}",
+    # }
 
-        # stats_rows.append(row)
+    # stats_rows.append(row)
 
-    if stats_rows:
-        df_stats = pd.DataFrame(stats_rows)
-        st.dataframe(df_stats, use_container_width=True)
+    # if stats_rows:
+    #     df_stats = pd.DataFrame(stats_rows)
+    #     st.dataframe(df_stats, use_container_width=True)
 
     # Interpretation guide
     with st.expander("📚 Metric Interpretation Guide"):
@@ -570,102 +567,6 @@ def _render_model_centric_tab(task, models, api_client):
         import traceback
 
         st.code(traceback.format_exc())
-
-
-def _render_model_centric_tab_ranking_fix(task_metrics_df):
-    """Исправленная версия Task Stability Ranking"""
-
-    st.markdown("### 🏆 Task Stability Ranking")
-
-    ranking_metric = st.selectbox(
-        "Rank by:",
-        ["TSI", "IQR-CV", "JSD"],
-        key="task_ranking_metric",
-    )
-
-    metric_col_map = {
-        "TSI": "TSI (%)",
-        "IQR-CV": "IQR-CV (%)",
-        "JSD": "JSD",
-    }
-
-    col_name = metric_col_map[ranking_metric]
-
-    # Удаляем строки с NaN перед сортировкой
-    df_sorted = task_metrics_df.copy()
-    df_sorted = df_sorted.dropna(subset=[col_name])
-
-    if df_sorted.empty:
-        st.warning("No valid data available for ranking")
-        return
-
-    # Сортируем (значения уже числовые, не строки)
-    df_sorted = df_sorted.sort_values(col_name)
-
-    for _, row in df_sorted.iterrows():
-        metric_value = row[col_name]
-        task_name = row["Task"]
-
-        # Determine stability level
-        if ranking_metric in ["TSI", "IQR-CV"]:
-            if metric_value < 10:
-                badge = "🟢 Very Stable"
-            elif metric_value < 20:
-                badge = "🟡 Stable"
-            elif metric_value < 30:
-                badge = "🟠 Moderately Stable"
-            else:
-                badge = "🔴 Unstable"
-        else:  # JSD
-            if metric_value < 0.1:
-                badge = "🟢 Very Stable"
-            elif metric_value < 0.2:
-                badge = "🟡 Stable"
-            elif metric_value < 0.3:
-                badge = "🟠 Moderately Stable"
-            else:
-                badge = "🔴 Unstable"
-
-        st.write(f"**{task_name}**: {ranking_metric} = {metric_value:.2f} — {badge}")
-
-
-# def _render_rta_tab(task, models):
-#     """Вкладка RTA анализа"""
-
-#     if not task.config.rta.enabled:
-#         st.info("RTA (Refuse-to-Answer) is not enabled for this task")
-#         return
-
-#     st.markdown("### 🛑 Refuse-to-Answer Analysis")
-
-#     for model_id in task.model_ids:
-#         model_name = get_model_name(model_id, models)
-#         model_results = [r for r in task.results if r.model_id == model_id]
-
-#         with st.expander(f"📦 {model_name}", expanded=True):
-#             refused_count = sum(1 for r in model_results if r.refused)
-#             total = len(model_results)
-#             refusal_rate = (refused_count / total * 100) if total > 0 else 0
-
-#             col1, col2, col3 = st.columns(3)
-#             col1.metric("Total Responses", total)
-#             col2.metric("Refusals", refused_count)
-#             col3.metric("Refusal Rate", f"{refusal_rate:.1f}%")
-
-#             # Примеры отказов
-#             if refused_count > 0:
-#                 st.markdown("**Refusal Examples:**")
-#                 refused_examples = [r for r in model_results if r.refused][:5]
-
-#                 for i, result in enumerate(refused_examples, 1):
-#                     with st.expander(f"Example {i}: {result.input[:50]}..."):
-#                         st.markdown("**Input:**")
-#                         st.code(result.input, language=None)
-#                         st.markdown("**Output:**")
-#                         st.code(result.output, language=None)
-#                         if "rta_reasoning" in result.metadata:
-#                             st.markdown("**RTA Reasoning:**")
-#                             st.info(result.metadata["rta_reasoning"])
 
 
 def _render_rta_tab(task, models):
@@ -974,3 +875,60 @@ def _plot_comparative_metrics(task, models):
             font=dict(color="white"),
         )
         st.plotly_chart(fig, config=plotly_config)
+
+
+# def _render_model_centric_tab_ranking_fix(task_metrics_df):
+#     """Исправленная версия Task Stability Ranking"""
+
+#     st.markdown("### 🏆 Task Stability Ranking")
+
+#     ranking_metric = st.selectbox(
+#         "Rank by:",
+#         ["TSI", "IQR-CV", "JSD"],
+#         key="task_ranking_metric",
+#     )
+
+#     metric_col_map = {
+#         "TSI": "TSI (%)",
+#         "IQR-CV": "IQR-CV (%)",
+#         "JSD": "JSD",
+#     }
+
+#     col_name = metric_col_map[ranking_metric]
+
+#     # Удаляем строки с NaN перед сортировкой
+#     df_sorted = task_metrics_df.copy()
+#     df_sorted = df_sorted.dropna(subset=[col_name])
+
+#     if df_sorted.empty:
+#         st.warning("No valid data available for ranking")
+#         return
+
+#     # Сортируем (значения уже числовые, не строки)
+#     df_sorted = df_sorted.sort_values(col_name)
+
+#     for _, row in df_sorted.iterrows():
+#         metric_value = row[col_name]
+#         task_name = row["Task"]
+
+#         # Determine stability level
+#         if ranking_metric in ["TSI", "IQR-CV"]:
+#             if metric_value < 10:
+#                 badge = "🟢 Very Stable"
+#             elif metric_value < 20:
+#                 badge = "🟡 Stable"
+#             elif metric_value < 30:
+#                 badge = "🟠 Moderately Stable"
+#             else:
+#                 badge = "🔴 Unstable"
+#         else:  # JSD
+#             if metric_value < 0.1:
+#                 badge = "🟢 Very Stable"
+#             elif metric_value < 0.2:
+#                 badge = "🟡 Stable"
+#             elif metric_value < 0.3:
+#                 badge = "🟠 Moderately Stable"
+#             else:
+#                 badge = "🔴 Unstable"
+
+#         st.write(f"**{task_name}**: {ranking_metric} = {metric_value:.2f} — {badge}")

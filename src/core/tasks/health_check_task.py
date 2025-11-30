@@ -113,6 +113,9 @@ async def _test_inference_async(model_id: str, test_prompt: str) -> Dict:
         # Сначала проверяем доступность
         is_healthy = await adapter.health_check()
         if not is_healthy:
+            logger.error(
+                f"ERROR: Test inference failed for model {model.name}: Model is not healthy"
+            )
             return {
                 "success": False,
                 "error": "Model is not available",
@@ -141,5 +144,5 @@ async def _test_inference_async(model_id: str, test_prompt: str) -> Dict:
         }
 
     except Exception as e:
-        logger.error(f"Test inference failed for model {model_id}: {e}")
+        logger.error(f"Test inference failed for model {model.name}: {e}")
         return {"success": False, "error": str(e), "model_id": model_id}

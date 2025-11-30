@@ -44,10 +44,6 @@ class ModelDownloadTask(CeleryTask):
 @celery_app.task(bind=True, base=ModelDownloadTask)
 def run_download_model_task(self, model_id: str):
     """Выполнить задачу загрузки модели"""
-
-    # ИЗМЕНЕНО: Убираем ручное управление циклом
-    # Просто вызываем asyncio.run() с нашей основной асинхронной логикой.
-    # Это самый простой и надежный способ.
     try:
         return asyncio.run(_download_model_async(self, model_id))
     except Exception as e:
@@ -83,17 +79,33 @@ async def _download_model_async(celery_task, model_id: str):
 
     start_time = time.time()
 
-    await adapter.download_model()
+    is_downloaded = await adapter.download_model()
 
-    execution_time = time.time() - start_time
+    if is_downloaded:
+        execution_time = time.time() - start_time
 
-    # Завершаем задачу
-    await model_repo.update_status(model_id, ModelStatus.REGISTERED)
+        # Завершаем задачу
+        await model_repo.update_status(model_id, ModelStatus.REGISTERED)
 
-    logger.info(f"Model {model_id} downloaded successfully in {execution_time:.2f}s")
+        logger.info(
+            f"Model {model_id} downloaded successfully in {execution_time:.2f}s"
+        )
 
-    return {
-        "model_id": model_id,
-        "status": "registered",
-        "execution_time": execution_time,
-    }
+        return {
+            "model_id": model_id,
+            "status": "registered",
+            "execution_time": execution_time,
+        }
+    else:
+        execution_time = time.time() - start_time
+
+        # Завершаем задачу
+        await model_repo.update_status(model_id, ModelStatus.FAILED)
+
+        logger.info(f"Model {model_id} was NOT downloaded in {execution_time:.2f}s")
+
+        return {
+            "model_id": model_id,
+            "status": "failed",
+            "execution_time": execution_time,
+        }

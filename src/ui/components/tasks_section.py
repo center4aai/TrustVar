@@ -156,13 +156,11 @@ def render_tasks_section():
             )
 
         if evaluate:
-            available_metrics = EVALUATION_METRICS + [
-                "rta"
-            ]  # ["include_exclude", "rta"]
+            available_metrics = EVALUATION_METRICS
             metrics = st.multiselect(
                 "Evaluation Metrics",
                 available_metrics,
-                default=["exact_match", "accuracy"],
+                default=["accuracy"],
                 help="Metrics to calculate",
                 key="metrics_multiselect",
             )

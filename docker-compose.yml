@@ -27,7 +27,7 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: root
       ME_CONFIG_BASICAUTH_PASSWORD: example
     ports:
-      - '27374:8082'
+      - '27374:8081'
     depends_on:
       - mongodb_service
     restart: on-failure
@@ -83,7 +83,7 @@ services:
       - redis
       - ollama_service
     volumes:
-      - hf_volume:/app/cache
+      - hf_volume:/app/cache/huggingface
       - ./src:/app/src
     networks:
       - llm_net
