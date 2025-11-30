@@ -5,3 +5,9 @@ legacy/*
 .env
 *.txt
 migrate_tasks.py
+
+*__pycache__/*
+*.py[cod]
+*$py.class
+*.so
+.Python

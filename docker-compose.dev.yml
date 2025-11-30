@@ -63,6 +63,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.celery
+    #image: trustvar-api
     container_name: api_backend
     command: python -m src.api.main
     restart: unless-stopped
@@ -83,7 +84,7 @@ services:
       - ollama_service
     volumes:
       - hf_volume:/app/cache/huggingface
-
+      - ./src:/app/src
     networks:
       - llm_net
 
@@ -91,6 +92,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.streamlit
+    #image: trustvar-streamlit
     container_name: frontend
     restart: unless-stopped
     environment:
@@ -104,6 +106,8 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - api
+    volumes:
+      - ./src:/app/src
     networks:
       - llm_net
 
@@ -111,6 +115,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.celery
+    #image: trustvar-celery-worker
     container_name: celery_worker
     command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=error
     environment:
@@ -126,6 +131,8 @@ services:
       - mongodb_service
       - redis
       - ollama_service
+    volumes:
+      - ./src:/app/src
     networks:
       - llm_net
 

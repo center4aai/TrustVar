@@ -3,6 +3,9 @@ stages:
 
 deploy:
   stage: deploy
+  before_script:
+    # Очистка проблемных файлов
+    - docker run --rm -v "$CI_PROJECT_DIR:/app" alpine sh -c "rm -rf \$(find /app -type d -name '__pycache__')" || true
   script:
     - echo "Stopping and removing existing containers..."
     - docker-compose down --remove-orphans
