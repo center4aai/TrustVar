@@ -51,13 +51,13 @@ services:
       - ollama_data:/root/.ollama/models
     networks:
       - llm_net
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: [ '1' ]
-              capabilities: [ gpu ]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           device_ids: [ '1' ]
+    #           capabilities: [ gpu ]
 
   api:
     build:

@@ -96,6 +96,7 @@ class OllamaAdapter(BaseLLMAdapter):
         payload = {
             "model": self.model.model_name,
             "prompt": message,
+            "think": False,
             "stream": False,
             "options": {
                 "temperature": kwargs.get("temperature", self.config.temperature),
