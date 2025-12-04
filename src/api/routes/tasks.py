@@ -44,7 +44,7 @@ async def create_task(
 
 @router.get("/", response_model=List[Task])
 async def list_tasks(
-    status: Optional[TaskStatus] = None,
+    status: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
     service: TaskService = Depends(get_task_service),

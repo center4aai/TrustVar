@@ -125,7 +125,7 @@ class ApiClient:
     def get_model(self, model_id: str):
         model_data = {"model_id": model_id}
         response = requests.get(
-            f"{self.base_url}/api/v1/models/{model_id}/get", json=model_data
+            f"{self.base_url}/api/v1/models/{model_id}/get", params=model_data
         )
         data = self._handle_response(response)
         return Model(**data)
@@ -188,8 +188,12 @@ class ApiClient:
     def list_tasks(
         self, status: Optional[TaskStatus] = None, skip: int = 0, limit: int = 100
     ) -> List[Task]:
-        task_data = {"status": status, "skip": skip, "limit": limit}
-        response = requests.get(f"{self.base_url}/api/v1/tasks/", json=task_data)
+        task_data = {"skip": skip, "limit": limit}
+
+        if status is not None:
+            task_data["status"] = status.value
+
+        response = requests.get(f"{self.base_url}/api/v1/tasks/", params=task_data)
 
         data = self._handle_response(response)
         return [Task(**item) for item in data]

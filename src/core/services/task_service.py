@@ -55,12 +55,12 @@ class TaskService:
         return await self.repository.find_by_id(task_id)
 
     async def list_tasks(
-        self, status: Optional[TaskStatus] = None, skip: int = 0, limit: int = 100
+        self, status: Optional[str] = None, skip: int = 0, limit: int = 100
     ) -> List[Task]:
         """Список задач"""
         filters = {}
         if status:
-            filters["status"] = status.value
+            filters["status"] = status
 
         return await self.repository.find_all(filters, skip, limit)
 

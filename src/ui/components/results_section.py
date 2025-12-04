@@ -52,7 +52,9 @@ def _render_task_selector(api_client):
         preselected_index = 0
 
         for idx, task in enumerate(completed_tasks):
-            task_label = f"{task.name} ({task.task_type.replace('_', ' ').title()})"
+            task_label = (
+                f"{task.name} ({task.task_type.replace('_', ' ').title()}) [{task.id}]"
+            )
             task_options[task_label] = task
 
             # Находим индекс предвыбранной задачи
