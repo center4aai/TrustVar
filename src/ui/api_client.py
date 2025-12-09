@@ -24,7 +24,6 @@ class ApiClient:
 
     def _handle_response(self, response: requests.Response):
         """Обрабатывает ответ от API и вызывает исключение в случае ошибки."""
-        # print(response.json())
         if not response.ok:
             try:
                 detail = response.json().get("detail", "Unknown API error")

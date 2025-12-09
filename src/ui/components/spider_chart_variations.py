@@ -213,7 +213,7 @@ def plot_model_centric_spider(
                 # So we'll show the same CV for all variations of this task
                 variation_scores = [cv_score] * len(
                     variation_names
-                )  # TODO: утончить, не очень понятно
+                )
             else:
                 continue
         else:

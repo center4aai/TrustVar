@@ -12,10 +12,8 @@ from src.database.mongodb import MongoDB
 # Управляем жизненным циклом приложения (подключение к БД)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Действия при старте
     await MongoDB.connect()
     yield
-    # Действия при выключении
     await MongoDB.close()
 
 

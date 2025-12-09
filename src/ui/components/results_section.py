@@ -404,9 +404,6 @@ def _render_model_centric_tab(task, models, api_client):
 
     st.divider()
 
-    # Получаем все доступные задачи
-    # В реальной системе это должны быть разные задачи из API
-    # Пока используем текущую задачу как пример
     try:
         all_tasks = api_client.list_tasks(status=TaskStatus.COMPLETED)
 
@@ -877,60 +874,3 @@ def _plot_comparative_metrics(task, models):
             font=dict(color="white"),
         )
         st.plotly_chart(fig, config=plotly_config)
-
-
-# def _render_model_centric_tab_ranking_fix(task_metrics_df):
-#     """Исправленная версия Task Stability Ranking"""
-
-#     st.markdown("### 🏆 Task Stability Ranking")
-
-#     ranking_metric = st.selectbox(
-#         "Rank by:",
-#         ["TSI", "IQR-CV", "JSD"],
-#         key="task_ranking_metric",
-#     )
-
-#     metric_col_map = {
-#         "TSI": "TSI (%)",
-#         "IQR-CV": "IQR-CV (%)",
-#         "JSD": "JSD",
-#     }
-
-#     col_name = metric_col_map[ranking_metric]
-
-#     # Удаляем строки с NaN перед сортировкой
-#     df_sorted = task_metrics_df.copy()
-#     df_sorted = df_sorted.dropna(subset=[col_name])
-
-#     if df_sorted.empty:
-#         st.warning("No valid data available for ranking")
-#         return
-
-#     # Сортируем (значения уже числовые, не строки)
-#     df_sorted = df_sorted.sort_values(col_name)
-
-#     for _, row in df_sorted.iterrows():
-#         metric_value = row[col_name]
-#         task_name = row["Task"]
-
-#         # Determine stability level
-#         if ranking_metric in ["TSI", "IQR-CV"]:
-#             if metric_value < 10:
-#                 badge = "🟢 Very Stable"
-#             elif metric_value < 20:
-#                 badge = "🟡 Stable"
-#             elif metric_value < 30:
-#                 badge = "🟠 Moderately Stable"
-#             else:
-#                 badge = "🔴 Unstable"
-#         else:  # JSD
-#             if metric_value < 0.1:
-#                 badge = "🟢 Very Stable"
-#             elif metric_value < 0.2:
-#                 badge = "🟡 Stable"
-#             elif metric_value < 0.3:
-#                 badge = "🟠 Moderately Stable"
-#             else:
-#                 badge = "🔴 Unstable"
-
-#         st.write(f"**{task_name}**: {ranking_metric} = {metric_value:.2f} — {badge}")

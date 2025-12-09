@@ -2,7 +2,6 @@
 import sys
 from pathlib import Path
 
-# Добавляем корневую директорию проекта в путь
 root_dir = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(root_dir))
 
@@ -77,39 +76,6 @@ features = [
     },
 ]
 
-# # Карточки-кнопки для навигации
-# features = [
-#     {
-#         "icon": "\U0001f6e1",
-#         "title": "GENERAL",
-#         "description": "Guide information and task monitoring",
-#         "key": "general",
-#     },
-#     {
-#         "icon": "\U0001f4c2",
-#         "title": "DATASETS",
-#         "description": "Upload and manage test datasets",
-#         "key": "datasets",
-#     },
-#     {
-#         "icon": "\U0001f9e9",
-#         "title": "MODELS",
-#         "description": "Register and configure LLM models",
-#         "key": "models",
-#     },
-#     {
-#         "icon": "\U0001f680",
-#         "title": "TASKS",
-#         "description": "Create and monitor tasks for testing",
-#         "key": "tasks",
-#     },
-#     {
-#         "icon": "\U0001f3af",
-#         "title": "RESULTS",
-#         "description": "Analyze performance and metrics",
-#         "key": "results",
-#     },
-# ]
 
 cols = st.columns(5)
 for idx, (col, feature) in enumerate(zip(cols, features)):
@@ -155,7 +121,6 @@ if st.session_state.selected_section is not None:
 
             st.rerun()
 
-    # КРИТИЧНО: Используем container для каждой секции
     section_container = st.container()
 
     with section_container:

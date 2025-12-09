@@ -191,7 +191,7 @@ class EvaluationService:
         return (refused / total * 100) if total > 0 else 0.0
 
     def _f1_score(self, results: List[TaskResult]) -> float:
-        """Accuracy для классификации"""
+        """F1-score для классификации"""
         pass
         y_pred = [r.output for r in results]
         y_true = [r.target for r in results]
@@ -199,7 +199,7 @@ class EvaluationService:
         return f1 * 100
 
     def _precision(self, results: List[TaskResult]) -> float:
-        """Accuracy для классификации"""
+        """Precision для классификации"""
         pass
         y_pred = [r.output for r in results]
         y_true = [r.target for r in results]
@@ -207,7 +207,7 @@ class EvaluationService:
         return precision * 100
 
     def _recall(self, results: List[TaskResult]) -> float:
-        """Accuracy для классификации"""
+        """Recall для классификации"""
         pass
         y_pred = [r.output for r in results]
         y_true = [r.target for r in results]

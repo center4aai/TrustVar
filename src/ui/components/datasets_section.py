@@ -41,7 +41,6 @@ def render_datasets_section():
         current_index = 0
         st.session_state.datasets_current_tab = tab_names[0]
 
-    # Используем st.radio с отдельным ключом и callback
     def on_tab_change():
         """Синхронизирует изменение radio с internal state"""
         st.session_state.datasets_current_tab = st.session_state.datasets_tab_radio

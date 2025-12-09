@@ -11,24 +11,6 @@ class PromptVariationGenerator:
     """Генератор вариаций промптов"""
 
     VARIATION_TEMPLATES = {
-        #         VariationStrategy.PARAPHRASE: """Rephrase the following prompt while keeping the same meaning:
-        # Original prompt: {prompt}
-        # Rephrased prompt:""",
-        #         VariationStrategy.STYLE_CHANGE: """Rewrite the following prompt in a {style} style:
-        # Original prompt: {prompt}
-        # Rewritten prompt:""",
-        #         VariationStrategy.COMPLEXITY: """Rewrite the following prompt making it {complexity}:
-        # Original prompt: {prompt}
-        # Rewritten prompt:""",
-        #         VariationStrategy.LANGUAGE: """Translate the following prompt to {language}:
-        # Original prompt: {prompt}
-        # Translated prompt:""",
-        #         VariationStrategy.PERSPECTIVE: """Rewrite the following prompt from a {perspective} perspective:
-        # Original prompt: {prompt}
-        # Rewritten prompt:""",
-        #         VariationStrategy.CUSTOM: """{custom_instruction}
-        # Original prompt: {prompt}
-        # Modified prompt:""",
         VariationStrategy.INCREASE_SENTENCE_LEN: """
 - Variation: Increase sentence length.
 - Goal: Make the task longer (via paraphrasing, synonym expansion, and semantically neutral scaffolding) without changing semantics, intent, tone, register, constraints, entities, or formatting.
@@ -219,10 +201,6 @@ class PromptVariationGenerator:
 """,
     }
 
-    # STYLE_OPTIONS = ["formal", "casual", "technical", "simple", "academic"]
-    # COMPLEXITY_OPTIONS = ["simpler", "more complex", "more detailed", "more concise"]
-    # PERSPECTIVE_OPTIONS = ["first person", "third person", "objective", "empathetic"]
-
     def __init__(self, model_id: str):
         self.model_id = model_id
         self.model = None
@@ -301,31 +279,6 @@ class PromptVariationGenerator:
 
         # Подготавливаем параметры для шаблона
         template_params = {"instructions": instructions, "prompt": prompt}
-
-        # if strategy == VariationStrategy.STYLE_CHANGE:
-        #     styles = custom_params.get("styles", self.STYLE_OPTIONS)
-        #     template_params["style"] = styles[iteration % len(styles)]
-
-        # elif strategy == VariationStrategy.COMPLEXITY:
-        #     complexities = custom_params.get("complexities", self.COMPLEXITY_OPTIONS)
-        #     template_params["complexity"] = complexities[iteration % len(complexities)]
-
-        # elif strategy == VariationStrategy.LANGUAGE:
-        #     languages = custom_params.get("languages", ["Spanish", "French", "German"])
-        #     template_params["language"] = languages[iteration % len(languages)]
-
-        # elif strategy == VariationStrategy.PERSPECTIVE:
-        #     perspectives = custom_params.get("perspectives", self.PERSPECTIVE_OPTIONS)
-        #     template_params["perspective"] = perspectives[iteration % len(perspectives)]
-
-        # elif strategy == VariationStrategy.CUSTOM:
-        #     template_params["custom_instruction"] = custom_params.get(
-        #         "custom_instruction", "Rewrite this prompt in a different way:"
-        #     )
-
-        # logger.info(
-        #     f"{strategy}\n\n{template_params}\n\n{variation_prompt.format(**template_params)} \n\n ============"
-        # )
 
         # Форматируем промпт
         variation_prompt = variation_prompt.format(**template_params)

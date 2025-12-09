@@ -59,8 +59,6 @@ def run_download_model_task(self, model_id: str):
 
 async def _download_model_async(celery_task, model_id: str):
     """Асинхронное выполнение загрузки модели"""
-    # ВАЖНО: Репозиторий создается здесь, внутри асинхронной функции.
-    # Это гарантирует, что он будет использовать правильный event loop.
     model_repo = ModelRepository()
 
     model = await model_repo.find_by_id(model_id)

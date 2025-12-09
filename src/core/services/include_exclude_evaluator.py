@@ -29,7 +29,7 @@ class IncludeExcludeEvaluator:
         if isinstance(output, list):
             output_str = ""
             for item in output:
-                if item != "TFN":  # TFN = Too Few Neurons / No answer
+                if item != "TFN":
                     output_str = str(item)
                     break
             if not output_str:

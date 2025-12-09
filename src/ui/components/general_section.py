@@ -11,7 +11,6 @@ from src.ui.api_client import get_api_client
 def render_general_section():
     """Рендер секции General без дублирования контента"""
 
-    # ВАЖНО: Используем уникальный контейнер
     container_key = "general_section_container"
 
     # Очищаем предыдущее содержимое (если есть)

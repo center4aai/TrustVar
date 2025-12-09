@@ -28,10 +28,8 @@ class DatasetUploader:
         elif ext == ".jsonl":
             return "jsonl"
         elif ext == ".json":
-            # Для .json нужно проверить содержимое - это JSON или JSONL?
             return self._detect_json_format(file)
 
-        # По умолчанию
         return "json"
 
     def _detect_json_format(self, file) -> str:
@@ -80,7 +78,6 @@ class DatasetUploader:
         finally:
             file.seek(0)
 
-        # По умолчанию для .json файлов
         return "json"
 
     def render(self):

@@ -21,7 +21,7 @@ def apply_custom_styles():
     /* ========== ЗАГОЛОВОК ========== */
     .main-header {
         text-align: center;
-        margin: 0 0 2rem 0;   /* убрали верхний margin */
+        margin: 0 0 2rem 0;   
         padding: 1rem 0;  
     }
     
