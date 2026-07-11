@@ -65,8 +65,8 @@ Confidence intervals use bootstrap BCa (1000 resamples, clustered at the task le
 ### Run with Docker
 
 ```bash
-# 1. Clone
-git clone <repository-url>
+# 1. Clonef
+git clone https://github.com/center4aai/TrustVar.git
 cd trustvar
 
 # 2. Configure — copy the template and fill in your values
