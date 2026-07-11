@@ -1,0 +1,45 @@
+*.pyc
+.env
+*.txt
+migrate_tasks.py
+.venv/*
+.idea/*
+*__pycache__/*
+*.py[cod]
+*$py.class
+*.so
+.Python
+*node_modules
+*dist
+.claude/*
+.vscode/*
+uv.lock
+
+package.json
+package-lock.json
+print_structure.py
+*.csv
+*build/*
+*llm_testing_framework*
+
+# Cache directories
+cache/
+.cache/
+
+# Smoke test artifacts
+smoke_*
+*_smoke_*
+
+# Egg-info (build artifacts)
+*.egg-info/
+
+# Experiment data (not for public release)
+experiment_data/
+
+# Intermediate results
+*_results/
+*_output/
+
+# Logs
+logs/
+*.log

@@ -1,0 +1,31 @@
+en:
+  letter:
+    suffix_chars: [")", ".", ":"]
+    values: [A, B, C, D, E, F, G]
+  paren_lower:
+    values: [a, b, c, d, e, f, g]
+  paren_upper:
+    values: [A, B, C, D, E, F, G]
+  number:
+    suffix_chars: [")", ".", ":"]
+    start: 0
+    end: 20
+  paren_number:
+    start: 0
+    end: 10
+
+ru:
+  letter:
+    suffix_chars: [")", ".", ":"]
+    values: [А, Б, В, Г, Д, Е, Ё, Ж]
+  paren_lower:
+    values: [а, б, в, г, д, е, ё, ж]
+  paren_upper:
+    values: [А, Б, В, Г, Д, Е, Ё, Ж]
+  number:
+    suffix_chars: [")", ".", ":"]
+    start: 0
+    end: 20
+  paren_number:
+    start: 0
+    end: 10

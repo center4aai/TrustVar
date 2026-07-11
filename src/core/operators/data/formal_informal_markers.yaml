@@ -1,0 +1,59 @@
+formal:
+  en:
+    - please
+    - kindly
+    - regarding
+    - hereby
+    - therein
+    - thereafter
+    - pursuant
+    - request
+    - require
+    - provide
+    - respectfully
+    - sincerely
+    - dear
+    - mr
+    - mrs
+    - ms
+  ru:
+    - вы
+    - вас
+    - вам
+    - ваш
+    - ваши
+    - пожалуйста
+    - уважаемый
+    - благодарю
+    - прошу
+    - уважение
+    - с уважением
+    - доставить
+    - информировать
+informal:
+  en:
+    - hey
+    - hi
+    - hello
+    - cool
+    - awesome
+    - gonna
+    - wanna
+    - yeah
+    - nah
+    - thanks
+    - ok
+    - lol
+    - btw
+  ru:
+    - ты
+    - тебя
+    - тебе
+    - твой
+    - привет
+    - пока
+    - давай
+    - спс
+    - ок
+    - круто
+    - класс

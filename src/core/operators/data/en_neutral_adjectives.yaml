@@ -1,0 +1,21 @@
+concrete_inanimate:
+  - regular
+  - standard
+  - ordinary
+  - typical
+  - common
+  - usual
+  - normal
+  - conventional
+  - customary
+  - routine
+
+abstract:
+  - general
+  - typical
+  - common
+  - basic
+  - fundamental
+  - primary
+
+animate: []

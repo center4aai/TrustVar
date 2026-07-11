@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir uv
+
+WORKDIR /app
+
+# Cache dependencies: copy only pyproject.toml and README
+COPY pyproject.toml README.md ./
+
+# setuptools checks for src/ existence for egg_base
+RUN mkdir -p src && touch src/__init__.py
+
+# API deps: FastAPI/Mongo/Celery client + the lightweight stats stack (numpy/
+# scipy/sklearn/statsmodels/pandas via the [stats] extra pulled in by [api]).
+# The stats stack is required — the /trustvar-metrics endpoint imports
+# eval_service. Still no torch/transformers, so the image stays slim.
+RUN uv pip install --system ".[api]"
+
+# Copy code last — changes in src don't invalidate pip cache
+COPY src/ src/
+
+CMD ["python", "-m", "src.api.main"]

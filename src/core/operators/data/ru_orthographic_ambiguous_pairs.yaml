@@ -1,0 +1,6498 @@
+ambiguous_pairs:
+- lemma_e: аксена
+  lemma_yo: аксён
+  pairs:
+  - form_e: аксен
+    form_yo: аксён
+  - form_e: аксена
+    form_yo: аксёна
+  - form_e: аксенам
+    form_yo: аксёнам
+  - form_e: аксенами
+    form_yo: аксёнами
+  - form_e: аксенах
+    form_yo: аксёнах
+  - form_e: аксене
+    form_yo: аксёне
+  - form_e: аксену
+    form_yo: аксёну
+  - form_e: аксены
+    form_yo: аксёны
+- lemma_e: аксеня
+  lemma_yo: аксён
+  pairs:
+  - form_e: аксене
+    form_yo: аксёне
+- lemma_e: ала
+  lemma_yo: алло
+  pairs:
+  - form_e: але
+    form_yo: алё
+- lemma_e: але
+  lemma_yo: алло
+  pairs:
+  - form_e: але
+    form_yo: алё
+- lemma_e: аля
+  lemma_yo: алло
+  pairs:
+  - form_e: але
+    form_yo: алё
+- lemma_e: ален
+  lemma_yo: алёна
+  pairs:
+  - form_e: ален
+    form_yo: алён
+  - form_e: алена
+    form_yo: алёна
+  - form_e: аленам
+    form_yo: алёнам
+  - form_e: аленами
+    form_yo: алёнами
+  - form_e: аленах
+    form_yo: алёнах
+  - form_e: алене
+    form_yo: алёне
+  - form_e: алену
+    form_yo: алёну
+  - form_e: алены
+    form_yo: алёны
+- lemma_e: алеш
+  lemma_yo: алёша
+  pairs:
+  - form_e: алеш
+    form_yo: алёш
+  - form_e: алеша
+    form_yo: алёша
+  - form_e: алешам
+    form_yo: алёшам
+  - form_e: алешами
+    form_yo: алёшами
+  - form_e: алешах
+    form_yo: алёшах
+  - form_e: алеше
+    form_yo: алёше
+  - form_e: алешей
+    form_yo: алёшей
+  - form_e: алеши
+    form_yo: алёши
+  - form_e: алешу
+    form_yo: алёшу
+- lemma_e: алешинская
+  lemma_yo: алёшинский
+  pairs:
+  - form_e: алешинская
+    form_yo: алёшинская
+  - form_e: алешинской
+    form_yo: алёшинской
+  - form_e: алешинскую
+    form_yo: алёшинскую
+- lemma_e: алешинские
+  lemma_yo: алёшинский
+  pairs:
+  - form_e: алешинские
+    form_yo: алёшинские
+  - form_e: алешинским
+    form_yo: алёшинским
+  - form_e: алешинскими
+    form_yo: алёшинскими
+  - form_e: алешинских
+    form_yo: алёшинских
+- lemma_e: алешинский
+  lemma_yo: алёшинский
+  pairs:
+  - form_e: алешинский
+    form_yo: алёшинский
+  - form_e: алешинским
+    form_yo: алёшинским
+  - form_e: алешинского
+    form_yo: алёшинского
+  - form_e: алешинском
+    form_yo: алёшинском
+  - form_e: алешинскому
+    form_yo: алёшинскому
+- lemma_e: артема
+  lemma_yo: артём
+  pairs:
+  - form_e: артем
+    form_yo: артём
+  - form_e: артема
+    form_yo: артёма
+  - form_e: артемам
+    form_yo: артёмам
+  - form_e: артемами
+    form_yo: артёмами
+  - form_e: артемах
+    form_yo: артёмах
+  - form_e: артеме
+    form_yo: артёме
+  - form_e: артему
+    form_yo: артёму
+  - form_e: артемы
+    form_yo: артёмы
+- lemma_e: бабий
+  lemma_yo: бабьё
+  pairs:
+  - form_e: бабье
+    form_yo: бабьё
+  - form_e: бабьем
+    form_yo: бабьём
+- lemma_e: багрен
+  lemma_yo: багрён
+  pairs:
+  - form_e: багрен
+    form_yo: багрён
+- lemma_e: белен
+  lemma_yo: белён
+  pairs:
+  - form_e: белен
+    form_yo: белён
+  - form_e: белена
+    form_yo: белёна
+  - form_e: белены
+    form_yo: белёны
+- lemma_e: белена
+  lemma_yo: белён
+  pairs:
+  - form_e: белена
+    form_yo: белёна
+  - form_e: белены
+    form_yo: белёны
+- lemma_e: беленной
+  lemma_yo: белённый
+  pairs:
+  - form_e: беленная
+    form_yo: белённая
+  - form_e: беленного
+    form_yo: белённого
+  - form_e: беленное
+    form_yo: белённое
+  - form_e: беленной
+    form_yo: белённой
+  - form_e: беленном
+    form_yo: белённом
+  - form_e: беленному
+    form_yo: белённому
+  - form_e: беленною
+    form_yo: белённою
+  - form_e: беленную
+    form_yo: белённую
+  - form_e: беленные
+    form_yo: белённые
+  - form_e: беленным
+    form_yo: белённым
+  - form_e: беленными
+    form_yo: белёнными
+  - form_e: беленных
+    form_yo: белённых
+- lemma_e: белен
+  lemma_yo: белёный
+  pairs:
+  - form_e: беленом
+    form_yo: белёном
+- lemma_e: белена
+  lemma_yo: белёный
+  pairs:
+  - form_e: беленой
+    form_yo: белёной
+  - form_e: беленою
+    form_yo: белёною
+- lemma_e: берег
+  lemma_yo: берегу
+  pairs:
+  - form_e: берег
+    form_yo: берёг
+- lemma_e: бережен
+  lemma_yo: бережён
+  pairs:
+  - form_e: бережен
+    form_yo: бережён
+- lemma_e: берест
+  lemma_yo: береста
+  pairs:
+  - form_e: берест
+    form_yo: берёст
+  - form_e: береста
+    form_yo: берёста
+  - form_e: берестам
+    form_yo: берёстам
+  - form_e: берестами
+    form_yo: берёстами
+  - form_e: берестах
+    form_yo: берёстах
+  - form_e: бересте
+    form_yo: берёсте
+  - form_e: бересту
+    form_yo: берёсту
+  - form_e: бересты
+    form_yo: берёсты
+- lemma_e: берет
+  lemma_yo: беру
+  pairs:
+  - form_e: берет
+    form_yo: берёт
+  - form_e: берете
+    form_yo: берёте
+- lemma_e: березовиков
+  lemma_yo: берёзовик
+  pairs:
+  - form_e: березовиков
+    form_yo: берёзовиков
+- lemma_e: берест
+  lemma_yo: берёстов
+  pairs:
+  - form_e: берестов
+    form_yo: берёстов
+- lemma_e: берестов
+  lemma_yo: берёстов
+  pairs:
+  - form_e: берестов
+    form_yo: берёстов
+  - form_e: берестова
+    form_yo: берёстова
+- lemma_e: берестова
+  lemma_yo: берёстов
+  pairs:
+  - form_e: берестова
+    form_yo: берёстова
+- lemma_e: берестовы
+  lemma_yo: берёстов
+  pairs:
+  - form_e: берестовы
+    form_yo: берёстовы
+- lemma_e: берестов
+  lemma_yo: берёстовый
+  pairs:
+  - form_e: берестовым
+    form_yo: берёстовым
+- lemma_e: берестова
+  lemma_yo: берёстовый
+  pairs:
+  - form_e: берестовой
+    form_yo: берёстовой
+- lemma_e: берестовой
+  lemma_yo: берёстовый
+  pairs:
+  - form_e: берестового
+    form_yo: берёстового
+  - form_e: берестовой
+    form_yo: берёстовой
+  - form_e: берестовом
+    form_yo: берёстовом
+  - form_e: берестовому
+    form_yo: берёстовому
+  - form_e: берестовым
+    form_yo: берёстовым
+- lemma_e: берестовы
+  lemma_yo: берёстовый
+  pairs:
+  - form_e: берестовым
+    form_yo: берёстовым
+  - form_e: берестовыми
+    form_yo: берёстовыми
+  - form_e: берестовых
+    form_yo: берёстовых
+- lemma_e: бирюлев
+  lemma_yo: бирюлёво
+  pairs:
+  - form_e: бирюлева
+    form_yo: бирюлёва
+  - form_e: бирюлеве
+    form_yo: бирюлёве
+  - form_e: бирюлеву
+    form_yo: бирюлёву
+- lemma_e: бирюлева
+  lemma_yo: бирюлёво
+  pairs:
+  - form_e: бирюлева
+    form_yo: бирюлёва
+  - form_e: бирюлеву
+    form_yo: бирюлёву
+- lemma_e: благодарен
+  lemma_yo: благодарён
+  pairs:
+  - form_e: благодарен
+    form_yo: благодарён
+- lemma_e: боев
+  lemma_yo: бой
+  pairs:
+  - form_e: боев
+    form_yo: боёв
+- lemma_e: боек
+  lemma_yo: боёк
+  pairs:
+  - form_e: боек
+    form_yo: боёк
+- lemma_e: бремен
+  lemma_yo: бремя
+  pairs:
+  - form_e: бремен
+    form_yo: бремён
+- lemma_e: бронь
+  lemma_yo: броня
+  pairs:
+  - form_e: броней
+    form_yo: бронёй
+- lemma_e: брехов
+  lemma_yo: брёх
+  pairs:
+  - form_e: брехов
+    form_yo: брёхов
+- lemma_e: бубен
+  lemma_yo: бубны
+  pairs:
+  - form_e: бубен
+    form_yo: бубён
+- lemma_e: бугаев
+  lemma_yo: бугай
+  pairs:
+  - form_e: бугаев
+    form_yo: бугаёв
+- lemma_e: буев
+  lemma_yo: буй
+  pairs:
+  - form_e: буев
+    form_yo: буёв
+- lemma_e: бурен
+  lemma_yo: бурён
+  pairs:
+  - form_e: бурен
+    form_yo: бурён
+- lemma_e: бухну
+  lemma_yo: бухнул
+  pairs:
+  - form_e: бухнем
+    form_yo: бухнём
+  - form_e: бухнет
+    form_yo: бухнёт
+  - form_e: бухнете
+    form_yo: бухнёте
+  - form_e: бухнешь
+    form_yo: бухнёшь
+- lemma_e: берда
+  lemma_yo: бёрдо
+  pairs:
+  - form_e: берда
+    form_yo: бёрда
+  - form_e: берде
+    form_yo: бёрде
+  - form_e: берду
+    form_yo: бёрду
+- lemma_e: бердов
+  lemma_yo: бёрдов
+  pairs:
+  - form_e: бердов
+    form_yo: бёрдов
+  - form_e: бердова
+    form_yo: бёрдова
+- lemma_e: бердова
+  lemma_yo: бёрдов
+  pairs:
+  - form_e: бердова
+    form_yo: бёрдова
+- lemma_e: бердовы
+  lemma_yo: бёрдов
+  pairs:
+  - form_e: бердовы
+    form_yo: бёрдовы
+- lemma_e: бердов
+  lemma_yo: бёрдовый
+  pairs:
+  - form_e: бердовым
+    form_yo: бёрдовым
+- lemma_e: бердова
+  lemma_yo: бёрдовый
+  pairs:
+  - form_e: бердовой
+    form_yo: бёрдовой
+- lemma_e: бердовы
+  lemma_yo: бёрдовый
+  pairs:
+  - form_e: бердовым
+    form_yo: бёрдовым
+  - form_e: бердовыми
+    form_yo: бёрдовыми
+  - form_e: бердовых
+    form_yo: бёрдовых
+- lemma_e: берцо
+  lemma_yo: бёрце
+  pairs:
+  - form_e: берца
+    form_yo: бёрца
+  - form_e: берце
+    form_yo: бёрце
+  - form_e: берцу
+    form_yo: бёрцу
+- lemma_e: валуев
+  lemma_yo: валуй
+  pairs:
+  - form_e: валуев
+    form_yo: валуёв
+- lemma_e: валька
+  lemma_yo: валёк
+  pairs:
+  - form_e: валек
+    form_yo: валёк
+- lemma_e: варен
+  lemma_yo: варён
+  pairs:
+  - form_e: варен
+    form_yo: варён
+  - form_e: варена
+    form_yo: варёна
+  - form_e: варено
+    form_yo: варёно
+  - form_e: варены
+    form_yo: варёны
+- lemma_e: варена
+  lemma_yo: варён
+  pairs:
+  - form_e: варена
+    form_yo: варёна
+  - form_e: варены
+    form_yo: варёны
+- lemma_e: варена
+  lemma_yo: варёный
+  pairs:
+  - form_e: вареной
+    form_yo: варёной
+  - form_e: вареною
+    form_yo: варёною
+- lemma_e: вволочен
+  lemma_yo: вволочён
+  pairs:
+  - form_e: вволочен
+    form_yo: вволочён
+- lemma_e: вволоченный
+  lemma_yo: вволочённый
+  pairs:
+  - form_e: вволоченная
+    form_yo: вволочённая
+  - form_e: вволоченного
+    form_yo: вволочённого
+  - form_e: вволоченное
+    form_yo: вволочённое
+  - form_e: вволоченной
+    form_yo: вволочённой
+  - form_e: вволоченном
+    form_yo: вволочённом
+  - form_e: вволоченному
+    form_yo: вволочённому
+  - form_e: вволоченною
+    form_yo: вволочённою
+  - form_e: вволоченную
+    form_yo: вволочённую
+  - form_e: вволоченные
+    form_yo: вволочённые
+  - form_e: вволоченный
+    form_yo: вволочённый
+  - form_e: вволоченным
+    form_yo: вволочённым
+  - form_e: вволоченными
+    form_yo: вволочёнными
+  - form_e: вволоченных
+    form_yo: вволочённых
+- lemma_e: ввернул
+  lemma_yo: ввёрнут
+  pairs:
+  - form_e: ввернут
+    form_yo: ввёрнут
+- lemma_e: веневская
+  lemma_yo: венёвский
+  pairs:
+  - form_e: веневская
+    form_yo: венёвская
+  - form_e: веневской
+    form_yo: венёвской
+  - form_e: веневскую
+    form_yo: венёвскую
+- lemma_e: веневские
+  lemma_yo: венёвский
+  pairs:
+  - form_e: веневские
+    form_yo: венёвские
+  - form_e: веневским
+    form_yo: венёвским
+  - form_e: веневскими
+    form_yo: венёвскими
+  - form_e: веневских
+    form_yo: венёвских
+- lemma_e: веневский
+  lemma_yo: венёвский
+  pairs:
+  - form_e: веневский
+    form_yo: венёвский
+  - form_e: веневским
+    form_yo: венёвским
+  - form_e: веневского
+    form_yo: венёвского
+  - form_e: веневском
+    form_yo: венёвском
+  - form_e: веневскому
+    form_yo: венёвскому
+- lemma_e: веревкино
+  lemma_yo: верёвкин
+  pairs:
+  - form_e: веревкина
+    form_yo: верёвкина
+  - form_e: веревкине
+    form_yo: верёвкине
+  - form_e: веревкину
+    form_yo: верёвкину
+- lemma_e: веревкино
+  lemma_yo: верёвкина
+  pairs:
+  - form_e: веревкина
+    form_yo: верёвкина
+  - form_e: веревкину
+    form_yo: верёвкину
+- lemma_e: весел
+  lemma_yo: весло
+  pairs:
+  - form_e: весел
+    form_yo: вёсел
+- lemma_e: веселенек
+  lemma_yo: весёленько
+  pairs:
+  - form_e: веселенько
+    form_yo: весёленько
+- lemma_e: вечерок
+  lemma_yo: вечёрка
+  pairs:
+  - form_e: вечерка
+    form_yo: вечёрка
+  - form_e: вечеркам
+    form_yo: вечёркам
+  - form_e: вечерками
+    form_yo: вечёрками
+  - form_e: вечерках
+    form_yo: вечёрках
+  - form_e: вечерке
+    form_yo: вечёрке
+  - form_e: вечерки
+    form_yo: вечёрки
+  - form_e: вечерку
+    form_yo: вечёрку
+  - form_e: вечерок
+    form_yo: вечёрок
+- lemma_e: вешен
+  lemma_yo: вешён
+  pairs:
+  - form_e: вешен
+    form_yo: вешён
+- lemma_e: вешенный
+  lemma_yo: вешённый
+  pairs:
+  - form_e: вешенная
+    form_yo: вешённая
+  - form_e: вешенного
+    form_yo: вешённого
+  - form_e: вешенное
+    form_yo: вешённое
+  - form_e: вешенной
+    form_yo: вешённой
+  - form_e: вешенном
+    form_yo: вешённом
+  - form_e: вешенному
+    form_yo: вешённому
+  - form_e: вешенною
+    form_yo: вешённою
+  - form_e: вешенную
+    form_yo: вешённую
+  - form_e: вешенные
+    form_yo: вешённые
+  - form_e: вешенный
+    form_yo: вешённый
+  - form_e: вешенным
+    form_yo: вешённым
+  - form_e: вешенными
+    form_yo: вешёнными
+  - form_e: вешенных
+    form_yo: вешённых
+- lemma_e: взволочен
+  lemma_yo: взволочён
+  pairs:
+  - form_e: взволочен
+    form_yo: взволочён
+- lemma_e: взволоченный
+  lemma_yo: взволочённый
+  pairs:
+  - form_e: взволоченная
+    form_yo: взволочённая
+  - form_e: взволоченного
+    form_yo: взволочённого
+  - form_e: взволоченное
+    form_yo: взволочённое
+  - form_e: взволоченной
+    form_yo: взволочённой
+  - form_e: взволоченном
+    form_yo: взволочённом
+  - form_e: взволоченному
+    form_yo: взволочённому
+  - form_e: взволоченною
+    form_yo: взволочённою
+  - form_e: взволоченную
+    form_yo: взволочённую
+  - form_e: взволоченные
+    form_yo: взволочённые
+  - form_e: взволоченный
+    form_yo: взволочённый
+  - form_e: взволоченным
+    form_yo: взволочённым
+  - form_e: взволоченными
+    form_yo: взволочёнными
+  - form_e: взволоченных
+    form_yo: взволочённых
+- lemma_e: взмёл
+  lemma_yo: взмёт
+  pairs:
+  - form_e: взмету
+    form_yo: взмёту
+- lemma_e: взметнул
+  lemma_yo: взмётнут
+  pairs:
+  - form_e: взметнут
+    form_yo: взмётнут
+- lemma_e: вметнул
+  lemma_yo: вмётнут
+  pairs:
+  - form_e: вметнут
+    form_yo: вмётнут
+- lemma_e: волочен
+  lemma_yo: волочён
+  pairs:
+  - form_e: волочен
+    form_yo: волочён
+- lemma_e: волоченный
+  lemma_yo: волочённый
+  pairs:
+  - form_e: волоченная
+    form_yo: волочённая
+  - form_e: волоченного
+    form_yo: волочённого
+  - form_e: волоченное
+    form_yo: волочённое
+  - form_e: волоченной
+    form_yo: волочённой
+  - form_e: волоченном
+    form_yo: волочённом
+  - form_e: волоченному
+    form_yo: волочённому
+  - form_e: волоченною
+    form_yo: волочённою
+  - form_e: волоченную
+    form_yo: волочённую
+  - form_e: волоченные
+    form_yo: волочённые
+  - form_e: волоченный
+    form_yo: волочённый
+  - form_e: волоченным
+    form_yo: волочённым
+  - form_e: волоченными
+    form_yo: волочёнными
+  - form_e: волоченных
+    form_yo: волочённых
+- lemma_e: воробьевый
+  lemma_yo: воробьёв
+  pairs:
+  - form_e: воробьевым
+    form_yo: воробьёвым
+- lemma_e: воробьевый
+  lemma_yo: воробьёва
+  pairs:
+  - form_e: воробьевой
+    form_yo: воробьёвой
+- lemma_e: воробьевый
+  lemma_yo: воробьёвы
+  pairs:
+  - form_e: воробьевым
+    form_yo: воробьёвым
+  - form_e: воробьевыми
+    form_yo: воробьёвыми
+  - form_e: воробьевых
+    form_yo: воробьёвых
+- lemma_e: вороний
+  lemma_yo: вороньё
+  pairs:
+  - form_e: воронье
+    form_yo: вороньё
+  - form_e: вороньем
+    form_yo: вороньём
+- lemma_e: воронья
+  lemma_yo: вороньё
+  pairs:
+  - form_e: воронье
+    form_yo: вороньё
+- lemma_e: вплеснул
+  lemma_yo: вплёснут
+  pairs:
+  - form_e: вплеснут
+    form_yo: вплёснут
+- lemma_e: вселенная
+  lemma_yo: вселённый
+  pairs:
+  - form_e: вселенная
+    form_yo: вселённая
+  - form_e: вселенной
+    form_yo: вселённой
+  - form_e: вселенною
+    form_yo: вселённою
+  - form_e: вселенную
+    form_yo: вселённую
+  - form_e: вселенные
+    form_yo: вселённые
+  - form_e: вселенным
+    form_yo: вселённым
+  - form_e: вселенными
+    form_yo: вселёнными
+  - form_e: вселенных
+    form_yo: вселённых
+- lemma_e: всплеснул
+  lemma_yo: всплёснут
+  pairs:
+  - form_e: всплеснут
+    form_yo: всплёснут
+- lemma_e: весь
+  lemma_yo: всё
+  pairs:
+  - form_e: все
+    form_yo: всё
+- lemma_e: вызнал
+  lemma_yo: вызнаю
+  pairs:
+  - form_e: вызнаем
+    form_yo: вызнаём
+  - form_e: вызнает
+    form_yo: вызнаёт
+  - form_e: вызнаете
+    form_yo: вызнаёте
+  - form_e: вызнаешь
+    form_yo: вызнаёшь
+- lemma_e: ведро
+  lemma_yo: вёдро
+  pairs:
+  - form_e: ведра
+    form_yo: вёдра
+  - form_e: ведре
+    form_yo: вёдре
+  - form_e: ведро
+    form_yo: вёдро
+  - form_e: ведром
+    form_yo: вёдром
+  - form_e: ведру
+    form_yo: вёдру
+- lemma_e: гаев
+  lemma_yo: гай
+  pairs:
+  - form_e: гаев
+    form_yo: гаёв
+- lemma_e: гашен
+  lemma_yo: гашён
+  pairs:
+  - form_e: гашен
+    form_yo: гашён
+  - form_e: гашена
+    form_yo: гашёна
+  - form_e: гашено
+    form_yo: гашёно
+  - form_e: гашены
+    form_yo: гашёны
+- lemma_e: гноен
+  lemma_yo: гноён
+  pairs:
+  - form_e: гноен
+    form_yo: гноён
+- lemma_e: гнету
+  lemma_yo: гнёт
+  pairs:
+  - form_e: гнету
+    form_yo: гнёту
+- lemma_e: головнее
+  lemma_yo: головня
+  pairs:
+  - form_e: головней
+    form_yo: головнёй
+- lemma_e: горбачевская
+  lemma_yo: горбачёвский
+  pairs:
+  - form_e: горбачевская
+    form_yo: горбачёвская
+  - form_e: горбачевской
+    form_yo: горбачёвской
+  - form_e: горбачевскую
+    form_yo: горбачёвскую
+- lemma_e: горбачевские
+  lemma_yo: горбачёвский
+  pairs:
+  - form_e: горбачевские
+    form_yo: горбачёвские
+  - form_e: горбачевским
+    form_yo: горбачёвским
+  - form_e: горбачевскими
+    form_yo: горбачёвскими
+  - form_e: горбачевских
+    form_yo: горбачёвских
+- lemma_e: горбачевский
+  lemma_yo: горбачёвский
+  pairs:
+  - form_e: горбачевский
+    form_yo: горбачёвский
+  - form_e: горбачевским
+    form_yo: горбачёвским
+  - form_e: горбачевского
+    form_yo: горбачёвского
+  - form_e: горбачевском
+    form_yo: горбачёвском
+  - form_e: горбачевскому
+    form_yo: горбачёвскому
+- lemma_e: гребу
+  lemma_yo: гребло
+  pairs:
+  - form_e: гребла
+    form_yo: грёбла
+- lemma_e: гребень
+  lemma_yo: гребнул
+  pairs:
+  - form_e: гребнем
+    form_yo: гребнём
+- lemma_e: гребенка
+  lemma_yo: гребёнка
+  pairs:
+  - form_e: гребенка
+    form_yo: гребёнка
+  - form_e: гребенке
+    form_yo: гребёнке
+  - form_e: гребенки
+    form_yo: гребёнки
+  - form_e: гребенкой
+    form_yo: гребёнкой
+  - form_e: гребенкою
+    form_yo: гребёнкою
+  - form_e: гребенку
+    form_yo: гребёнку
+- lemma_e: груздев
+  lemma_yo: груздёв
+  pairs:
+  - form_e: груздев
+    form_yo: груздёв
+  - form_e: груздева
+    form_yo: груздёва
+- lemma_e: груздева
+  lemma_yo: груздёв
+  pairs:
+  - form_e: груздева
+    form_yo: груздёва
+- lemma_e: груздевы
+  lemma_yo: груздёв
+  pairs:
+  - form_e: груздевы
+    form_yo: груздёвы
+- lemma_e: груздев
+  lemma_yo: груздёвый
+  pairs:
+  - form_e: груздевым
+    form_yo: груздёвым
+- lemma_e: груздева
+  lemma_yo: груздёвый
+  pairs:
+  - form_e: груздевой
+    form_yo: груздёвой
+- lemma_e: груздевы
+  lemma_yo: груздёвый
+  pairs:
+  - form_e: груздевым
+    form_yo: груздёвым
+  - form_e: груздевыми
+    form_yo: груздёвыми
+  - form_e: груздевых
+    form_yo: груздёвых
+- lemma_e: давний
+  lemma_yo: давнул
+  pairs:
+  - form_e: давнем
+    form_yo: давнём
+- lemma_e: дайм
+  lemma_yo: даймё
+  pairs:
+  - form_e: дайме
+    form_yo: даймё
+- lemma_e: двойня
+  lemma_yo: двоён
+  pairs:
+  - form_e: двоен
+    form_yo: двоён
+- lemma_e: делен
+  lemma_yo: делён
+  pairs:
+  - form_e: делен
+    form_yo: делён
+- lemma_e: дергачевская
+  lemma_yo: дергачёвский
+  pairs:
+  - form_e: дергачевская
+    form_yo: дергачёвская
+  - form_e: дергачевской
+    form_yo: дергачёвской
+  - form_e: дергачевскую
+    form_yo: дергачёвскую
+- lemma_e: дергачевские
+  lemma_yo: дергачёвский
+  pairs:
+  - form_e: дергачевские
+    form_yo: дергачёвские
+  - form_e: дергачевским
+    form_yo: дергачёвским
+  - form_e: дергачевскими
+    form_yo: дергачёвскими
+  - form_e: дергачевских
+    form_yo: дергачёвских
+- lemma_e: дергачевский
+  lemma_yo: дергачёвский
+  pairs:
+  - form_e: дергачевский
+    form_yo: дергачёвский
+  - form_e: дергачевским
+    form_yo: дергачёвским
+  - form_e: дергачевского
+    form_yo: дергачёвского
+  - form_e: дергачевском
+    form_yo: дергачёвском
+  - form_e: дергачевскому
+    form_yo: дергачёвскому
+- lemma_e: добрею
+  lemma_yo: добрёл
+  pairs:
+  - form_e: добрел
+    form_yo: добрёл
+- lemma_e: доволочен
+  lemma_yo: доволочён
+  pairs:
+  - form_e: доволочен
+    form_yo: доволочён
+- lemma_e: доволоченный
+  lemma_yo: доволочённый
+  pairs:
+  - form_e: доволоченная
+    form_yo: доволочённая
+  - form_e: доволоченного
+    form_yo: доволочённого
+  - form_e: доволоченное
+    form_yo: доволочённое
+  - form_e: доволоченной
+    form_yo: доволочённой
+  - form_e: доволоченном
+    form_yo: доволочённом
+  - form_e: доволоченному
+    form_yo: доволочённому
+  - form_e: доволоченною
+    form_yo: доволочённою
+  - form_e: доволоченную
+    form_yo: доволочённую
+  - form_e: доволоченные
+    form_yo: доволочённые
+  - form_e: доволоченный
+    form_yo: доволочённый
+  - form_e: доволоченным
+    form_yo: доволочённым
+  - form_e: доволоченными
+    form_yo: доволочёнными
+  - form_e: доволоченных
+    form_yo: доволочённых
+- lemma_e: довернул
+  lemma_yo: довёрнут
+  pairs:
+  - form_e: довернут
+    form_yo: довёрнут
+- lemma_e: договорен
+  lemma_yo: договорён
+  pairs:
+  - form_e: договорен
+    form_yo: договорён
+- lemma_e: дознался
+  lemma_yo: дознаюсь
+  pairs:
+  - form_e: дознаемся
+    form_yo: дознаёмся
+  - form_e: дознаетесь
+    form_yo: дознаётесь
+  - form_e: дознается
+    form_yo: дознаётся
+  - form_e: дознаешься
+    form_yo: дознаёшься
+- lemma_e: дометнул
+  lemma_yo: домётнут
+  pairs:
+  - form_e: дометнут
+    form_yo: домётнут
+- lemma_e: доплеснул
+  lemma_yo: доплёснут
+  pairs:
+  - form_e: доплеснут
+    form_yo: доплёснут
+- lemma_e: дохну
+  lemma_yo: дохнул
+  pairs:
+  - form_e: дохнем
+    form_yo: дохнём
+  - form_e: дохнет
+    form_yo: дохнёт
+  - form_e: дохнете
+    form_yo: дохнёте
+  - form_e: дохнешь
+    form_yo: дохнёшь
+- lemma_e: доен
+  lemma_yo: доён
+  pairs:
+  - form_e: доен
+    form_yo: доён
+  - form_e: доена
+    form_yo: доёна
+  - form_e: доено
+    form_yo: доёно
+  - form_e: доены
+    form_yo: доёны
+- lemma_e: дрочён
+  lemma_yo: дрочёна
+  pairs:
+  - form_e: дрочена
+    form_yo: дрочёна
+  - form_e: дрочены
+    form_yo: дрочёны
+- lemma_e: душен
+  lemma_yo: душён
+  pairs:
+  - form_e: душен
+    form_yo: душён
+  - form_e: душена
+    form_yo: душёна
+  - form_e: душено
+    form_yo: душёно
+  - form_e: душены
+    form_yo: душёны
+- lemma_e: дегтевой
+  lemma_yo: дёгтевый
+  pairs:
+  - form_e: дегтевая
+    form_yo: дёгтевая
+  - form_e: дегтевого
+    form_yo: дёгтевого
+  - form_e: дегтевое
+    form_yo: дёгтевое
+  - form_e: дегтевой
+    form_yo: дёгтевой
+  - form_e: дегтевом
+    form_yo: дёгтевом
+  - form_e: дегтевому
+    form_yo: дёгтевому
+  - form_e: дегтевою
+    form_yo: дёгтевою
+  - form_e: дегтевую
+    form_yo: дёгтевую
+  - form_e: дегтевые
+    form_yo: дёгтевые
+  - form_e: дегтевым
+    form_yo: дёгтевым
+  - form_e: дегтевыми
+    form_yo: дёгтевыми
+  - form_e: дегтевых
+    form_yo: дёгтевых
+- lemma_e: дем
+  lemma_yo: дёма
+  pairs:
+  - form_e: дем
+    form_yo: дём
+  - form_e: дема
+    form_yo: дёма
+  - form_e: демам
+    form_yo: дёмам
+  - form_e: демами
+    form_yo: дёмами
+  - form_e: демах
+    form_yo: дёмах
+  - form_e: деме
+    form_yo: дёме
+  - form_e: дему
+    form_yo: дёму
+  - form_e: демы
+    form_yo: дёмы
+- lemma_e: дер
+  lemma_yo: дёр
+  pairs:
+  - form_e: дер
+    form_yo: дёр
+- lemma_e: деру
+  lemma_yo: дёр
+  pairs:
+  - form_e: деру
+    form_yo: дёру
+- lemma_e: дернов
+  lemma_yo: дёрн
+  pairs:
+  - form_e: дернов
+    form_yo: дёрнов
+- lemma_e: дерню
+  lemma_yo: дёрнул
+  pairs:
+  - form_e: дерни
+    form_yo: дёрни
+  - form_e: дерните
+    form_yo: дёрните
+- lemma_e: дернюсь
+  lemma_yo: дёрнулся
+  pairs:
+  - form_e: дернись
+    form_yo: дёрнись
+  - form_e: дернитесь
+    form_yo: дёрнитесь
+- lemma_e: ерь
+  lemma_yo: ерёма
+  pairs:
+  - form_e: ерем
+    form_yo: ерём
+- lemma_e: железо
+  lemma_yo: железа
+  pairs:
+  - form_e: желез
+    form_yo: желёз
+- lemma_e: жеребей
+  lemma_yo: жерёбее
+  pairs:
+  - form_e: жеребей
+    form_yo: жерёбей
+- lemma_e: животворен
+  lemma_yo: животворён
+  pairs:
+  - form_e: животворен
+    form_yo: животворён
+- lemma_e: живете
+  lemma_yo: живу
+  pairs:
+  - form_e: живете
+    form_yo: живёте
+- lemma_e: житие
+  lemma_yo: житьё
+  pairs:
+  - form_e: житье
+    form_yo: житьё
+  - form_e: житьем
+    form_yo: житьём
+- lemma_e: жерновой
+  lemma_yo: жёрнов
+  pairs:
+  - form_e: жерновом
+    form_yo: жёрновом
+- lemma_e: жесток
+  lemma_yo: жёсток
+  pairs:
+  - form_e: жесток
+    form_yo: жёсток
+- lemma_e: заберег
+  lemma_yo: заберёг
+  pairs:
+  - form_e: заберег
+    form_yo: заберёг
+- lemma_e: забучен
+  lemma_yo: забучён
+  pairs:
+  - form_e: забучен
+    form_yo: забучён
+- lemma_e: забученный
+  lemma_yo: забучённый
+  pairs:
+  - form_e: забученная
+    form_yo: забучённая
+  - form_e: забученного
+    form_yo: забучённого
+  - form_e: забученное
+    form_yo: забучённое
+  - form_e: забученной
+    form_yo: забучённой
+  - form_e: забученном
+    form_yo: забучённом
+  - form_e: забученному
+    form_yo: забучённому
+  - form_e: забученною
+    form_yo: забучённою
+  - form_e: забученную
+    form_yo: забучённую
+  - form_e: забученные
+    form_yo: забучённые
+  - form_e: забученный
+    form_yo: забучённый
+  - form_e: забученным
+    form_yo: забучённым
+  - form_e: забученными
+    form_yo: забучёнными
+  - form_e: забученных
+    form_yo: забучённых
+- lemma_e: завернул
+  lemma_yo: завёрнут
+  pairs:
+  - form_e: завернут
+    form_yo: завёрнут
+- lemma_e: заговорен
+  lemma_yo: заговорён
+  pairs:
+  - form_e: заговорен
+    form_yo: заговорён
+- lemma_e: загреб
+  lemma_yo: загрёб
+  pairs:
+  - form_e: загреб
+    form_yo: загрёб
+- lemma_e: зазнался
+  lemma_yo: зазнаюсь
+  pairs:
+  - form_e: зазнаемся
+    form_yo: зазнаёмся
+  - form_e: зазнаетесь
+    form_yo: зазнаётесь
+  - form_e: зазнается
+    form_yo: зазнаётся
+  - form_e: зазнаешься
+    form_yo: зазнаёшься
+- lemma_e: заметен
+  lemma_yo: заметён
+  pairs:
+  - form_e: заметен
+    form_yo: заметён
+- lemma_e: замета
+  lemma_yo: замёт
+  pairs:
+  - form_e: замет
+    form_yo: замёт
+  - form_e: замета
+    form_yo: замёта
+  - form_e: заметам
+    form_yo: замётам
+  - form_e: заметами
+    form_yo: замётами
+  - form_e: заметах
+    form_yo: замётах
+  - form_e: замете
+    form_yo: замёте
+  - form_e: замету
+    form_yo: замёту
+  - form_e: заметы
+    form_yo: замёты
+- lemma_e: замёл
+  lemma_yo: замёт
+  pairs:
+  - form_e: замету
+    form_yo: замёту
+- lemma_e: западнее
+  lemma_yo: западня
+  pairs:
+  - form_e: западней
+    form_yo: западнёй
+- lemma_e: запален
+  lemma_yo: запалён
+  pairs:
+  - form_e: запален
+    form_yo: запалён
+- lemma_e: запасен
+  lemma_yo: запасён
+  pairs:
+  - form_e: запасен
+    form_yo: запасён
+- lemma_e: запах
+  lemma_yo: запахнул
+  pairs:
+  - form_e: запахнем
+    form_yo: запахнём
+  - form_e: запахнемте
+    form_yo: запахнёмте
+  - form_e: запахнет
+    form_yo: запахнёт
+  - form_e: запахнете
+    form_yo: запахнёте
+  - form_e: запахнешь
+    form_yo: запахнёшь
+- lemma_e: запоем
+  lemma_yo: запел
+  pairs:
+  - form_e: запоем
+    form_yo: запоём
+- lemma_e: запой
+  lemma_yo: запел
+  pairs:
+  - form_e: запоем
+    form_yo: запоём
+- lemma_e: запрет
+  lemma_yo: запер
+  pairs:
+  - form_e: запрет
+    form_yo: запрёт
+  - form_e: запрете
+    form_yo: запрёте
+- lemma_e: запечен
+  lemma_yo: запечён
+  pairs:
+  - form_e: запечен
+    form_yo: запечён
+- lemma_e: заплеснул
+  lemma_yo: заплёснут
+  pairs:
+  - form_e: заплеснут
+    form_yo: заплёснут
+- lemma_e: зареял
+  lemma_yo: заря
+  pairs:
+  - form_e: зарей
+    form_yo: зарёй
+  - form_e: зарею
+    form_yo: зарёю
+- lemma_e: засечен
+  lemma_yo: засечён
+  pairs:
+  - form_e: засечен
+    form_yo: засечён
+- lemma_e: заскоблен
+  lemma_yo: заскоблён
+  pairs:
+  - form_e: заскоблен
+    form_yo: заскоблён
+- lemma_e: заскобленный
+  lemma_yo: заскоблённый
+  pairs:
+  - form_e: заскобленная
+    form_yo: заскоблённая
+  - form_e: заскобленного
+    form_yo: заскоблённого
+  - form_e: заскобленное
+    form_yo: заскоблённое
+  - form_e: заскобленной
+    form_yo: заскоблённой
+  - form_e: заскобленном
+    form_yo: заскоблённом
+  - form_e: заскобленному
+    form_yo: заскоблённому
+  - form_e: заскобленною
+    form_yo: заскоблённою
+  - form_e: заскобленную
+    form_yo: заскоблённую
+  - form_e: заскобленные
+    form_yo: заскоблённые
+  - form_e: заскобленный
+    form_yo: заскоблённый
+  - form_e: заскобленным
+    form_yo: заскоблённым
+  - form_e: заскобленными
+    form_yo: заскоблёнными
+  - form_e: заскобленных
+    form_yo: заскоблённых
+- lemma_e: застегнул
+  lemma_yo: застёгнут
+  pairs:
+  - form_e: застегнут
+    form_yo: застёгнут
+- lemma_e: засека
+  lemma_yo: засёк
+  pairs:
+  - form_e: засек
+    form_yo: засёк
+- lemma_e: затворен
+  lemma_yo: затворён
+  pairs:
+  - form_e: затворен
+    form_yo: затворён
+- lemma_e: заточен
+  lemma_yo: заточён
+  pairs:
+  - form_e: заточен
+    form_yo: заточён
+- lemma_e: заушен
+  lemma_yo: заушён
+  pairs:
+  - form_e: заушен
+    form_yo: заушён
+- lemma_e: захлебнул
+  lemma_yo: захлёбнут
+  pairs:
+  - form_e: захлебнут
+    form_yo: захлёбнут
+- lemma_e: захлестнул
+  lemma_yo: захлёстнут
+  pairs:
+  - form_e: захлестнут
+    form_yo: захлёстнут
+- lemma_e: зачеркнул
+  lemma_yo: зачёркнут
+  pairs:
+  - form_e: зачеркнут
+    form_yo: зачёркнут
+- lemma_e: заел
+  lemma_yo: заём
+  pairs:
+  - form_e: заем
+    form_yo: заём
+- lemma_e: змий
+  lemma_yo: змиёв
+  pairs:
+  - form_e: змиев
+    form_yo: змиёв
+- lemma_e: знаменен
+  lemma_yo: знамёнен
+  pairs:
+  - form_e: знаменен
+    form_yo: знамёнен
+  - form_e: знаменна
+    form_yo: знамённа
+  - form_e: знаменно
+    form_yo: знамённо
+  - form_e: знаменны
+    form_yo: знамённы
+- lemma_e: знаменнее
+  lemma_yo: знамённее
+  pairs:
+  - form_e: знаменнее
+    form_yo: знамённее
+  - form_e: знаменней
+    form_yo: знамённей
+  - form_e: познаменнее
+    form_yo: познамённее
+  - form_e: познаменней
+    form_yo: познамённей
+- lemma_e: знаменный
+  lemma_yo: знамённый
+  pairs:
+  - form_e: знаменная
+    form_yo: знамённая
+  - form_e: знаменного
+    form_yo: знамённого
+  - form_e: знаменное
+    form_yo: знамённое
+  - form_e: знаменной
+    form_yo: знамённой
+  - form_e: знаменном
+    form_yo: знамённом
+  - form_e: знаменному
+    form_yo: знамённому
+  - form_e: знаменною
+    form_yo: знамённою
+  - form_e: знаменную
+    form_yo: знамённую
+  - form_e: знаменные
+    form_yo: знамённые
+  - form_e: знаменный
+    form_yo: знамённый
+  - form_e: знаменным
+    form_yo: знамённым
+  - form_e: знаменными
+    form_yo: знамёнными
+  - form_e: знаменных
+    form_yo: знамённых
+- lemma_e: золен
+  lemma_yo: золён
+  pairs:
+  - form_e: золен
+    form_yo: золён
+- lemma_e: зуев
+  lemma_yo: зуй
+  pairs:
+  - form_e: зуев
+    form_yo: зуёв
+- lemma_e: зев
+  lemma_yo: зёва
+  pairs:
+  - form_e: зев
+    form_yo: зёв
+  - form_e: зева
+    form_yo: зёва
+  - form_e: зевам
+    form_yo: зёвам
+  - form_e: зевами
+    form_yo: зёвами
+  - form_e: зевах
+    form_yo: зёвах
+  - form_e: зеве
+    form_yo: зёве
+  - form_e: зеву
+    form_yo: зёву
+  - form_e: зевы
+    form_yo: зёвы
+- lemma_e: истомлен
+  lemma_yo: истомлён
+  pairs:
+  - form_e: истомлен
+    form_yo: истомлён
+- lemma_e: истомленный
+  lemma_yo: истомлённый
+  pairs:
+  - form_e: истомленная
+    form_yo: истомлённая
+  - form_e: истомленного
+    form_yo: истомлённого
+  - form_e: истомленное
+    form_yo: истомлённое
+  - form_e: истомленной
+    form_yo: истомлённой
+  - form_e: истомленном
+    form_yo: истомлённом
+  - form_e: истомленному
+    form_yo: истомлённому
+  - form_e: истомленною
+    form_yo: истомлённою
+  - form_e: истомленную
+    form_yo: истомлённую
+  - form_e: истомленные
+    form_yo: истомлённые
+  - form_e: истомленный
+    form_yo: истомлённый
+  - form_e: истомленным
+    form_yo: истомлённым
+  - form_e: истомленными
+    form_yo: истомлёнными
+  - form_e: истомленных
+    form_yo: истомлённых
+- lemma_e: истекшее
+  lemma_yo: истёкший
+  pairs:
+  - form_e: истекшее
+    form_yo: истёкшее
+  - form_e: истекшей
+    form_yo: истёкшей
+- lemma_e: истекший
+  lemma_yo: истёкший
+  pairs:
+  - form_e: истекшая
+    form_yo: истёкшая
+  - form_e: истекшего
+    form_yo: истёкшего
+  - form_e: истекшее
+    form_yo: истёкшее
+  - form_e: истекшей
+    form_yo: истёкшей
+  - form_e: истекшем
+    form_yo: истёкшем
+  - form_e: истекшему
+    form_yo: истёкшему
+  - form_e: истекшею
+    form_yo: истёкшею
+  - form_e: истекшие
+    form_yo: истёкшие
+  - form_e: истекший
+    form_yo: истёкший
+  - form_e: истекшим
+    form_yo: истёкшим
+  - form_e: истекшими
+    form_yo: истёкшими
+  - form_e: истекших
+    form_yo: истёкших
+  - form_e: истекшую
+    form_yo: истёкшую
+- lemma_e: кабален
+  lemma_yo: кабалён
+  pairs:
+  - form_e: кабален
+    form_yo: кабалён
+- lemma_e: кай
+  lemma_yo: кайма
+  pairs:
+  - form_e: каем
+    form_yo: каём
+- lemma_e: кален
+  lemma_yo: калён
+  pairs:
+  - form_e: кален
+    form_yo: калён
+  - form_e: калена
+    form_yo: калёна
+  - form_e: калены
+    form_yo: калёны
+- lemma_e: кален
+  lemma_yo: калёный
+  pairs:
+  - form_e: каленом
+    form_yo: калёном
+- lemma_e: карасев
+  lemma_yo: карасёв
+  pairs:
+  - form_e: карасев
+    form_yo: карасёв
+  - form_e: карасева
+    form_yo: карасёва
+- lemma_e: карасева
+  lemma_yo: карасёв
+  pairs:
+  - form_e: карасева
+    form_yo: карасёва
+- lemma_e: карасево
+  lemma_yo: карасёв
+  pairs:
+  - form_e: карасева
+    form_yo: карасёва
+  - form_e: карасево
+    form_yo: карасёво
+- lemma_e: карасевы
+  lemma_yo: карасёв
+  pairs:
+  - form_e: карасевы
+    form_yo: карасёвы
+- lemma_e: карасев
+  lemma_yo: карасёвый
+  pairs:
+  - form_e: карасевым
+    form_yo: карасёвым
+- lemma_e: карасева
+  lemma_yo: карасёвый
+  pairs:
+  - form_e: карасевой
+    form_yo: карасёвой
+- lemma_e: карасево
+  lemma_yo: карасёвый
+  pairs:
+  - form_e: карасевом
+    form_yo: карасёвом
+- lemma_e: карасевы
+  lemma_yo: карасёвый
+  pairs:
+  - form_e: карасевым
+    form_yo: карасёвым
+  - form_e: карасевыми
+    form_yo: карасёвыми
+  - form_e: карасевых
+    form_yo: карасёвых
+- lemma_e: квело
+  lemma_yo: квёл
+  pairs:
+  - form_e: квело
+    form_yo: квёло
+- lemma_e: киев
+  lemma_yo: кий
+  pairs:
+  - form_e: киев
+    form_yo: киёв
+- lemma_e: клеен
+  lemma_yo: клеён
+  pairs:
+  - form_e: клеен
+    form_yo: клеён
+  - form_e: клеена
+    form_yo: клеёна
+  - form_e: клеено
+    form_yo: клеёно
+  - form_e: клеены
+    form_yo: клеёны
+- lemma_e: клекотов
+  lemma_yo: клёкот
+  pairs:
+  - form_e: клекотов
+    form_yo: клёкотов
+- lemma_e: кленов
+  lemma_yo: клён
+  pairs:
+  - form_e: кленов
+    form_yo: клёнов
+- lemma_e: клепание
+  lemma_yo: клёпань
+  pairs:
+  - form_e: клепанью
+    form_yo: клёпанью
+- lemma_e: клецк
+  lemma_yo: клёцка
+  pairs:
+  - form_e: клецка
+    form_yo: клёцка
+  - form_e: клецкам
+    form_yo: клёцкам
+  - form_e: клецками
+    form_yo: клёцками
+  - form_e: клецках
+    form_yo: клёцках
+  - form_e: клецке
+    form_yo: клёцке
+  - form_e: клецки
+    form_yo: клёцки
+  - form_e: клецку
+    form_yo: клёцку
+- lemma_e: козлы
+  lemma_yo: козёл
+  pairs:
+  - form_e: козел
+    form_yo: козёл
+- lemma_e: конышевская
+  lemma_yo: конышёвский
+  pairs:
+  - form_e: конышевская
+    form_yo: конышёвская
+  - form_e: конышевской
+    form_yo: конышёвской
+  - form_e: конышевскую
+    form_yo: конышёвскую
+- lemma_e: конышевские
+  lemma_yo: конышёвский
+  pairs:
+  - form_e: конышевские
+    form_yo: конышёвские
+  - form_e: конышевским
+    form_yo: конышёвским
+  - form_e: конышевскими
+    form_yo: конышёвскими
+  - form_e: конышевских
+    form_yo: конышёвских
+- lemma_e: конышевский
+  lemma_yo: конышёвский
+  pairs:
+  - form_e: конышевский
+    form_yo: конышёвский
+  - form_e: конышевским
+    form_yo: конышёвским
+  - form_e: конышевского
+    form_yo: конышёвского
+  - form_e: конышевском
+    form_yo: конышёвском
+  - form_e: конышевскому
+    form_yo: конышёвскому
+- lemma_e: копотнее
+  lemma_yo: копотня
+  pairs:
+  - form_e: копотней
+    form_yo: копотнёй
+- lemma_e: королева
+  lemma_yo: королёв
+  pairs:
+  - form_e: королев
+    form_yo: королёв
+  - form_e: королева
+    form_yo: королёва
+  - form_e: королеве
+    form_yo: королёве
+  - form_e: королеву
+    form_yo: королёву
+- lemma_e: королева
+  lemma_yo: королёва
+  pairs:
+  - form_e: королева
+    form_yo: королёва
+  - form_e: королевой
+    form_yo: королёвой
+  - form_e: королеву
+    form_yo: королёву
+- lemma_e: королева
+  lemma_yo: королёвы
+  pairs:
+  - form_e: королевы
+    form_yo: королёвы
+- lemma_e: коренной
+  lemma_yo: корённый
+  pairs:
+  - form_e: коренная
+    form_yo: корённая
+  - form_e: коренного
+    form_yo: корённого
+  - form_e: коренное
+    form_yo: корённое
+  - form_e: коренной
+    form_yo: корённой
+  - form_e: коренном
+    form_yo: корённом
+  - form_e: коренному
+    form_yo: корённому
+  - form_e: коренною
+    form_yo: корённою
+  - form_e: коренную
+    form_yo: корённую
+  - form_e: коренные
+    form_yo: корённые
+  - form_e: коренным
+    form_yo: корённым
+  - form_e: коренными
+    form_yo: корёнными
+  - form_e: коренных
+    form_yo: корённых
+- lemma_e: кошев
+  lemma_yo: кошева
+  pairs:
+  - form_e: кошев
+    form_yo: кошёв
+- lemma_e: кроен
+  lemma_yo: кроён
+  pairs:
+  - form_e: кроен
+    form_yo: кроён
+  - form_e: кроена
+    form_yo: кроёна
+  - form_e: кроено
+    form_yo: кроёно
+  - form_e: кроены
+    form_yo: кроёны
+- lemma_e: кручен
+  lemma_yo: кручён
+  pairs:
+  - form_e: кручен
+    form_yo: кручён
+  - form_e: кручена
+    form_yo: кручёна
+  - form_e: кручено
+    form_yo: кручёно
+  - form_e: кручены
+    form_yo: кручёны
+- lemma_e: крестный
+  lemma_yo: крёстный
+  pairs:
+  - form_e: крестная
+    form_yo: крёстная
+  - form_e: крестного
+    form_yo: крёстного
+  - form_e: крестное
+    form_yo: крёстное
+  - form_e: крестной
+    form_yo: крёстной
+  - form_e: крестном
+    form_yo: крёстном
+  - form_e: крестному
+    form_yo: крёстному
+  - form_e: крестною
+    form_yo: крёстною
+  - form_e: крестную
+    form_yo: крёстную
+  - form_e: крестные
+    form_yo: крёстные
+  - form_e: крестный
+    form_yo: крёстный
+  - form_e: крестным
+    form_yo: крёстным
+  - form_e: крестными
+    form_yo: крёстными
+  - form_e: крестных
+    form_yo: крёстных
+- lemma_e: кубарем
+  lemma_yo: кубарь
+  pairs:
+  - form_e: кубарем
+    form_yo: кубарём
+- lemma_e: курий
+  lemma_yo: курья
+  pairs:
+  - form_e: курьей
+    form_yo: курьёй
+  - form_e: курьею
+    form_yo: курьёю
+- lemma_e: кельня
+  lemma_yo: кёльн
+  pairs:
+  - form_e: кельне
+    form_yo: кёльне
+- lemma_e: ливень
+  lemma_yo: ливнул
+  pairs:
+  - form_e: ливнем
+    form_yo: ливнём
+- lemma_e: линька
+  lemma_yo: линёк
+  pairs:
+  - form_e: линек
+    form_yo: линёк
+- lemma_e: лишаем
+  lemma_yo: лишай
+  pairs:
+  - form_e: лишаем
+    form_yo: лишаём
+- lemma_e: лишаю
+  lemma_yo: лишай
+  pairs:
+  - form_e: лишаем
+    form_yo: лишаём
+- lemma_e: лосев
+  lemma_yo: лосёв
+  pairs:
+  - form_e: лосев
+    form_yo: лосёв
+  - form_e: лосева
+    form_yo: лосёва
+- lemma_e: лосева
+  lemma_yo: лосёв
+  pairs:
+  - form_e: лосева
+    form_yo: лосёва
+- lemma_e: лосево
+  lemma_yo: лосёв
+  pairs:
+  - form_e: лосева
+    form_yo: лосёва
+  - form_e: лосево
+    form_yo: лосёво
+- lemma_e: лосевы
+  lemma_yo: лосёв
+  pairs:
+  - form_e: лосевы
+    form_yo: лосёвы
+- lemma_e: лосев
+  lemma_yo: лосёвый
+  pairs:
+  - form_e: лосевым
+    form_yo: лосёвым
+- lemma_e: лосева
+  lemma_yo: лосёвый
+  pairs:
+  - form_e: лосевой
+    form_yo: лосёвой
+- lemma_e: лосево
+  lemma_yo: лосёвый
+  pairs:
+  - form_e: лосевом
+    form_yo: лосёвом
+- lemma_e: лосевы
+  lemma_yo: лосёвый
+  pairs:
+  - form_e: лосевым
+    form_yo: лосёвым
+  - form_e: лосевыми
+    form_yo: лосёвыми
+  - form_e: лосевых
+    form_yo: лосёвых
+- lemma_e: лыжнее
+  lemma_yo: лыжня
+  pairs:
+  - form_e: лыжней
+    form_yo: лыжнёй
+- lemma_e: лев
+  lemma_yo: лёва
+  pairs:
+  - form_e: лев
+    form_yo: лёв
+  - form_e: лева
+    form_yo: лёва
+  - form_e: левам
+    form_yo: лёвам
+  - form_e: левами
+    form_yo: лёвами
+  - form_e: левах
+    form_yo: лёвах
+  - form_e: леве
+    form_yo: лёве
+  - form_e: леву
+    form_yo: лёву
+  - form_e: левы
+    form_yo: лёвы
+- lemma_e: левый
+  lemma_yo: лёва
+  pairs:
+  - form_e: левой
+    form_yo: лёвой
+  - form_e: левою
+    form_yo: лёвою
+- lemma_e: левин
+  lemma_yo: лёвин
+  pairs:
+  - form_e: левин
+    form_yo: лёвин
+  - form_e: левина
+    form_yo: лёвина
+  - form_e: левину
+    form_yo: лёвину
+  - form_e: левиным
+    form_yo: лёвиным
+- lemma_e: левина
+  lemma_yo: лёвин
+  pairs:
+  - form_e: левина
+    form_yo: лёвина
+  - form_e: левиной
+    form_yo: лёвиной
+  - form_e: левину
+    form_yo: лёвину
+- lemma_e: левины
+  lemma_yo: лёвин
+  pairs:
+  - form_e: левины
+    form_yo: лёвины
+  - form_e: левиным
+    form_yo: лёвиным
+  - form_e: левиными
+    form_yo: лёвиными
+  - form_e: левиных
+    form_yo: лёвиных
+- lemma_e: левкой
+  lemma_yo: лёвка
+  pairs:
+  - form_e: левкой
+    form_yo: лёвкой
+  - form_e: левкою
+    form_yo: лёвкою
+- lemma_e: лела
+  lemma_yo: лёля
+  pairs:
+  - form_e: леле
+    form_yo: лёле
+- lemma_e: лелею
+  lemma_yo: лёля
+  pairs:
+  - form_e: лелей
+    form_yo: лёлей
+  - form_e: лелею
+    form_yo: лёлею
+- lemma_e: лен
+  lemma_yo: лён
+  pairs:
+  - form_e: лен
+    form_yo: лён
+- lemma_e: лена
+  lemma_yo: лён
+  pairs:
+  - form_e: лен
+    form_yo: лён
+- lemma_e: лен
+  lemma_yo: лёня
+  pairs:
+  - form_e: лене
+    form_yo: лёне
+- lemma_e: лена
+  lemma_yo: лёня
+  pairs:
+  - form_e: лене
+    form_yo: лёне
+- lemma_e: лень
+  lemma_yo: лёня
+  pairs:
+  - form_e: леней
+    form_yo: лёней
+  - form_e: лени
+    form_yo: лёни
+  - form_e: лень
+    form_yo: лёнь
+  - form_e: леням
+    form_yo: лёням
+  - form_e: ленями
+    form_yo: лёнями
+  - form_e: ленях
+    form_yo: лёнях
+- lemma_e: год
+  lemma_yo: лёт
+  pairs:
+  - form_e: лет
+    form_yo: лёт
+  - form_e: лета
+    form_yo: лёта
+  - form_e: летам
+    form_yo: лётам
+  - form_e: летами
+    form_yo: лётами
+  - form_e: летах
+    form_yo: лётах
+- lemma_e: лета
+  lemma_yo: лёт
+  pairs:
+  - form_e: лета
+    form_yo: лёта
+  - form_e: лете
+    form_yo: лёте
+  - form_e: лету
+    form_yo: лёту
+  - form_e: леты
+    form_yo: лёты
+- lemma_e: лето
+  lemma_yo: лёт
+  pairs:
+  - form_e: лета
+    form_yo: лёта
+  - form_e: лете
+    form_yo: лёте
+  - form_e: летом
+    form_yo: лётом
+  - form_e: лету
+    form_yo: лёту
+- lemma_e: летов
+  lemma_yo: лёт
+  pairs:
+  - form_e: летов
+    form_yo: лётов
+- lemma_e: летом
+  lemma_yo: лёт
+  pairs:
+  - form_e: летом
+    form_yo: лётом
+- lemma_e: лех
+  lemma_yo: лёха
+  pairs:
+  - form_e: лех
+    form_yo: лёх
+  - form_e: леха
+    form_yo: лёха
+  - form_e: лехам
+    form_yo: лёхам
+  - form_e: лехами
+    form_yo: лёхами
+  - form_e: лехах
+    form_yo: лёхах
+  - form_e: лехе
+    form_yo: лёхе
+  - form_e: лехи
+    form_yo: лёхи
+  - form_e: леху
+    form_yo: лёху
+- lemma_e: малосолен
+  lemma_yo: малосолён
+  pairs:
+  - form_e: малосолен
+    form_yo: малосолён
+- lemma_e: мальм
+  lemma_yo: мальмё
+  pairs:
+  - form_e: мальме
+    form_yo: мальмё
+- lemma_e: маркер
+  lemma_yo: маркёр
+  pairs:
+  - form_e: маркер
+    form_yo: маркёр
+  - form_e: маркера
+    form_yo: маркёра
+  - form_e: маркерам
+    form_yo: маркёрам
+  - form_e: маркерами
+    form_yo: маркёрами
+  - form_e: маркерах
+    form_yo: маркёрах
+  - form_e: маркере
+    form_yo: маркёре
+  - form_e: маркеров
+    form_yo: маркёров
+  - form_e: маркером
+    form_yo: маркёром
+  - form_e: маркеру
+    form_yo: маркёру
+  - form_e: маркеры
+    form_yo: маркёры
+- lemma_e: матеро
+  lemma_yo: матёр
+  pairs:
+  - form_e: матеро
+    form_yo: матёро
+- lemma_e: матерее
+  lemma_yo: матёрее
+  pairs:
+  - form_e: матерее
+    form_yo: матёрее
+  - form_e: матерей
+    form_yo: матёрей
+  - form_e: поматерее
+    form_yo: поматёрее
+  - form_e: поматерей
+    form_yo: поматёрей
+- lemma_e: матерею
+  lemma_yo: матёрее
+  pairs:
+  - form_e: матерей
+    form_yo: матёрей
+- lemma_e: мать
+  lemma_yo: матёрее
+  pairs:
+  - form_e: матерей
+    form_yo: матёрей
+- lemma_e: матерой
+  lemma_yo: матёрый
+  pairs:
+  - form_e: матерая
+    form_yo: матёрая
+  - form_e: матерого
+    form_yo: матёрого
+  - form_e: матерое
+    form_yo: матёрое
+  - form_e: матерой
+    form_yo: матёрой
+  - form_e: матером
+    form_yo: матёром
+  - form_e: матерому
+    form_yo: матёрому
+  - form_e: матерою
+    form_yo: матёрою
+  - form_e: матерую
+    form_yo: матёрую
+  - form_e: матерые
+    form_yo: матёрые
+  - form_e: матерым
+    form_yo: матёрым
+  - form_e: матерыми
+    form_yo: матёрыми
+  - form_e: матерых
+    form_yo: матёрых
+- lemma_e: мел
+  lemma_yo: мету
+  pairs:
+  - form_e: мел
+    form_yo: мёл
+- lemma_e: мирен
+  lemma_yo: мирён
+  pairs:
+  - form_e: мирен
+    form_yo: мирён
+- lemma_e: могилевская
+  lemma_yo: могилёвский
+  pairs:
+  - form_e: могилевская
+    form_yo: могилёвская
+  - form_e: могилевской
+    form_yo: могилёвской
+  - form_e: могилевскую
+    form_yo: могилёвскую
+- lemma_e: могилевские
+  lemma_yo: могилёвский
+  pairs:
+  - form_e: могилевские
+    form_yo: могилёвские
+  - form_e: могилевским
+    form_yo: могилёвским
+  - form_e: могилевскими
+    form_yo: могилёвскими
+  - form_e: могилевских
+    form_yo: могилёвских
+- lemma_e: могилевский
+  lemma_yo: могилёвский
+  pairs:
+  - form_e: могилевский
+    form_yo: могилёвский
+  - form_e: могилевским
+    form_yo: могилёвским
+  - form_e: могилевского
+    form_yo: могилёвского
+  - form_e: могилевском
+    form_yo: могилёвском
+  - form_e: могилевскому
+    form_yo: могилёвскому
+- lemma_e: мою
+  lemma_yo: мой
+  pairs:
+  - form_e: моем
+    form_yo: моём
+- lemma_e: морена
+  lemma_yo: морён
+  pairs:
+  - form_e: морен
+    form_yo: морён
+  - form_e: морена
+    form_yo: морёна
+  - form_e: морены
+    form_yo: морёны
+- lemma_e: моренный
+  lemma_yo: морённый
+  pairs:
+  - form_e: моренная
+    form_yo: морённая
+  - form_e: моренного
+    form_yo: морённого
+  - form_e: моренное
+    form_yo: морённое
+  - form_e: моренной
+    form_yo: морённой
+  - form_e: моренном
+    form_yo: морённом
+  - form_e: моренному
+    form_yo: морённому
+  - form_e: моренною
+    form_yo: морённою
+  - form_e: моренную
+    form_yo: морённую
+  - form_e: моренные
+    form_yo: морённые
+  - form_e: моренный
+    form_yo: морённый
+  - form_e: моренным
+    form_yo: морённым
+  - form_e: моренными
+    form_yo: морёнными
+  - form_e: моренных
+    form_yo: морённых
+- lemma_e: морена
+  lemma_yo: морёный
+  pairs:
+  - form_e: мореной
+    form_yo: морёной
+  - form_e: мореною
+    form_yo: морёною
+- lemma_e: мочен
+  lemma_yo: мочён
+  pairs:
+  - form_e: мочен
+    form_yo: мочён
+  - form_e: мочена
+    form_yo: мочёна
+  - form_e: мочено
+    form_yo: мочёно
+  - form_e: мочены
+    form_yo: мочёны
+- lemma_e: мощен
+  lemma_yo: мощён
+  pairs:
+  - form_e: мощен
+    form_yo: мощён
+- lemma_e: мрачен
+  lemma_yo: мрачён
+  pairs:
+  - form_e: мрачен
+    form_yo: мрачён
+- lemma_e: мера
+  lemma_yo: мру
+  pairs:
+  - form_e: мер
+    form_yo: мёр
+- lemma_e: мерла
+  lemma_yo: мру
+  pairs:
+  - form_e: мерла
+    form_yo: мёрла
+- lemma_e: мудрено
+  lemma_yo: мудрён
+  pairs:
+  - form_e: мудрено
+    form_yo: мудрёно
+- lemma_e: мужичий
+  lemma_yo: мужичьё
+  pairs:
+  - form_e: мужичье
+    form_yo: мужичьё
+  - form_e: мужичьем
+    form_yo: мужичьём
+- lemma_e: мучен
+  lemma_yo: мучён
+  pairs:
+  - form_e: мучен
+    form_yo: мучён
+- lemma_e: мученный
+  lemma_yo: мучённый
+  pairs:
+  - form_e: мученная
+    form_yo: мучённая
+  - form_e: мученного
+    form_yo: мучённого
+  - form_e: мученное
+    form_yo: мучённое
+  - form_e: мученной
+    form_yo: мучённой
+  - form_e: мученном
+    form_yo: мучённом
+  - form_e: мученному
+    form_yo: мучённому
+  - form_e: мученною
+    form_yo: мучённою
+  - form_e: мученную
+    form_yo: мучённую
+  - form_e: мученные
+    form_yo: мучённые
+  - form_e: мученный
+    form_yo: мучённый
+  - form_e: мученным
+    form_yo: мучённым
+  - form_e: мученными
+    form_yo: мучёнными
+  - form_e: мученных
+    form_yo: мучённых
+- lemma_e: мятие
+  lemma_yo: мятьё
+  pairs:
+  - form_e: мятье
+    form_yo: мятьё
+  - form_e: мятьем
+    form_yo: мятьём
+- lemma_e: мертво
+  lemma_yo: мёртв
+  pairs:
+  - form_e: мертво
+    form_yo: мёртво
+- lemma_e: метан
+  lemma_yo: мётан
+  pairs:
+  - form_e: метан
+    form_yo: мётан
+  - form_e: метана
+    form_yo: мётана
+  - form_e: метаны
+    form_yo: мётаны
+- lemma_e: набучен
+  lemma_yo: набучён
+  pairs:
+  - form_e: набучен
+    form_yo: набучён
+- lemma_e: набученный
+  lemma_yo: набучённый
+  pairs:
+  - form_e: набученная
+    form_yo: набучённая
+  - form_e: набученного
+    form_yo: набучённого
+  - form_e: набученное
+    form_yo: набучённое
+  - form_e: набученной
+    form_yo: набучённой
+  - form_e: набученном
+    form_yo: набучённом
+  - form_e: набученному
+    form_yo: набучённому
+  - form_e: набученною
+    form_yo: набучённою
+  - form_e: набученную
+    form_yo: набучённую
+  - form_e: набученные
+    form_yo: набучённые
+  - form_e: набученный
+    form_yo: набучённый
+  - form_e: набученным
+    form_yo: набучённым
+  - form_e: набученными
+    form_yo: набучёнными
+  - form_e: набученных
+    form_yo: набучённых
+- lemma_e: навий
+  lemma_yo: навил
+  pairs:
+  - form_e: навьем
+    form_yo: навьём
+- lemma_e: наволочен
+  lemma_yo: наволочён
+  pairs:
+  - form_e: наволочен
+    form_yo: наволочён
+- lemma_e: навернул
+  lemma_yo: навёрнут
+  pairs:
+  - form_e: навернут
+    form_yo: навёрнут
+- lemma_e: нагнёл
+  lemma_yo: нагнёт
+  pairs:
+  - form_e: нагнету
+    form_yo: нагнёту
+- lemma_e: наговорен
+  lemma_yo: наговорён
+  pairs:
+  - form_e: наговорен
+    form_yo: наговорён
+- lemma_e: надвернул
+  lemma_yo: надвёрнут
+  pairs:
+  - form_e: надвернут
+    form_yo: надвёрнут
+- lemma_e: наделен
+  lemma_yo: наделён
+  pairs:
+  - form_e: наделен
+    form_yo: наделён
+- lemma_e: наклонен
+  lemma_yo: наклонён
+  pairs:
+  - form_e: наклонен
+    form_yo: наклонён
+- lemma_e: намёл
+  lemma_yo: намёт
+  pairs:
+  - form_e: намету
+    form_yo: намёту
+- lemma_e: напой
+  lemma_yo: напел
+  pairs:
+  - form_e: напоем
+    form_yo: напоём
+- lemma_e: напружен
+  lemma_yo: напружён
+  pairs:
+  - form_e: напружен
+    form_yo: напружён
+- lemma_e: напруженный
+  lemma_yo: напружённый
+  pairs:
+  - form_e: напруженная
+    form_yo: напружённая
+  - form_e: напруженного
+    form_yo: напружённого
+  - form_e: напруженное
+    form_yo: напружённое
+  - form_e: напруженной
+    form_yo: напружённой
+  - form_e: напруженном
+    form_yo: напружённом
+  - form_e: напруженному
+    form_yo: напружённому
+  - form_e: напруженною
+    form_yo: напружённою
+  - form_e: напруженную
+    form_yo: напружённую
+  - form_e: напруженные
+    form_yo: напружённые
+  - form_e: напруженный
+    form_yo: напружённый
+  - form_e: напруженным
+    form_yo: напружённым
+  - form_e: напруженными
+    form_yo: напружёнными
+  - form_e: напруженных
+    form_yo: напружённых
+- lemma_e: наречен
+  lemma_yo: наречён
+  pairs:
+  - form_e: наречен
+    form_yo: наречён
+- lemma_e: настороженный
+  lemma_yo: насторожённый
+  pairs:
+  - form_e: настороженная
+    form_yo: насторожённая
+  - form_e: настороженного
+    form_yo: насторожённого
+  - form_e: настороженное
+    form_yo: насторожённое
+  - form_e: настороженной
+    form_yo: насторожённой
+  - form_e: настороженном
+    form_yo: насторожённом
+  - form_e: настороженному
+    form_yo: насторожённому
+  - form_e: настороженною
+    form_yo: насторожённою
+  - form_e: настороженную
+    form_yo: насторожённую
+  - form_e: настороженные
+    form_yo: насторожённые
+  - form_e: настороженный
+    form_yo: насторожённый
+  - form_e: настороженным
+    form_yo: насторожённым
+  - form_e: настороженными
+    form_yo: насторожёнными
+  - form_e: настороженных
+    form_yo: насторожённых
+- lemma_e: насека
+  lemma_yo: насёк
+  pairs:
+  - form_e: насек
+    form_yo: насёк
+- lemma_e: нахлестнул
+  lemma_yo: нахлёстнут
+  pairs:
+  - form_e: нахлестнут
+    form_yo: нахлёстнут
+- lemma_e: наел
+  lemma_yo: наём
+  pairs:
+  - form_e: наем
+    form_yo: наём
+- lemma_e: недалеко
+  lemma_yo: недалёк
+  pairs:
+  - form_e: недалеко
+    form_yo: недалёко
+- lemma_e: недовернул
+  lemma_yo: недовёрнут
+  pairs:
+  - form_e: недовернут
+    form_yo: недовёрнут
+- lemma_e: недоуменен
+  lemma_yo: недоумённо
+  pairs:
+  - form_e: недоуменно
+    form_yo: недоумённо
+- lemma_e: неизменен
+  lemma_yo: неизменён
+  pairs:
+  - form_e: неизменен
+    form_yo: неизменён
+- lemma_e: немощен
+  lemma_yo: немощён
+  pairs:
+  - form_e: немощен
+    form_yo: немощён
+- lemma_e: немудрено
+  lemma_yo: немудрён
+  pairs:
+  - form_e: немудрено
+    form_yo: немудрёно
+- lemma_e: несохранен
+  lemma_yo: несохранён
+  pairs:
+  - form_e: несохранен
+    form_yo: несохранён
+- lemma_e: неуемно
+  lemma_yo: неуёмен
+  pairs:
+  - form_e: неуемно
+    form_yo: неуёмно
+- lemma_e: небо
+  lemma_yo: нёбо
+  pairs:
+  - form_e: неба
+    form_yo: нёба
+  - form_e: небе
+    form_yo: нёбе
+  - form_e: небо
+    form_yo: нёбо
+  - form_e: небом
+    form_yo: нёбом
+  - form_e: небу
+    form_yo: нёбу
+- lemma_e: обвешен
+  lemma_yo: обвешён
+  pairs:
+  - form_e: обвешен
+    form_yo: обвешён
+- lemma_e: обвешенный
+  lemma_yo: обвешённый
+  pairs:
+  - form_e: обвешенная
+    form_yo: обвешённая
+  - form_e: обвешенного
+    form_yo: обвешённого
+  - form_e: обвешенное
+    form_yo: обвешённое
+  - form_e: обвешенной
+    form_yo: обвешённой
+  - form_e: обвешенном
+    form_yo: обвешённом
+  - form_e: обвешенному
+    form_yo: обвешённому
+  - form_e: обвешенною
+    form_yo: обвешённою
+  - form_e: обвешенную
+    form_yo: обвешённую
+  - form_e: обвешенные
+    form_yo: обвешённые
+  - form_e: обвешенный
+    form_yo: обвешённый
+  - form_e: обвешенным
+    form_yo: обвешённым
+  - form_e: обвешенными
+    form_yo: обвешёнными
+  - form_e: обвешенных
+    form_yo: обвешённых
+- lemma_e: обвернул
+  lemma_yo: обвёрнут
+  pairs:
+  - form_e: обвернут
+    form_yo: обвёрнут
+- lemma_e: обдернил
+  lemma_yo: обдёрнул
+  pairs:
+  - form_e: обдерни
+    form_yo: обдёрни
+  - form_e: обдерните
+    form_yo: обдёрните
+- lemma_e: обелен
+  lemma_yo: обелён
+  pairs:
+  - form_e: обелен
+    form_yo: обелён
+- lemma_e: оберег
+  lemma_yo: оберёг
+  pairs:
+  - form_e: оберег
+    form_yo: оберёг
+- lemma_e: облачен
+  lemma_yo: облачён
+  pairs:
+  - form_e: облачен
+    form_yo: облачён
+- lemma_e: обменен
+  lemma_yo: обменён
+  pairs:
+  - form_e: обменен
+    form_yo: обменён
+- lemma_e: обмёл
+  lemma_yo: обмёт
+  pairs:
+  - form_e: обмету
+    form_yo: обмёту
+- lemma_e: обознался
+  lemma_yo: обознаюсь
+  pairs:
+  - form_e: обознаемся
+    form_yo: обознаёмся
+  - form_e: обознаетесь
+    form_yo: обознаётесь
+  - form_e: обознается
+    form_yo: обознаётся
+  - form_e: обознаешься
+    form_yo: обознаёшься
+- lemma_e: оборонен
+  lemma_yo: оборонён
+  pairs:
+  - form_e: оборонен
+    form_yo: оборонён
+- lemma_e: опил
+  lemma_yo: обпил
+  pairs:
+  - form_e: обопьем
+    form_yo: обопьём
+  - form_e: обопьемте
+    form_yo: обопьёмте
+  - form_e: обопьет
+    form_yo: обопьёт
+  - form_e: обопьете
+    form_yo: обопьёте
+  - form_e: обопьешь
+    form_yo: обопьёшь
+- lemma_e: обручен
+  lemma_yo: обручён
+  pairs:
+  - form_e: обручен
+    form_yo: обручён
+- lemma_e: объел
+  lemma_yo: объём
+  pairs:
+  - form_e: объем
+    form_yo: объём
+- lemma_e: обыденно
+  lemma_yo: обыден
+  pairs:
+  - form_e: обыденно
+    form_yo: обыдённо
+- lemma_e: обернул
+  lemma_yo: обёрнут
+  pairs:
+  - form_e: обернут
+    form_yo: обёрнут
+- lemma_e: оглашенный
+  lemma_yo: оглашённый
+  pairs:
+  - form_e: оглашенная
+    form_yo: оглашённая
+  - form_e: оглашенного
+    form_yo: оглашённого
+  - form_e: оглашенное
+    form_yo: оглашённое
+  - form_e: оглашенной
+    form_yo: оглашённой
+  - form_e: оглашенном
+    form_yo: оглашённом
+  - form_e: оглашенному
+    form_yo: оглашённому
+  - form_e: оглашенною
+    form_yo: оглашённою
+  - form_e: оглашенную
+    form_yo: оглашённую
+  - form_e: оглашенные
+    form_yo: оглашённые
+  - form_e: оглашенный
+    form_yo: оглашённый
+  - form_e: оглашенным
+    form_yo: оглашённым
+  - form_e: оглашенными
+    form_yo: оглашёнными
+  - form_e: оглашенных
+    form_yo: оглашённых
+- lemma_e: одер
+  lemma_yo: одёр
+  pairs:
+  - form_e: одер
+    form_yo: одёр
+- lemma_e: околесную
+  lemma_yo: околёсная
+  pairs:
+  - form_e: околесную
+    form_yo: околёсную
+- lemma_e: околесный
+  lemma_yo: околёсная
+  pairs:
+  - form_e: околесная
+    form_yo: околёсная
+  - form_e: околесной
+    form_yo: околёсной
+  - form_e: околесною
+    form_yo: околёсною
+  - form_e: околесную
+    form_yo: околёсную
+  - form_e: околесные
+    form_yo: околёсные
+  - form_e: околесным
+    form_yo: околёсным
+  - form_e: околесными
+    form_yo: околёсными
+  - form_e: околесных
+    form_yo: околёсных
+- lemma_e: окорочен
+  lemma_yo: окорочён
+  pairs:
+  - form_e: окорочен
+    form_yo: окорочён
+- lemma_e: окружен
+  lemma_yo: окружён
+  pairs:
+  - form_e: окружен
+    form_yo: окружён
+- lemma_e: окунева
+  lemma_yo: окунев
+  pairs:
+  - form_e: окунева
+    form_yo: окунёва
+- lemma_e: окуневы
+  lemma_yo: окунев
+  pairs:
+  - form_e: окуневы
+    form_yo: окунёвы
+- lemma_e: окунев
+  lemma_yo: окуневый
+  pairs:
+  - form_e: окуневым
+    form_yo: окунёвым
+- lemma_e: окунева
+  lemma_yo: окуневый
+  pairs:
+  - form_e: окуневой
+    form_yo: окунёвой
+- lemma_e: окуневы
+  lemma_yo: окуневый
+  pairs:
+  - form_e: окуневым
+    form_yo: окунёвым
+  - form_e: окуневыми
+    form_yo: окунёвыми
+  - form_e: окуневых
+    form_yo: окунёвых
+- lemma_e: окунь
+  lemma_yo: окунул
+  pairs:
+  - form_e: окунем
+    form_yo: окунём
+- lemma_e: оленька
+  lemma_yo: оленёк
+  pairs:
+  - form_e: оленек
+    form_yo: оленёк
+- lemma_e: нем
+  lemma_yo: он
+  pairs:
+  - form_e: нем
+    form_yo: нём
+- lemma_e: нея
+  lemma_yo: она
+  pairs:
+  - form_e: нее
+    form_yo: неё
+- lemma_e: нем
+  lemma_yo: оно
+  pairs:
+  - form_e: нем
+    form_yo: нём
+- lemma_e: опален
+  lemma_yo: опалён
+  pairs:
+  - form_e: опален
+    form_yo: опалён
+- lemma_e: оперен
+  lemma_yo: оперён
+  pairs:
+  - form_e: оперен
+    form_yo: оперён
+- lemma_e: оплеснул
+  lemma_yo: оплёснут
+  pairs:
+  - form_e: оплеснут
+    form_yo: оплёснут
+- lemma_e: опознал
+  lemma_yo: опознаю
+  pairs:
+  - form_e: опознаем
+    form_yo: опознаём
+  - form_e: опознает
+    form_yo: опознаёт
+  - form_e: опознаете
+    form_yo: опознаёте
+  - form_e: опознаешь
+    form_yo: опознаёшь
+- lemma_e: опера
+  lemma_yo: опёр
+  pairs:
+  - form_e: опер
+    form_yo: опёр
+- lemma_e: орю
+  lemma_yo: ору
+  pairs:
+  - form_e: орем
+    form_yo: орём
+  - form_e: орет
+    form_yo: орёт
+  - form_e: орете
+    form_yo: орёте
+  - form_e: орешь
+    form_yo: орёшь
+- lemma_e: оскребка
+  lemma_yo: оскрёбки
+  pairs:
+  - form_e: оскребки
+    form_yo: оскрёбки
+- lemma_e: осознал
+  lemma_yo: осознаю
+  pairs:
+  - form_e: осознаем
+    form_yo: осознаём
+  - form_e: осознает
+    form_yo: осознаёт
+  - form_e: осознаете
+    form_yo: осознаёте
+  - form_e: осознаешь
+    form_yo: осознаёшь
+- lemma_e: острожен
+  lemma_yo: острожён
+  pairs:
+  - form_e: острожен
+    form_yo: острожён
+- lemma_e: остер
+  lemma_yo: остёр
+  pairs:
+  - form_e: остер
+    form_yo: остёр
+- lemma_e: осел
+  lemma_yo: осёл
+  pairs:
+  - form_e: осел
+    form_yo: осёл
+- lemma_e: отбелен
+  lemma_yo: отбелён
+  pairs:
+  - form_e: отбелен
+    form_yo: отбелён
+- lemma_e: отволочен
+  lemma_yo: отволочён
+  pairs:
+  - form_e: отволочен
+    form_yo: отволочён
+- lemma_e: отволоченный
+  lemma_yo: отволочённый
+  pairs:
+  - form_e: отволоченная
+    form_yo: отволочённая
+  - form_e: отволоченного
+    form_yo: отволочённого
+  - form_e: отволоченное
+    form_yo: отволочённое
+  - form_e: отволоченной
+    form_yo: отволочённой
+  - form_e: отволоченном
+    form_yo: отволочённом
+  - form_e: отволоченному
+    form_yo: отволочённому
+  - form_e: отволоченною
+    form_yo: отволочённою
+  - form_e: отволоченную
+    form_yo: отволочённую
+  - form_e: отволоченные
+    form_yo: отволочённые
+  - form_e: отволоченный
+    form_yo: отволочённый
+  - form_e: отволоченным
+    form_yo: отволочённым
+  - form_e: отволоченными
+    form_yo: отволочёнными
+  - form_e: отволоченных
+    form_yo: отволочённых
+- lemma_e: отвернул
+  lemma_yo: отвёрнут
+  pairs:
+  - form_e: отвернут
+    form_yo: отвёрнут
+- lemma_e: отделен
+  lemma_yo: отделён
+  pairs:
+  - form_e: отделен
+    form_yo: отделён
+- lemma_e: отзолен
+  lemma_yo: отзолён
+  pairs:
+  - form_e: отзолен
+    form_yo: отзолён
+- lemma_e: отличен
+  lemma_yo: отличён
+  pairs:
+  - form_e: отличен
+    form_yo: отличён
+- lemma_e: отменен
+  lemma_yo: отменён
+  pairs:
+  - form_e: отменен
+    form_yo: отменён
+- lemma_e: отплеснул
+  lemma_yo: отплёснут
+  pairs:
+  - form_e: отплеснут
+    form_yo: отплёснут
+- lemma_e: отсечен
+  lemma_yo: отсечён
+  pairs:
+  - form_e: отсечен
+    form_yo: отсечён
+- lemma_e: отстегнул
+  lemma_yo: отстёгнут
+  pairs:
+  - form_e: отстегнут
+    form_yo: отстёгнут
+- lemma_e: отсек
+  lemma_yo: отсёк
+  pairs:
+  - form_e: отсек
+    form_yo: отсёк
+- lemma_e: отхлебнул
+  lemma_yo: отхлёбнут
+  pairs:
+  - form_e: отхлебнут
+    form_yo: отхлёбнут
+- lemma_e: отчеркнул
+  lemma_yo: отчёркнут
+  pairs:
+  - form_e: отчеркнут
+    form_yo: отчёркнут
+- lemma_e: отъел
+  lemma_yo: отъём
+  pairs:
+  - form_e: отъем
+    form_yo: отъём
+- lemma_e: отель
+  lemma_yo: отёл
+  pairs:
+  - form_e: отеле
+    form_yo: отёле
+- lemma_e: охранен
+  lemma_yo: охранён
+  pairs:
+  - form_e: охранен
+    form_yo: охранён
+- lemma_e: очеркнул
+  lemma_yo: очёркнут
+  pairs:
+  - form_e: очеркнут
+    form_yo: очёркнут
+- lemma_e: падеж
+  lemma_yo: падёж
+  pairs:
+  - form_e: падеж
+    form_yo: падёж
+- lemma_e: парфена
+  lemma_yo: парфён
+  pairs:
+  - form_e: парфен
+    form_yo: парфён
+  - form_e: парфена
+    form_yo: парфёна
+  - form_e: парфенам
+    form_yo: парфёнам
+  - form_e: парфенами
+    form_yo: парфёнами
+  - form_e: парфенах
+    form_yo: парфёнах
+  - form_e: парфене
+    form_yo: парфёне
+  - form_e: парфену
+    form_yo: парфёну
+  - form_e: парфены
+    form_yo: парфёны
+- lemma_e: пахну
+  lemma_yo: пахнул
+  pairs:
+  - form_e: пахнем
+    form_yo: пахнём
+  - form_e: пахнет
+    form_yo: пахнёт
+  - form_e: пахнете
+    form_yo: пахнёте
+  - form_e: пахнешь
+    form_yo: пахнёшь
+- lemma_e: пайка
+  lemma_yo: паёк
+  pairs:
+  - form_e: паек
+    form_yo: паёк
+- lemma_e: пеклеванный
+  lemma_yo: пеклёванный
+  pairs:
+  - form_e: пеклеванная
+    form_yo: пеклёванная
+  - form_e: пеклеванного
+    form_yo: пеклёванного
+  - form_e: пеклеванное
+    form_yo: пеклёванное
+  - form_e: пеклеванной
+    form_yo: пеклёванной
+  - form_e: пеклеванном
+    form_yo: пеклёванном
+  - form_e: пеклеванному
+    form_yo: пеклёванному
+  - form_e: пеклеванною
+    form_yo: пеклёванною
+  - form_e: пеклеванную
+    form_yo: пеклёванную
+  - form_e: пеклеванные
+    form_yo: пеклёванные
+  - form_e: пеклеванный
+    form_yo: пеклёванный
+  - form_e: пеклеванным
+    form_yo: пеклёванным
+  - form_e: пеклеванными
+    form_yo: пеклёванными
+  - form_e: пеклеванных
+    form_yo: пеклёванных
+- lemma_e: пек
+  lemma_yo: пеку
+  pairs:
+  - form_e: пек
+    form_yo: пёк
+- lemma_e: первоочереднее
+  lemma_yo: первоочерёднее
+  pairs:
+  - form_e: первоочереднее
+    form_yo: первоочерёднее
+  - form_e: первоочередней
+    form_yo: первоочерёдней
+  - form_e: попервоочереднее
+    form_yo: попервоочерёднее
+  - form_e: попервоочередней
+    form_yo: попервоочерёдней
+- lemma_e: первоочередной
+  lemma_yo: первоочерёдный
+  pairs:
+  - form_e: первоочередная
+    form_yo: первоочерёдная
+  - form_e: первоочередного
+    form_yo: первоочерёдного
+  - form_e: первоочередное
+    form_yo: первоочерёдное
+  - form_e: первоочередной
+    form_yo: первоочерёдной
+  - form_e: первоочередном
+    form_yo: первоочерёдном
+  - form_e: первоочередному
+    form_yo: первоочерёдному
+  - form_e: первоочередною
+    form_yo: первоочерёдною
+  - form_e: первоочередную
+    form_yo: первоочерёдную
+  - form_e: первоочередные
+    form_yo: первоочерёдные
+  - form_e: первоочередным
+    form_yo: первоочерёдным
+  - form_e: первоочередными
+    form_yo: первоочерёдными
+  - form_e: первоочередных
+    form_yo: первоочерёдных
+- lemma_e: переволочен
+  lemma_yo: переволочён
+  pairs:
+  - form_e: переволочен
+    form_yo: переволочён
+- lemma_e: переволоченный
+  lemma_yo: переволочённый
+  pairs:
+  - form_e: переволоченная
+    form_yo: переволочённая
+  - form_e: переволоченного
+    form_yo: переволочённого
+  - form_e: переволоченное
+    form_yo: переволочённое
+  - form_e: переволоченной
+    form_yo: переволочённой
+  - form_e: переволоченном
+    form_yo: переволочённом
+  - form_e: переволоченному
+    form_yo: переволочённому
+  - form_e: переволоченною
+    form_yo: переволочённою
+  - form_e: переволоченную
+    form_yo: переволочённую
+  - form_e: переволоченные
+    form_yo: переволочённые
+  - form_e: переволоченный
+    form_yo: переволочённый
+  - form_e: переволоченным
+    form_yo: переволочённым
+  - form_e: переволоченными
+    form_yo: переволочёнными
+  - form_e: переволоченных
+    form_yo: переволочённых
+- lemma_e: перевернул
+  lemma_yo: перевёрнут
+  pairs:
+  - form_e: перевернут
+    form_yo: перевёрнут
+- lemma_e: перегноен
+  lemma_yo: перегноён
+  pairs:
+  - form_e: перегноен
+    form_yo: перегноён
+- lemma_e: переговорен
+  lemma_yo: переговорён
+  pairs:
+  - form_e: переговорен
+    form_yo: переговорён
+- lemma_e: переделен
+  lemma_yo: переделён
+  pairs:
+  - form_e: переделен
+    form_yo: переделён
+- lemma_e: передох
+  lemma_yo: передохнул
+  pairs:
+  - form_e: передохнем
+    form_yo: передохнём
+  - form_e: передохнемте
+    form_yo: передохнёмте
+  - form_e: передохнет
+    form_yo: передохнёт
+  - form_e: передохнете
+    form_yo: передохнёте
+  - form_e: передохнешь
+    form_yo: передохнёшь
+- lemma_e: перекален
+  lemma_yo: перекалён
+  pairs:
+  - form_e: перекален
+    form_yo: перекалён
+- lemma_e: переменен
+  lemma_yo: переменён
+  pairs:
+  - form_e: переменен
+    form_yo: переменён
+- lemma_e: перемёл
+  lemma_yo: перемёт
+  pairs:
+  - form_e: перемету
+    form_yo: перемёту
+- lemma_e: переметнул
+  lemma_yo: перемётнут
+  pairs:
+  - form_e: переметнут
+    form_yo: перемётнут
+- lemma_e: перепой
+  lemma_yo: перепел
+  pairs:
+  - form_e: перепоем
+    form_yo: перепоём
+- lemma_e: перепеленат
+  lemma_yo: перепелёнат
+  pairs:
+  - form_e: перепеленат
+    form_yo: перепелёнат
+  - form_e: перепелената
+    form_yo: перепелёната
+  - form_e: перепеленато
+    form_yo: перепелёнато
+  - form_e: перепеленаты
+    form_yo: перепелёнаты
+- lemma_e: перепеленатый
+  lemma_yo: перепелёнатый
+  pairs:
+  - form_e: перепеленатая
+    form_yo: перепелёнатая
+  - form_e: перепеленатого
+    form_yo: перепелёнатого
+  - form_e: перепеленатое
+    form_yo: перепелёнатое
+  - form_e: перепеленатой
+    form_yo: перепелёнатой
+  - form_e: перепеленатом
+    form_yo: перепелёнатом
+  - form_e: перепеленатому
+    form_yo: перепелёнатому
+  - form_e: перепеленатою
+    form_yo: перепелёнатою
+  - form_e: перепеленатую
+    form_yo: перепелёнатую
+  - form_e: перепеленатые
+    form_yo: перепелёнатые
+  - form_e: перепеленатый
+    form_yo: перепелёнатый
+  - form_e: перепеленатым
+    form_yo: перепелёнатым
+  - form_e: перепеленатыми
+    form_yo: перепелёнатыми
+  - form_e: перепеленатых
+    form_yo: перепелёнатых
+- lemma_e: переплеснул
+  lemma_yo: переплёснут
+  pairs:
+  - form_e: переплеснут
+    form_yo: переплёснут
+- lemma_e: переплёл
+  lemma_yo: переплёт
+  pairs:
+  - form_e: переплету
+    form_yo: переплёту
+- lemma_e: перестегнул
+  lemma_yo: перестёгнут
+  pairs:
+  - form_e: перестегнут
+    form_yo: перестёгнут
+- lemma_e: перехлестнул
+  lemma_yo: перехлёстнут
+  pairs:
+  - form_e: перехлестнут
+    form_yo: перехлёстнут
+- lemma_e: перечеркнул
+  lemma_yo: перечёркнут
+  pairs:
+  - form_e: перечеркнут
+    form_yo: перечёркнут
+- lemma_e: переел
+  lemma_yo: переём
+  pairs:
+  - form_e: переем
+    form_yo: переём
+- lemma_e: перед
+  lemma_yo: перёд
+  pairs:
+  - form_e: перед
+    form_yo: перёд
+- lemma_e: передом
+  lemma_yo: перёд
+  pairs:
+  - form_e: передом
+    form_yo: перёдом
+- lemma_e: печень
+  lemma_yo: печёнее
+  pairs:
+  - form_e: печеней
+    form_yo: печёней
+- lemma_e: пилен
+  lemma_yo: пилён
+  pairs:
+  - form_e: пилен
+    form_yo: пилён
+  - form_e: пилена
+    form_yo: пилёна
+  - form_e: пилено
+    form_yo: пилёно
+  - form_e: пилены
+    form_yo: пилёны
+- lemma_e: пильня
+  lemma_yo: пилён
+  pairs:
+  - form_e: пилен
+    form_yo: пилён
+- lemma_e: пискарево
+  lemma_yo: пискарёв
+  pairs:
+  - form_e: пискарева
+    form_yo: пискарёва
+  - form_e: пискареве
+    form_yo: пискарёве
+  - form_e: пискареву
+    form_yo: пискарёву
+- lemma_e: пискарево
+  lemma_yo: пискарёва
+  pairs:
+  - form_e: пискарева
+    form_yo: пискарёва
+  - form_e: пискареву
+    form_yo: пискарёву
+- lemma_e: письмен
+  lemma_yo: письмена
+  pairs:
+  - form_e: письмен
+    form_yo: письмён
+- lemma_e: питие
+  lemma_yo: питьё
+  pairs:
+  - form_e: питье
+    form_yo: питьё
+  - form_e: питьем
+    form_yo: питьём
+- lemma_e: пленен
+  lemma_yo: пленён
+  pairs:
+  - form_e: пленен
+    form_yo: пленён
+- lemma_e: плева
+  lemma_yo: плёв
+  pairs:
+  - form_e: плев
+    form_yo: плёв
+  - form_e: плева
+    form_yo: плёва
+  - form_e: плевы
+    form_yo: плёвы
+- lemma_e: плева
+  lemma_yo: плёвый
+  pairs:
+  - form_e: плевой
+    form_yo: плёвой
+  - form_e: плевою
+    form_yo: плёвою
+- lemma_e: побережен
+  lemma_yo: побережён
+  pairs:
+  - form_e: побережен
+    form_yo: побережён
+- lemma_e: поволочен
+  lemma_yo: поволочён
+  pairs:
+  - form_e: поволочен
+    form_yo: поволочён
+- lemma_e: поволоченный
+  lemma_yo: поволочённый
+  pairs:
+  - form_e: поволоченная
+    form_yo: поволочённая
+  - form_e: поволоченного
+    form_yo: поволочённого
+  - form_e: поволоченное
+    form_yo: поволочённое
+  - form_e: поволоченной
+    form_yo: поволочённой
+  - form_e: поволоченном
+    form_yo: поволочённом
+  - form_e: поволоченному
+    form_yo: поволочённому
+  - form_e: поволоченною
+    form_yo: поволочённою
+  - form_e: поволоченную
+    form_yo: поволочённую
+  - form_e: поволоченные
+    form_yo: поволочённые
+  - form_e: поволоченный
+    form_yo: поволочённый
+  - form_e: поволоченным
+    form_yo: поволочённым
+  - form_e: поволоченными
+    form_yo: поволочёнными
+  - form_e: поволоченных
+    form_yo: поволочённых
+- lemma_e: повторен
+  lemma_yo: повторён
+  pairs:
+  - form_e: повторен
+    form_yo: повторён
+- lemma_e: повез
+  lemma_yo: повёз
+  pairs:
+  - form_e: повезем
+    form_yo: повезём
+  - form_e: повеземте
+    form_yo: повезёмте
+  - form_e: повезете
+    form_yo: повезёте
+  - form_e: повезешь
+    form_yo: повезёшь
+  - form_e: повез
+    form_yo: повёз
+- lemma_e: повезший
+  lemma_yo: повёзший
+  pairs:
+  - form_e: повезшая
+    form_yo: повёзшая
+  - form_e: повезшего
+    form_yo: повёзшего
+  - form_e: повезшее
+    form_yo: повёзшее
+  - form_e: повезшей
+    form_yo: повёзшей
+  - form_e: повезшем
+    form_yo: повёзшем
+  - form_e: повезшему
+    form_yo: повёзшему
+  - form_e: повезшею
+    form_yo: повёзшею
+  - form_e: повезшие
+    form_yo: повёзшие
+  - form_e: повезший
+    form_yo: повёзший
+  - form_e: повезшим
+    form_yo: повёзшим
+  - form_e: повезшими
+    form_yo: повёзшими
+  - form_e: повезших
+    form_yo: повёзших
+  - form_e: повезшую
+    form_yo: повёзшую
+- lemma_e: повернул
+  lemma_yo: повёрнут
+  pairs:
+  - form_e: повернут
+    form_yo: повёрнут
+- lemma_e: погреб
+  lemma_yo: погрёб
+  pairs:
+  - form_e: погреб
+    form_yo: погрёб
+- lemma_e: подобие
+  lemma_yo: подбил
+  pairs:
+  - form_e: подобьем
+    form_yo: подобьём
+- lemma_e: подвернул
+  lemma_yo: подвёрнут
+  pairs:
+  - form_e: подвернут
+    form_yo: подвёрнут
+- lemma_e: поддев
+  lemma_yo: поддёв
+  pairs:
+  - form_e: поддев
+    form_yo: поддёв
+- lemma_e: подземка
+  lemma_yo: подзёмка
+  pairs:
+  - form_e: подземка
+    form_yo: подзёмка
+  - form_e: подземкам
+    form_yo: подзёмкам
+  - form_e: подземками
+    form_yo: подзёмками
+  - form_e: подземках
+    form_yo: подзёмках
+  - form_e: подземке
+    form_yo: подзёмке
+  - form_e: подземки
+    form_yo: подзёмки
+  - form_e: подземкой
+    form_yo: подзёмкой
+  - form_e: подземкою
+    form_yo: подзёмкою
+  - form_e: подземку
+    form_yo: подзёмку
+  - form_e: подземок
+    form_yo: подзёмок
+- lemma_e: подземка
+  lemma_yo: подзёмок
+  pairs:
+  - form_e: подземка
+    form_yo: подзёмка
+  - form_e: подземкам
+    form_yo: подзёмкам
+  - form_e: подземками
+    form_yo: подзёмками
+  - form_e: подземках
+    form_yo: подзёмках
+  - form_e: подземке
+    form_yo: подзёмке
+  - form_e: подземки
+    form_yo: подзёмки
+  - form_e: подземку
+    form_yo: подзёмку
+  - form_e: подземок
+    form_yo: подзёмок
+- lemma_e: подолье
+  lemma_yo: подлил
+  pairs:
+  - form_e: подольем
+    form_yo: подольём
+- lemma_e: подменен
+  lemma_yo: подменён
+  pairs:
+  - form_e: подменен
+    form_yo: подменён
+- lemma_e: подметнул
+  lemma_yo: подмётнут
+  pairs:
+  - form_e: подметнут
+    form_yo: подмётнут
+- lemma_e: подплеснул
+  lemma_yo: подплёснут
+  pairs:
+  - form_e: подплеснут
+    form_yo: подплёснут
+- lemma_e: подсечен
+  lemma_yo: подсечён
+  pairs:
+  - form_e: подсечен
+    form_yo: подсечён
+- lemma_e: подстегнул
+  lemma_yo: подстёгнут
+  pairs:
+  - form_e: подстегнут
+    form_yo: подстёгнут
+- lemma_e: подсека
+  lemma_yo: подсёк
+  pairs:
+  - form_e: подсек
+    form_yo: подсёк
+- lemma_e: подхлестнул
+  lemma_yo: подхлёстнут
+  pairs:
+  - form_e: подхлестнут
+    form_yo: подхлёстнут
+- lemma_e: подчеркнул
+  lemma_yo: подчёркнут
+  pairs:
+  - form_e: подчеркнут
+    form_yo: подчёркнут
+- lemma_e: подъел
+  lemma_yo: подъём
+  pairs:
+  - form_e: подъем
+    form_yo: подъём
+- lemma_e: поденно
+  lemma_yo: подёнен
+  pairs:
+  - form_e: поденно
+    form_yo: подённо
+- lemma_e: деннее
+  lemma_yo: подённее
+  pairs:
+  - form_e: поденнее
+    form_yo: подённее
+  - form_e: поденней
+    form_yo: подённей
+- lemma_e: познал
+  lemma_yo: познаю
+  pairs:
+  - form_e: познаем
+    form_yo: познаём
+  - form_e: познает
+    form_yo: познаёт
+  - form_e: познаете
+    form_yo: познаёте
+  - form_e: познаешь
+    form_yo: познаёшь
+- lemma_e: земнее
+  lemma_yo: позёмнее
+  pairs:
+  - form_e: поземнее
+    form_yo: позёмнее
+  - form_e: поземней
+    form_yo: позёмней
+- lemma_e: именнее
+  lemma_yo: поимённее
+  pairs:
+  - form_e: поименнее
+    form_yo: поимённее
+  - form_e: поименней
+    form_yo: поимённей
+- lemma_e: покорен
+  lemma_yo: покорён
+  pairs:
+  - form_e: покорен
+    form_yo: покорён
+- lemma_e: полье
+  lemma_yo: полил
+  pairs:
+  - form_e: польем
+    form_yo: польём
+- lemma_e: полёг
+  lemma_yo: полёгл
+  pairs:
+  - form_e: полегла
+    form_yo: полёгла
+  - form_e: полегло
+    form_yo: полёгло
+- lemma_e: полю
+  lemma_yo: полёт
+  pairs:
+  - form_e: полет
+    form_yo: полёт
+  - form_e: полете
+    form_yo: полёте
+- lemma_e: помета
+  lemma_yo: помёт
+  pairs:
+  - form_e: помет
+    form_yo: помёт
+  - form_e: помета
+    form_yo: помёта
+  - form_e: пометам
+    form_yo: помётам
+  - form_e: пометами
+    form_yo: помётами
+  - form_e: пометах
+    form_yo: помётах
+  - form_e: помете
+    form_yo: помёте
+  - form_e: помету
+    form_yo: помёту
+  - form_e: пометы
+    form_yo: помёты
+- lemma_e: помёл
+  lemma_yo: помёт
+  pairs:
+  - form_e: помету
+    form_yo: помёту
+- lemma_e: пономаревская
+  lemma_yo: пономарёвский
+  pairs:
+  - form_e: пономаревская
+    form_yo: пономарёвская
+  - form_e: пономаревской
+    form_yo: пономарёвской
+  - form_e: пономаревскую
+    form_yo: пономарёвскую
+- lemma_e: пономаревские
+  lemma_yo: пономарёвский
+  pairs:
+  - form_e: пономаревские
+    form_yo: пономарёвские
+  - form_e: пономаревским
+    form_yo: пономарёвским
+  - form_e: пономаревскими
+    form_yo: пономарёвскими
+  - form_e: пономаревских
+    form_yo: пономарёвских
+- lemma_e: пономаревский
+  lemma_yo: пономарёвский
+  pairs:
+  - form_e: пономаревский
+    form_yo: пономарёвский
+  - form_e: пономаревским
+    form_yo: пономарёвским
+  - form_e: пономаревского
+    form_yo: пономарёвского
+  - form_e: пономаревском
+    form_yo: пономарёвском
+  - form_e: пономаревскому
+    form_yo: пономарёвскому
+- lemma_e: посажен
+  lemma_yo: посажён
+  pairs:
+  - form_e: посажен
+    form_yo: посажён
+  - form_e: посажена
+    form_yo: посажёна
+  - form_e: посажено
+    form_yo: посажёно
+  - form_e: посажены
+    form_yo: посажёны
+- lemma_e: саженее
+  lemma_yo: посажёнее
+  pairs:
+  - form_e: посаженее
+    form_yo: посажёнее
+  - form_e: посаженей
+    form_yo: посажёней
+- lemma_e: пособие
+  lemma_yo: посбил
+  pairs:
+  - form_e: пособьем
+    form_yo: пособьём
+- lemma_e: поселенный
+  lemma_yo: поселённый
+  pairs:
+  - form_e: поселенная
+    form_yo: поселённая
+  - form_e: поселенного
+    form_yo: поселённого
+  - form_e: поселенное
+    form_yo: поселённое
+  - form_e: поселенной
+    form_yo: поселённой
+  - form_e: поселенном
+    form_yo: поселённом
+  - form_e: поселенному
+    form_yo: поселённому
+  - form_e: поселенною
+    form_yo: поселённою
+  - form_e: поселенную
+    form_yo: поселённую
+  - form_e: поселенные
+    form_yo: поселённые
+  - form_e: поселенный
+    form_yo: поселённый
+  - form_e: поселенным
+    form_yo: поселённым
+  - form_e: поселенными
+    form_yo: поселёнными
+  - form_e: поселенных
+    form_yo: поселённых
+- lemma_e: поскребыши
+  lemma_yo: поскрёбыш
+  pairs:
+  - form_e: поскребышам
+    form_yo: поскрёбышам
+  - form_e: поскребышами
+    form_yo: поскрёбышами
+  - form_e: поскребышах
+    form_yo: поскрёбышах
+  - form_e: поскребышей
+    form_yo: поскрёбышей
+  - form_e: поскребыши
+    form_yo: поскрёбыши
+- lemma_e: потрясен
+  lemma_yo: потрясён
+  pairs:
+  - form_e: потрясен
+    form_yo: потрясён
+- lemma_e: почтенный
+  lemma_yo: почтённый
+  pairs:
+  - form_e: почтенная
+    form_yo: почтённая
+  - form_e: почтенного
+    form_yo: почтённого
+  - form_e: почтенное
+    form_yo: почтённое
+  - form_e: почтенной
+    form_yo: почтённой
+  - form_e: почтенном
+    form_yo: почтённом
+  - form_e: почтенному
+    form_yo: почтённому
+  - form_e: почтенною
+    form_yo: почтённою
+  - form_e: почтенную
+    form_yo: почтённую
+  - form_e: почтенные
+    form_yo: почтённые
+  - form_e: почтенный
+    form_yo: почтённый
+  - form_e: почтенным
+    form_yo: почтённым
+  - form_e: почтенными
+    form_yo: почтёнными
+  - form_e: почтенных
+    form_yo: почтённых
+- lemma_e: почетов
+  lemma_yo: почёт
+  pairs:
+  - form_e: почетов
+    form_yo: почётов
+- lemma_e: поел
+  lemma_yo: пою
+  pairs:
+  - form_e: поем
+    form_yo: поём
+  - form_e: поешь
+    form_yo: поёшь
+- lemma_e: поел
+  lemma_yo: поём
+  pairs:
+  - form_e: поем
+    form_yo: поём
+- lemma_e: поен
+  lemma_yo: поён
+  pairs:
+  - form_e: поен
+    form_yo: поён
+  - form_e: поена
+    form_yo: поёна
+  - form_e: поено
+    form_yo: поёно
+  - form_e: поены
+    form_yo: поёны
+- lemma_e: предузнал
+  lemma_yo: предузнаю
+  pairs:
+  - form_e: предузнаем
+    form_yo: предузнаём
+  - form_e: предузнает
+    form_yo: предузнаёт
+  - form_e: предузнаете
+    form_yo: предузнаёте
+  - form_e: предузнаешь
+    form_yo: предузнаёшь
+- lemma_e: преклонен
+  lemma_yo: преклонён
+  pairs:
+  - form_e: преклонен
+    form_yo: преклонён
+- lemma_e: прибережен
+  lemma_yo: прибережён
+  pairs:
+  - form_e: прибережен
+    form_yo: прибережён
+- lemma_e: приближенный
+  lemma_yo: приближённый
+  pairs:
+  - form_e: приближенная
+    form_yo: приближённая
+  - form_e: приближенного
+    form_yo: приближённого
+  - form_e: приближенное
+    form_yo: приближённое
+  - form_e: приближенной
+    form_yo: приближённой
+  - form_e: приближенном
+    form_yo: приближённом
+  - form_e: приближенному
+    form_yo: приближённому
+  - form_e: приближенною
+    form_yo: приближённою
+  - form_e: приближенную
+    form_yo: приближённую
+  - form_e: приближенные
+    form_yo: приближённые
+  - form_e: приближенный
+    form_yo: приближённый
+  - form_e: приближенным
+    form_yo: приближённым
+  - form_e: приближенными
+    form_yo: приближёнными
+  - form_e: приближенных
+    form_yo: приближённых
+- lemma_e: приволочен
+  lemma_yo: приволочён
+  pairs:
+  - form_e: приволочен
+    form_yo: приволочён
+- lemma_e: приволоченный
+  lemma_yo: приволочённый
+  pairs:
+  - form_e: приволоченная
+    form_yo: приволочённая
+  - form_e: приволоченного
+    form_yo: приволочённого
+  - form_e: приволоченное
+    form_yo: приволочённое
+  - form_e: приволоченной
+    form_yo: приволочённой
+  - form_e: приволоченном
+    form_yo: приволочённом
+  - form_e: приволоченному
+    form_yo: приволочённому
+  - form_e: приволоченною
+    form_yo: приволочённою
+  - form_e: приволоченную
+    form_yo: приволочённую
+  - form_e: приволоченные
+    form_yo: приволочённые
+  - form_e: приволоченный
+    form_yo: приволочённый
+  - form_e: приволоченным
+    form_yo: приволочённым
+  - form_e: приволоченными
+    form_yo: приволочёнными
+  - form_e: приволоченных
+    form_yo: приволочённых
+- lemma_e: привернул
+  lemma_yo: привёрнут
+  pairs:
+  - form_e: привернут
+    form_yo: привёрнут
+- lemma_e: признал
+  lemma_yo: признаю
+  pairs:
+  - form_e: признаем
+    form_yo: признаём
+  - form_e: признает
+    form_yo: признаёт
+  - form_e: признаете
+    form_yo: признаёте
+  - form_e: признаешь
+    form_yo: признаёшь
+- lemma_e: признался
+  lemma_yo: признаюсь
+  pairs:
+  - form_e: признаемся
+    form_yo: признаёмся
+  - form_e: признаетесь
+    form_yo: признаётесь
+  - form_e: признается
+    form_yo: признаётся
+  - form_e: признаешься
+    form_yo: признаёшься
+- lemma_e: приметен
+  lemma_yo: приметён
+  pairs:
+  - form_e: приметен
+    form_yo: приметён
+- lemma_e: приплеснул
+  lemma_yo: приплёснут
+  pairs:
+  - form_e: приплеснут
+    form_yo: приплёснут
+- lemma_e: припёк
+  lemma_yo: припёка
+  pairs:
+  - form_e: припеки
+    form_yo: припёки
+  - form_e: припеку
+    form_yo: припёку
+- lemma_e: пристращен
+  lemma_yo: пристращён
+  pairs:
+  - form_e: пристращен
+    form_yo: пристращён
+- lemma_e: пристращенный
+  lemma_yo: пристращённый
+  pairs:
+  - form_e: пристращенная
+    form_yo: пристращённая
+  - form_e: пристращенного
+    form_yo: пристращённого
+  - form_e: пристращенное
+    form_yo: пристращённое
+  - form_e: пристращенной
+    form_yo: пристращённой
+  - form_e: пристращенном
+    form_yo: пристращённом
+  - form_e: пристращенному
+    form_yo: пристращённому
+  - form_e: пристращенною
+    form_yo: пристращённою
+  - form_e: пристращенную
+    form_yo: пристращённую
+  - form_e: пристращенные
+    form_yo: пристращённые
+  - form_e: пристращенный
+    form_yo: пристращённый
+  - form_e: пристращенным
+    form_yo: пристращённым
+  - form_e: пристращенными
+    form_yo: пристращёнными
+  - form_e: пристращенных
+    form_yo: пристращённых
+- lemma_e: пристегнул
+  lemma_yo: пристёгнут
+  pairs:
+  - form_e: пристегнут
+    form_yo: пристёгнут
+- lemma_e: притворен
+  lemma_yo: притворён
+  pairs:
+  - form_e: притворен
+    form_yo: притворён
+- lemma_e: прихлебнул
+  lemma_yo: прихлёбнут
+  pairs:
+  - form_e: прихлебнут
+    form_yo: прихлёбнут
+- lemma_e: прихлестнул
+  lemma_yo: прихлёстнут
+  pairs:
+  - form_e: прихлестнут
+    form_yo: прихлёстнут
+- lemma_e: причинен
+  lemma_yo: причинён
+  pairs:
+  - form_e: причинен
+    form_yo: причинён
+- lemma_e: пробелен
+  lemma_yo: пробелён
+  pairs:
+  - form_e: пробелен
+    form_yo: пробелён
+- lemma_e: провешен
+  lemma_yo: провешён
+  pairs:
+  - form_e: провешен
+    form_yo: провешён
+- lemma_e: провешенный
+  lemma_yo: провешённый
+  pairs:
+  - form_e: провешенная
+    form_yo: провешённая
+  - form_e: провешенного
+    form_yo: провешённого
+  - form_e: провешенное
+    form_yo: провешённое
+  - form_e: провешенной
+    form_yo: провешённой
+  - form_e: провешенном
+    form_yo: провешённом
+  - form_e: провешенному
+    form_yo: провешённому
+  - form_e: провешенною
+    form_yo: провешённою
+  - form_e: провешенную
+    form_yo: провешённую
+  - form_e: провешенные
+    form_yo: провешённые
+  - form_e: провешенный
+    form_yo: провешённый
+  - form_e: провешенным
+    form_yo: провешённым
+  - form_e: провешенными
+    form_yo: провешёнными
+  - form_e: провешенных
+    form_yo: провешённых
+- lemma_e: проволочен
+  lemma_yo: проволочён
+  pairs:
+  - form_e: проволочен
+    form_yo: проволочён
+- lemma_e: проволоченный
+  lemma_yo: проволочённый
+  pairs:
+  - form_e: проволоченная
+    form_yo: проволочённая
+  - form_e: проволоченного
+    form_yo: проволочённого
+  - form_e: проволоченное
+    form_yo: проволочённое
+  - form_e: проволоченной
+    form_yo: проволочённой
+  - form_e: проволоченном
+    form_yo: проволочённом
+  - form_e: проволоченному
+    form_yo: проволочённому
+  - form_e: проволоченною
+    form_yo: проволочённою
+  - form_e: проволоченную
+    form_yo: проволочённую
+  - form_e: проволоченные
+    form_yo: проволочённые
+  - form_e: проволоченный
+    form_yo: проволочённый
+  - form_e: проволоченным
+    form_yo: проволочённым
+  - form_e: проволоченными
+    form_yo: проволочёнными
+  - form_e: проволоченных
+    form_yo: проволочённых
+- lemma_e: провернул
+  lemma_yo: провёрнут
+  pairs:
+  - form_e: провернут
+    form_yo: провёрнут
+- lemma_e: прознал
+  lemma_yo: прознаю
+  pairs:
+  - form_e: прознаем
+    form_yo: прознаём
+  - form_e: прознает
+    form_yo: прознаёт
+  - form_e: прознаете
+    form_yo: прознаёте
+  - form_e: прознаешь
+    form_yo: прознаёшь
+- lemma_e: промок
+  lemma_yo: промокнул
+  pairs:
+  - form_e: промокнем
+    form_yo: промокнём
+  - form_e: промокнемте
+    form_yo: промокнёмте
+  - form_e: промокнет
+    form_yo: промокнёт
+  - form_e: промокнете
+    form_yo: промокнёте
+  - form_e: промокнешь
+    form_yo: промокнёшь
+- lemma_e: пропой
+  lemma_yo: пропел
+  pairs:
+  - form_e: пропоем
+    form_yo: пропоём
+- lemma_e: просек
+  lemma_yo: просёк
+  pairs:
+  - form_e: просек
+    form_yo: просёк
+- lemma_e: просека
+  lemma_yo: просёк
+  pairs:
+  - form_e: просек
+    form_yo: просёк
+- lemma_e: протяжен
+  lemma_yo: протяжён
+  pairs:
+  - form_e: протяжен
+    form_yo: протяжён
+- lemma_e: протекшее
+  lemma_yo: протёкший
+  pairs:
+  - form_e: протекшее
+    form_yo: протёкшее
+  - form_e: протекшей
+    form_yo: протёкшей
+- lemma_e: протекший
+  lemma_yo: протёкший
+  pairs:
+  - form_e: протекшая
+    form_yo: протёкшая
+  - form_e: протекшего
+    form_yo: протёкшего
+  - form_e: протекшее
+    form_yo: протёкшее
+  - form_e: протекшей
+    form_yo: протёкшей
+  - form_e: протекшем
+    form_yo: протёкшем
+  - form_e: протекшему
+    form_yo: протёкшему
+  - form_e: протекшею
+    form_yo: протёкшею
+  - form_e: протекшие
+    form_yo: протёкшие
+  - form_e: протекший
+    form_yo: протёкший
+  - form_e: протекшим
+    form_yo: протёкшим
+  - form_e: протекшими
+    form_yo: протёкшими
+  - form_e: протекших
+    form_yo: протёкших
+  - form_e: протекшую
+    form_yo: протёкшую
+- lemma_e: прочеркнул
+  lemma_yo: прочёркнут
+  pairs:
+  - form_e: прочеркнут
+    form_yo: прочёркнут
+- lemma_e: проел
+  lemma_yo: проём
+  pairs:
+  - form_e: проем
+    form_yo: проём
+- lemma_e: пер
+  lemma_yo: пру
+  pairs:
+  - form_e: пер
+    form_yo: пёр
+- lemma_e: перл
+  lemma_yo: пру
+  pairs:
+  - form_e: перла
+    form_yo: пёрла
+- lemma_e: перль
+  lemma_yo: пру
+  pairs:
+  - form_e: перли
+    form_yo: пёрли
+- lemma_e: прею
+  lemma_yo: пря
+  pairs:
+  - form_e: прей
+    form_yo: прёй
+  - form_e: прею
+    form_yo: прёю
+- lemma_e: путевее
+  lemma_yo: путёвее
+  pairs:
+  - form_e: попутевее
+    form_yo: попутёвее
+  - form_e: попутевей
+    form_yo: попутёвей
+  - form_e: путевее
+    form_yo: путёвее
+  - form_e: путевей
+    form_yo: путёвей
+- lemma_e: путевой
+  lemma_yo: путёвый
+  pairs:
+  - form_e: путевая
+    form_yo: путёвая
+  - form_e: путевого
+    form_yo: путёвого
+  - form_e: путевое
+    form_yo: путёвое
+  - form_e: путевой
+    form_yo: путёвой
+  - form_e: путевом
+    form_yo: путёвом
+  - form_e: путевому
+    form_yo: путёвому
+  - form_e: путевою
+    form_yo: путёвою
+  - form_e: путевую
+    form_yo: путёвую
+  - form_e: путевые
+    form_yo: путёвые
+  - form_e: путевым
+    form_yo: путёвым
+  - form_e: путевыми
+    form_yo: путёвыми
+  - form_e: путевых
+    form_yo: путёвых
+- lemma_e: пятернее
+  lemma_yo: пятерня
+  pairs:
+  - form_e: пятерней
+    form_yo: пятернёй
+- lemma_e: перт
+  lemma_yo: пёрт
+  pairs:
+  - form_e: перт
+    form_yo: пёрт
+  - form_e: перта
+    form_yo: пёрта
+  - form_e: перты
+    form_yo: пёрты
+- lemma_e: перт
+  lemma_yo: пёртый
+  pairs:
+  - form_e: пертом
+    form_yo: пёртом
+- lemma_e: перш
+  lemma_yo: пёрши
+  pairs:
+  - form_e: перши
+    form_yo: пёрши
+- lemma_e: перш
+  lemma_yo: пёрший
+  pairs:
+  - form_e: першей
+    form_yo: пёршей
+  - form_e: першем
+    form_yo: пёршем
+- lemma_e: пестро
+  lemma_yo: пёстр
+  pairs:
+  - form_e: пестро
+    form_yo: пёстро
+- lemma_e: петра
+  lemma_yo: пётр
+  pairs:
+  - form_e: петр
+    form_yo: пётр
+- lemma_e: развернул
+  lemma_yo: развёрнут
+  pairs:
+  - form_e: развернут
+    form_yo: развёрнут
+- lemma_e: разговорен
+  lemma_yo: разговорён
+  pairs:
+  - form_e: разговорен
+    form_yo: разговорён
+- lemma_e: разделен
+  lemma_yo: разделён
+  pairs:
+  - form_e: разделен
+    form_yo: разделён
+- lemma_e: различен
+  lemma_yo: различён
+  pairs:
+  - form_e: различен
+    form_yo: различён
+- lemma_e: размёл
+  lemma_yo: размёт
+  pairs:
+  - form_e: размету
+    form_yo: размёту
+- lemma_e: разузнал
+  lemma_yo: разузнаю
+  pairs:
+  - form_e: разузнаем
+    form_yo: разузнаём
+  - form_e: разузнает
+    form_yo: разузнаёт
+  - form_e: разузнаете
+    form_yo: разузнаёте
+  - form_e: разузнаешь
+    form_yo: разузнаёшь
+- lemma_e: разъел
+  lemma_yo: разъём
+  pairs:
+  - form_e: разъем
+    form_yo: разъём
+- lemma_e: расплеснул
+  lemma_yo: расплёснут
+  pairs:
+  - form_e: расплеснут
+    form_yo: расплёснут
+- lemma_e: распознал
+  lemma_yo: распознаю
+  pairs:
+  - form_e: распознаем
+    form_yo: распознаём
+  - form_e: распознает
+    form_yo: распознаёт
+  - form_e: распознаете
+    form_yo: распознаёте
+  - form_e: распознаешь
+    form_yo: распознаёшь
+- lemma_e: рассорен
+  lemma_yo: рассорён
+  pairs:
+  - form_e: рассорен
+    form_yo: рассорён
+- lemma_e: рассоренный
+  lemma_yo: рассорённый
+  pairs:
+  - form_e: рассоренная
+    form_yo: рассорённая
+  - form_e: рассоренного
+    form_yo: рассорённого
+  - form_e: рассоренное
+    form_yo: рассорённое
+  - form_e: рассоренной
+    form_yo: рассорённой
+  - form_e: рассоренном
+    form_yo: рассорённом
+  - form_e: рассоренному
+    form_yo: рассорённому
+  - form_e: рассоренною
+    form_yo: рассорённою
+  - form_e: рассоренную
+    form_yo: рассорённую
+  - form_e: рассоренные
+    form_yo: рассорённые
+  - form_e: рассоренный
+    form_yo: рассорённый
+  - form_e: рассоренным
+    form_yo: рассорённым
+  - form_e: рассоренными
+    form_yo: рассорёнными
+  - form_e: рассоренных
+    form_yo: рассорённых
+- lemma_e: расстегнул
+  lemma_yo: расстёгнут
+  pairs:
+  - form_e: расстегнут
+    form_yo: расстёгнут
+- lemma_e: растворен
+  lemma_yo: растворён
+  pairs:
+  - form_e: растворен
+    form_yo: растворён
+- lemma_e: растлен
+  lemma_yo: растлён
+  pairs:
+  - form_e: растлен
+    form_yo: растлён
+- lemma_e: растленный
+  lemma_yo: растлённый
+  pairs:
+  - form_e: растленная
+    form_yo: растлённая
+  - form_e: растленного
+    form_yo: растлённого
+  - form_e: растленное
+    form_yo: растлённое
+  - form_e: растленной
+    form_yo: растлённой
+  - form_e: растленном
+    form_yo: растлённом
+  - form_e: растленному
+    form_yo: растлённому
+  - form_e: растленною
+    form_yo: растлённою
+  - form_e: растленную
+    form_yo: растлённую
+  - form_e: растленные
+    form_yo: растлённые
+  - form_e: растленный
+    form_yo: растлённый
+  - form_e: растленным
+    form_yo: растлённым
+  - form_e: растленными
+    form_yo: растлёнными
+  - form_e: растленных
+    form_yo: растлённых
+- lemma_e: расточен
+  lemma_yo: расточён
+  pairs:
+  - form_e: расточен
+    form_yo: расточён
+- lemma_e: расхлестнул
+  lemma_yo: расхлёстнут
+  pairs:
+  - form_e: расхлестнут
+    form_yo: расхлёстнут
+- lemma_e: расчеркнул
+  lemma_yo: расчёркнут
+  pairs:
+  - form_e: расчеркнут
+    form_yo: расчёркнут
+- lemma_e: ревета
+  lemma_yo: реву
+  pairs:
+  - form_e: ревет
+    form_yo: ревёт
+  - form_e: ревете
+    form_yo: ревёте
+- lemma_e: резнее
+  lemma_yo: резня
+  pairs:
+  - form_e: резней
+    form_yo: резнёй
+- lemma_e: решетцо
+  lemma_yo: решётце
+  pairs:
+  - form_e: решетца
+    form_yo: решётца
+  - form_e: решетце
+    form_yo: решётце
+  - form_e: решетцу
+    form_yo: решётцу
+- lemma_e: ровнее
+  lemma_yo: ровня
+  pairs:
+  - form_e: ровней
+    form_yo: ровнёй
+- lemma_e: рогачево
+  lemma_yo: рогачёв
+  pairs:
+  - form_e: рогачева
+    form_yo: рогачёва
+  - form_e: рогачеве
+    form_yo: рогачёве
+  - form_e: рогачевом
+    form_yo: рогачёвом
+  - form_e: рогачеву
+    form_yo: рогачёву
+- lemma_e: рогачево
+  lemma_yo: рогачёва
+  pairs:
+  - form_e: рогачева
+    form_yo: рогачёва
+  - form_e: рогачеву
+    form_yo: рогачёву
+- lemma_e: роднее
+  lemma_yo: родня
+  pairs:
+  - form_e: родней
+    form_yo: роднёй
+- lemma_e: роевна
+  lemma_yo: роёвня
+  pairs:
+  - form_e: роевен
+    form_yo: роёвен
+  - form_e: роевне
+    form_yo: роёвне
+- lemma_e: роен
+  lemma_yo: роён
+  pairs:
+  - form_e: роен
+    form_yo: роён
+- lemma_e: реву
+  lemma_yo: рёв
+  pairs:
+  - form_e: реву
+    form_yo: рёву
+- lemma_e: реву
+  lemma_yo: рёва
+  pairs:
+  - form_e: реву
+    form_yo: рёву
+- lemma_e: самый
+  lemma_yo: сам
+  pairs:
+  - form_e: самое
+    form_yo: самоё
+- lemma_e: самотечная
+  lemma_yo: самотёчный
+  pairs:
+  - form_e: самотечная
+    form_yo: самотёчная
+  - form_e: самотечной
+    form_yo: самотёчной
+  - form_e: самотечную
+    form_yo: самотёчную
+- lemma_e: самотечний
+  lemma_yo: самотёчный
+  pairs:
+  - form_e: самотечного
+    form_yo: самотёчного
+  - form_e: самотечном
+    form_yo: самотёчном
+  - form_e: самотечному
+    form_yo: самотёчному
+- lemma_e: сайка
+  lemma_yo: саёк
+  pairs:
+  - form_e: саек
+    form_yo: саёк
+- lemma_e: сбрехнул
+  lemma_yo: сбрёхнут
+  pairs:
+  - form_e: сбрехнут
+    form_yo: сбрёхнут
+- lemma_e: совий
+  lemma_yo: свил
+  pairs:
+  - form_e: совьем
+    form_yo: совьём
+- lemma_e: сволочен
+  lemma_yo: сволочён
+  pairs:
+  - form_e: сволочен
+    form_yo: сволочён
+- lemma_e: сволоченный
+  lemma_yo: сволочённый
+  pairs:
+  - form_e: сволоченная
+    form_yo: сволочённая
+  - form_e: сволоченного
+    form_yo: сволочённого
+  - form_e: сволоченное
+    form_yo: сволочённое
+  - form_e: сволоченной
+    form_yo: сволочённой
+  - form_e: сволоченном
+    form_yo: сволочённом
+  - form_e: сволоченному
+    form_yo: сволочённому
+  - form_e: сволоченною
+    form_yo: сволочённою
+  - form_e: сволоченную
+    form_yo: сволочённую
+  - form_e: сволоченные
+    form_yo: сволочённые
+  - form_e: сволоченный
+    form_yo: сволочённый
+  - form_e: сволоченным
+    form_yo: сволочённым
+  - form_e: сволоченными
+    form_yo: сволочёнными
+  - form_e: сволоченных
+    form_yo: сволочённых
+- lemma_e: свернул
+  lemma_yo: свёрнут
+  pairs:
+  - form_e: свернут
+    form_yo: свёрнут
+- lemma_e: седею
+  lemma_yo: седло
+  pairs:
+  - form_e: седел
+    form_yo: сёдел
+- lemma_e: сем
+  lemma_yo: сей
+  pairs:
+  - form_e: сем
+    form_yo: сём
+- lemma_e: сема
+  lemma_yo: сей
+  pairs:
+  - form_e: сем
+    form_yo: сём
+- lemma_e: сие
+  lemma_yo: сей
+  pairs:
+  - form_e: сем
+    form_yo: сём
+- lemma_e: селезневый
+  lemma_yo: селезнёв
+  pairs:
+  - form_e: селезневым
+    form_yo: селезнёвым
+- lemma_e: селезневый
+  lemma_yo: селезнёва
+  pairs:
+  - form_e: селезневой
+    form_yo: селезнёвой
+- lemma_e: селезневый
+  lemma_yo: селезнёвы
+  pairs:
+  - form_e: селезневым
+    form_yo: селезнёвым
+  - form_e: селезневыми
+    form_yo: селезнёвыми
+  - form_e: селезневых
+    form_yo: селезнёвых
+- lemma_e: сел
+  lemma_yo: село
+  pairs:
+  - form_e: сел
+    form_yo: сёл
+  - form_e: села
+    form_yo: сёла
+- lemma_e: селен
+  lemma_yo: селён
+  pairs:
+  - form_e: селен
+    form_yo: селён
+- lemma_e: селена
+  lemma_yo: селён
+  pairs:
+  - form_e: селен
+    form_yo: селён
+- lemma_e: семя
+  lemma_yo: семён
+  pairs:
+  - form_e: семена
+    form_yo: семёна
+  - form_e: семенам
+    form_yo: семёнам
+  - form_e: семенами
+    form_yo: семёнами
+  - form_e: семенах
+    form_yo: семёнах
+- lemma_e: сереж
+  lemma_yo: серёжа
+  pairs:
+  - form_e: сереж
+    form_yo: серёж
+  - form_e: сережа
+    form_yo: серёжа
+  - form_e: сереже
+    form_yo: серёже
+  - form_e: сережу
+    form_yo: серёжу
+- lemma_e: сечен
+  lemma_yo: сечён
+  pairs:
+  - form_e: сечен
+    form_yo: сечён
+- lemma_e: силен
+  lemma_yo: силён
+  pairs:
+  - form_e: силен
+    form_yo: силён
+- lemma_e: склонен
+  lemma_yo: склонён
+  pairs:
+  - form_e: склонен
+    form_yo: склонён
+- lemma_e: скоблен
+  lemma_yo: скоблён
+  pairs:
+  - form_e: скоблен
+    form_yo: скоблён
+  - form_e: скоблена
+    form_yo: скоблёна
+  - form_e: скоблено
+    form_yo: скоблёно
+  - form_e: скоблены
+    form_yo: скоблёны
+- lemma_e: скобленный
+  lemma_yo: скоблённый
+  pairs:
+  - form_e: скобленная
+    form_yo: скоблённая
+  - form_e: скобленного
+    form_yo: скоблённого
+  - form_e: скобленное
+    form_yo: скоблённое
+  - form_e: скобленной
+    form_yo: скоблённой
+  - form_e: скобленном
+    form_yo: скоблённом
+  - form_e: скобленному
+    form_yo: скоблённому
+  - form_e: скобленною
+    form_yo: скоблённою
+  - form_e: скобленную
+    form_yo: скоблённую
+  - form_e: скобленные
+    form_yo: скоблённые
+  - form_e: скобленный
+    form_yo: скоблённый
+  - form_e: скобленным
+    form_yo: скоблённым
+  - form_e: скобленными
+    form_yo: скоблёнными
+  - form_e: скобленных
+    form_yo: скоблённых
+- lemma_e: скоплен
+  lemma_yo: скоплён
+  pairs:
+  - form_e: скоплен
+    form_yo: скоплён
+- lemma_e: скопленный
+  lemma_yo: скоплённый
+  pairs:
+  - form_e: скопленная
+    form_yo: скоплённая
+  - form_e: скопленного
+    form_yo: скоплённого
+  - form_e: скопленное
+    form_yo: скоплённое
+  - form_e: скопленной
+    form_yo: скоплённой
+  - form_e: скопленном
+    form_yo: скоплённом
+  - form_e: скопленному
+    form_yo: скоплённому
+  - form_e: скопленною
+    form_yo: скоплённою
+  - form_e: скопленную
+    form_yo: скоплённую
+  - form_e: скопленные
+    form_yo: скоплённые
+  - form_e: скопленный
+    form_yo: скоплённый
+  - form_e: скопленным
+    form_yo: скоплённым
+  - form_e: скопленными
+    form_yo: скоплёнными
+  - form_e: скопленных
+    form_yo: скоплённых
+- lemma_e: скребу
+  lemma_yo: скребло
+  pairs:
+  - form_e: скребла
+    form_yo: скрёбла
+- lemma_e: скребень
+  lemma_yo: скребнул
+  pairs:
+  - form_e: скребнем
+    form_yo: скребнём
+- lemma_e: скребок
+  lemma_yo: скрёбка
+  pairs:
+  - form_e: скребка
+    form_yo: скрёбка
+  - form_e: скребкам
+    form_yo: скрёбкам
+  - form_e: скребками
+    form_yo: скрёбками
+  - form_e: скребках
+    form_yo: скрёбках
+  - form_e: скребке
+    form_yo: скрёбке
+  - form_e: скребки
+    form_yo: скрёбки
+  - form_e: скребку
+    form_yo: скрёбку
+  - form_e: скребок
+    form_yo: скрёбок
+- lemma_e: слез
+  lemma_yo: слеза
+  pairs:
+  - form_e: слез
+    form_yo: слёз
+- lemma_e: слепну
+  lemma_yo: слепень
+  pairs:
+  - form_e: слепнем
+    form_yo: слепнём
+- lemma_e: слеплен
+  lemma_yo: слеплён
+  pairs:
+  - form_e: слеплен
+    form_yo: слеплён
+- lemma_e: слепленный
+  lemma_yo: слеплённый
+  pairs:
+  - form_e: слепленная
+    form_yo: слеплённая
+  - form_e: слепленного
+    form_yo: слеплённого
+  - form_e: слепленное
+    form_yo: слеплённое
+  - form_e: слепленной
+    form_yo: слеплённой
+  - form_e: слепленном
+    form_yo: слеплённом
+  - form_e: слепленному
+    form_yo: слеплённому
+  - form_e: слепленною
+    form_yo: слеплённою
+  - form_e: слепленную
+    form_yo: слеплённую
+  - form_e: слепленные
+    form_yo: слеплённые
+  - form_e: слепленный
+    form_yo: слеплённый
+  - form_e: слепленным
+    form_yo: слеплённым
+  - form_e: слепленными
+    form_yo: слеплёнными
+  - form_e: слепленных
+    form_yo: слеплённых
+- lemma_e: слизень
+  lemma_yo: слизнул
+  pairs:
+  - form_e: слизнем
+    form_yo: слизнём
+- lemma_e: слизну
+  lemma_yo: слизнул
+  pairs:
+  - form_e: слизнем
+    form_yo: слизнём
+  - form_e: слизнет
+    form_yo: слизнёт
+  - form_e: слизнете
+    form_yo: слизнёте
+  - form_e: слизнешь
+    form_yo: слизнёшь
+- lemma_e: сложен
+  lemma_yo: сложён
+  pairs:
+  - form_e: сложен
+    form_yo: сложён
+- lemma_e: сложенный
+  lemma_yo: сложённый
+  pairs:
+  - form_e: сложенная
+    form_yo: сложённая
+  - form_e: сложенного
+    form_yo: сложённого
+  - form_e: сложенное
+    form_yo: сложённое
+  - form_e: сложенной
+    form_yo: сложённой
+  - form_e: сложенном
+    form_yo: сложённом
+  - form_e: сложенному
+    form_yo: сложённому
+  - form_e: сложенною
+    form_yo: сложённою
+  - form_e: сложенную
+    form_yo: сложённую
+  - form_e: сложенные
+    form_yo: сложённые
+  - form_e: сложенный
+    form_yo: сложённый
+  - form_e: сложенным
+    form_yo: сложённым
+  - form_e: сложенными
+    form_yo: сложёнными
+  - form_e: сложенных
+    form_yo: сложённых
+- lemma_e: слега
+  lemma_yo: слёг
+  pairs:
+  - form_e: слег
+    form_yo: слёг
+- lemma_e: смежен
+  lemma_yo: смежён
+  pairs:
+  - form_e: смежен
+    form_yo: смежён
+- lemma_e: сменен
+  lemma_yo: сменён
+  pairs:
+  - form_e: сменен
+    form_yo: сменён
+- lemma_e: сметен
+  lemma_yo: сметён
+  pairs:
+  - form_e: сметен
+    form_yo: сметён
+- lemma_e: смешен
+  lemma_yo: смешён
+  pairs:
+  - form_e: смешен
+    form_yo: смешён
+- lemma_e: смешенный
+  lemma_yo: смешённый
+  pairs:
+  - form_e: смешенная
+    form_yo: смешённая
+  - form_e: смешенного
+    form_yo: смешённого
+  - form_e: смешенное
+    form_yo: смешённое
+  - form_e: смешенной
+    form_yo: смешённой
+  - form_e: смешенном
+    form_yo: смешённом
+  - form_e: смешенному
+    form_yo: смешённому
+  - form_e: смешенною
+    form_yo: смешённою
+  - form_e: смешенную
+    form_yo: смешённую
+  - form_e: смешенные
+    form_yo: смешённые
+  - form_e: смешенный
+    form_yo: смешённый
+  - form_e: смешенным
+    form_yo: смешённым
+  - form_e: смешенными
+    form_yo: смешёнными
+  - form_e: смешенных
+    form_yo: смешённых
+- lemma_e: смирен
+  lemma_yo: смирён
+  pairs:
+  - form_e: смирен
+    form_yo: смирён
+- lemma_e: смирен
+  lemma_yo: смирёна
+  pairs:
+  - form_e: смирен
+    form_yo: смирён
+- lemma_e: смирён
+  lemma_yo: смирёна
+  pairs:
+  - form_e: смирена
+    form_yo: смирёна
+  - form_e: смирены
+    form_yo: смирёны
+- lemma_e: смиренный
+  lemma_yo: смирённый
+  pairs:
+  - form_e: смиренная
+    form_yo: смирённая
+  - form_e: смиренного
+    form_yo: смирённого
+  - form_e: смиренное
+    form_yo: смирённое
+  - form_e: смиренной
+    form_yo: смирённой
+  - form_e: смиренном
+    form_yo: смирённом
+  - form_e: смиренному
+    form_yo: смирённому
+  - form_e: смиренною
+    form_yo: смирённою
+  - form_e: смиренную
+    form_yo: смирённую
+  - form_e: смиренные
+    form_yo: смирённые
+  - form_e: смиренный
+    form_yo: смирённый
+  - form_e: смиренным
+    form_yo: смирённым
+  - form_e: смиренными
+    form_yo: смирёнными
+  - form_e: смиренных
+    form_yo: смирённых
+- lemma_e: смолен
+  lemma_yo: смолён
+  pairs:
+  - form_e: смолен
+    form_yo: смолён
+- lemma_e: смел
+  lemma_yo: смёл
+  pairs:
+  - form_e: смел
+    form_yo: смёл
+- lemma_e: смею
+  lemma_yo: смёл
+  pairs:
+  - form_e: смел
+    form_yo: смёл
+- lemma_e: сметана
+  lemma_yo: смётан
+  pairs:
+  - form_e: сметан
+    form_yo: смётан
+  - form_e: сметана
+    form_yo: смётана
+  - form_e: сметаны
+    form_yo: смётаны
+- lemma_e: сметанный
+  lemma_yo: смётанный
+  pairs:
+  - form_e: сметанная
+    form_yo: смётанная
+  - form_e: сметанного
+    form_yo: смётанного
+  - form_e: сметанное
+    form_yo: смётанное
+  - form_e: сметанной
+    form_yo: смётанной
+  - form_e: сметанном
+    form_yo: смётанном
+  - form_e: сметанному
+    form_yo: смётанному
+  - form_e: сметанною
+    form_yo: смётанною
+  - form_e: сметанную
+    form_yo: смётанную
+  - form_e: сметанные
+    form_yo: смётанные
+  - form_e: сметанный
+    form_yo: смётанный
+  - form_e: сметанным
+    form_yo: смётанным
+  - form_e: сметанными
+    form_yo: смётанными
+  - form_e: сметанных
+    form_yo: смётанных
+- lemma_e: снежен
+  lemma_yo: снежён
+  pairs:
+  - form_e: снежен
+    form_yo: снежён
+- lemma_e: совершенный
+  lemma_yo: совершённый
+  pairs:
+  - form_e: совершенная
+    form_yo: совершённая
+  - form_e: совершенного
+    form_yo: совершённого
+  - form_e: совершенное
+    form_yo: совершённое
+  - form_e: совершенной
+    form_yo: совершённой
+  - form_e: совершенном
+    form_yo: совершённом
+  - form_e: совершенному
+    form_yo: совершённому
+  - form_e: совершенною
+    form_yo: совершённою
+  - form_e: совершенную
+    form_yo: совершённую
+  - form_e: совершенные
+    form_yo: совершённые
+  - form_e: совершенный
+    form_yo: совершённый
+  - form_e: совершенным
+    form_yo: совершённым
+  - form_e: совершенными
+    form_yo: совершёнными
+  - form_e: совершенных
+    form_yo: совершённых
+- lemma_e: сознал
+  lemma_yo: сознаю
+  pairs:
+  - form_e: сознаем
+    form_yo: сознаём
+  - form_e: сознает
+    form_yo: сознаёт
+  - form_e: сознаете
+    form_yo: сознаёте
+  - form_e: сознаешь
+    form_yo: сознаёшь
+- lemma_e: сознался
+  lemma_yo: сознаюсь
+  pairs:
+  - form_e: сознаемся
+    form_yo: сознаёмся
+  - form_e: сознаетесь
+    form_yo: сознаётесь
+  - form_e: сознается
+    form_yo: сознаётся
+  - form_e: сознаешься
+    form_yo: сознаёшься
+- lemma_e: солитер
+  lemma_yo: солитёр
+  pairs:
+  - form_e: солитер
+    form_yo: солитёр
+  - form_e: солитера
+    form_yo: солитёра
+  - form_e: солитерам
+    form_yo: солитёрам
+  - form_e: солитерами
+    form_yo: солитёрами
+  - form_e: солитерах
+    form_yo: солитёрах
+  - form_e: солитере
+    form_yo: солитёре
+  - form_e: солитеров
+    form_yo: солитёров
+  - form_e: солитером
+    form_yo: солитёром
+  - form_e: солитеру
+    form_yo: солитёру
+  - form_e: солитеры
+    form_yo: солитёры
+- lemma_e: состегнул
+  lemma_yo: состёгнут
+  pairs:
+  - form_e: состегнут
+    form_yo: состёгнут
+- lemma_e: сохранен
+  lemma_yo: сохранён
+  pairs:
+  - form_e: сохранен
+    form_yo: сохранён
+- lemma_e: сочен
+  lemma_yo: сочён
+  pairs:
+  - form_e: сочен
+    form_yo: сочён
+- lemma_e: спален
+  lemma_yo: спалён
+  pairs:
+  - form_e: спален
+    form_yo: спалён
+- lemma_e: спальня
+  lemma_yo: спалён
+  pairs:
+  - form_e: спален
+    form_yo: спалён
+- lemma_e: спой
+  lemma_yo: спел
+  pairs:
+  - form_e: споем
+    form_yo: споём
+- lemma_e: сплетня
+  lemma_yo: сплетён
+  pairs:
+  - form_e: сплетен
+    form_yo: сплетён
+- lemma_e: сплеснул
+  lemma_yo: сплёснут
+  pairs:
+  - form_e: сплеснут
+    form_yo: сплёснут
+- lemma_e: спознался
+  lemma_yo: спознаюсь
+  pairs:
+  - form_e: спознаемся
+    form_yo: спознаёмся
+  - form_e: спознаетесь
+    form_yo: спознаётесь
+  - form_e: спознается
+    form_yo: спознаётся
+  - form_e: спознаешься
+    form_yo: спознаёшься
+- lemma_e: сравнен
+  lemma_yo: сравнён
+  pairs:
+  - form_e: сравнен
+    form_yo: сравнён
+- lemma_e: сравненный
+  lemma_yo: сравнённый
+  pairs:
+  - form_e: сравненная
+    form_yo: сравнённая
+  - form_e: сравненного
+    form_yo: сравнённого
+  - form_e: сравненное
+    form_yo: сравнённое
+  - form_e: сравненной
+    form_yo: сравнённой
+  - form_e: сравненном
+    form_yo: сравнённом
+  - form_e: сравненному
+    form_yo: сравнённому
+  - form_e: сравненною
+    form_yo: сравнённою
+  - form_e: сравненную
+    form_yo: сравнённую
+  - form_e: сравненные
+    form_yo: сравнённые
+  - form_e: сравненный
+    form_yo: сравнённый
+  - form_e: сравненным
+    form_yo: сравнённым
+  - form_e: сравненными
+    form_yo: сравнёнными
+  - form_e: сравненных
+    form_yo: сравнённых
+- lemma_e: ссек
+  lemma_yo: ссёк
+  pairs:
+  - form_e: ссек
+    form_yo: ссёк
+- lemma_e: стаял
+  lemma_yo: стаю
+  pairs:
+  - form_e: стаем
+    form_yo: стаём
+  - form_e: стает
+    form_yo: стаёт
+  - form_e: стаете
+    form_yo: стаёте
+  - form_e: стаешь
+    form_yo: стаёшь
+- lemma_e: створен
+  lemma_yo: створён
+  pairs:
+  - form_e: створен
+    form_yo: створён
+- lemma_e: стеблевее
+  lemma_yo: стеблёвее
+  pairs:
+  - form_e: постеблевее
+    form_yo: постеблёвее
+  - form_e: постеблевей
+    form_yo: постеблёвей
+  - form_e: стеблевее
+    form_yo: стеблёвее
+  - form_e: стеблевей
+    form_yo: стеблёвей
+- lemma_e: стеблевой
+  lemma_yo: стеблёвый
+  pairs:
+  - form_e: стеблевая
+    form_yo: стеблёвая
+  - form_e: стеблевого
+    form_yo: стеблёвого
+  - form_e: стеблевое
+    form_yo: стеблёвое
+  - form_e: стеблевой
+    form_yo: стеблёвой
+  - form_e: стеблевом
+    form_yo: стеблёвом
+  - form_e: стеблевому
+    form_yo: стеблёвому
+  - form_e: стеблевою
+    form_yo: стеблёвою
+  - form_e: стеблевую
+    form_yo: стеблёвую
+  - form_e: стеблевые
+    form_yo: стеблёвые
+  - form_e: стеблевым
+    form_yo: стеблёвым
+  - form_e: стеблевыми
+    form_yo: стеблёвыми
+  - form_e: стеблевых
+    form_yo: стеблёвых
+- lemma_e: стёк
+  lemma_yo: стекло
+  pairs:
+  - form_e: стекла
+    form_yo: стёкла
+- lemma_e: степ
+  lemma_yo: степа
+  pairs:
+  - form_e: степ
+    form_yo: стёп
+  - form_e: степа
+    form_yo: стёпа
+  - form_e: степам
+    form_yo: стёпам
+  - form_e: степами
+    form_yo: стёпами
+  - form_e: степах
+    form_yo: стёпах
+  - form_e: степе
+    form_yo: стёпе
+  - form_e: степу
+    form_yo: стёпу
+  - form_e: степы
+    form_yo: стёпы
+- lemma_e: стернь
+  lemma_yo: стерня
+  pairs:
+  - form_e: стерней
+    form_yo: стернёй
+- lemma_e: стлание
+  lemma_yo: стланьё
+  pairs:
+  - form_e: стланье
+    form_yo: стланьё
+  - form_e: стланьем
+    form_yo: стланьём
+- lemma_e: страшен
+  lemma_yo: страшён
+  pairs:
+  - form_e: страшен
+    form_yo: страшён
+- lemma_e: страшенный
+  lemma_yo: страшённый
+  pairs:
+  - form_e: страшенная
+    form_yo: страшённая
+  - form_e: страшенного
+    form_yo: страшённого
+  - form_e: страшенное
+    form_yo: страшённое
+  - form_e: страшенной
+    form_yo: страшённой
+  - form_e: страшенном
+    form_yo: страшённом
+  - form_e: страшенному
+    form_yo: страшённому
+  - form_e: страшенною
+    form_yo: страшённою
+  - form_e: страшенную
+    form_yo: страшённую
+  - form_e: страшенные
+    form_yo: страшённые
+  - form_e: страшенный
+    form_yo: страшённый
+  - form_e: страшенным
+    form_yo: страшённым
+  - form_e: страшенными
+    form_yo: страшёнными
+  - form_e: страшенных
+    form_yo: страшённых
+- lemma_e: строев
+  lemma_yo: строй
+  pairs:
+  - form_e: строев
+    form_yo: строёв
+- lemma_e: строчен
+  lemma_yo: строчён
+  pairs:
+  - form_e: строчен
+    form_yo: строчён
+  - form_e: строчена
+    form_yo: строчёна
+  - form_e: строчено
+    form_yo: строчёно
+  - form_e: строчены
+    form_yo: строчёны
+- lemma_e: строен
+  lemma_yo: строён
+  pairs:
+  - form_e: строен
+    form_yo: строён
+- lemma_e: строенный
+  lemma_yo: строённый
+  pairs:
+  - form_e: строенная
+    form_yo: строённая
+  - form_e: строенного
+    form_yo: строённого
+  - form_e: строенное
+    form_yo: строённое
+  - form_e: строенной
+    form_yo: строённой
+  - form_e: строенном
+    form_yo: строённом
+  - form_e: строенному
+    form_yo: строённому
+  - form_e: строенною
+    form_yo: строённою
+  - form_e: строенную
+    form_yo: строённую
+  - form_e: строенные
+    form_yo: строённые
+  - form_e: строенный
+    form_yo: строённый
+  - form_e: строенным
+    form_yo: строённым
+  - form_e: строенными
+    form_yo: строёнными
+  - form_e: строенных
+    form_yo: строённых
+- lemma_e: струнен
+  lemma_yo: струнён
+  pairs:
+  - form_e: струнен
+    form_yo: струнён
+- lemma_e: студенею
+  lemma_yo: студёнее
+  pairs:
+  - form_e: студеней
+    form_yo: студёней
+- lemma_e: стегнул
+  lemma_yo: стёгнут
+  pairs:
+  - form_e: стегнут
+    form_yo: стёгнут
+- lemma_e: стежок
+  lemma_yo: стёжка
+  pairs:
+  - form_e: стежка
+    form_yo: стёжка
+  - form_e: стежкам
+    form_yo: стёжкам
+  - form_e: стежками
+    form_yo: стёжками
+  - form_e: стежках
+    form_yo: стёжках
+  - form_e: стежке
+    form_yo: стёжке
+  - form_e: стежки
+    form_yo: стёжки
+  - form_e: стежку
+    form_yo: стёжку
+- lemma_e: стек
+  lemma_yo: стёк
+  pairs:
+  - form_e: стек
+    form_yo: стёк
+- lemma_e: стека
+  lemma_yo: стёк
+  pairs:
+  - form_e: стек
+    form_yo: стёк
+- lemma_e: стер
+  lemma_yo: стёр
+  pairs:
+  - form_e: стер
+    form_yo: стёр
+- lemma_e: суетнее
+  lemma_yo: суетня
+  pairs:
+  - form_e: суетней
+    form_yo: суетнёй
+- lemma_e: сучен
+  lemma_yo: сучён
+  pairs:
+  - form_e: сучен
+    form_yo: сучён
+  - form_e: сучена
+    form_yo: сучёна
+  - form_e: сучено
+    form_yo: сучёно
+  - form_e: сучены
+    form_yo: сучёны
+- lemma_e: сушен
+  lemma_yo: сушён
+  pairs:
+  - form_e: сушен
+    form_yo: сушён
+  - form_e: сушена
+    form_yo: сушёна
+  - form_e: сушено
+    form_yo: сушёно
+  - form_e: сушены
+    form_yo: сушёны
+- lemma_e: суета
+  lemma_yo: сую
+  pairs:
+  - form_e: сует
+    form_yo: суёт
+  - form_e: суете
+    form_yo: суёте
+- lemma_e: схлебнул
+  lemma_yo: схлёбнут
+  pairs:
+  - form_e: схлебнут
+    form_yo: схлёбнут
+- lemma_e: схлестнул
+  lemma_yo: схлёстнут
+  pairs:
+  - form_e: схлестнут
+    form_yo: схлёстнут
+- lemma_e: счёт
+  lemma_yo: счёты
+  pairs:
+  - form_e: счетам
+    form_yo: счётам
+  - form_e: счетами
+    form_yo: счётами
+  - form_e: счетах
+    form_yo: счётах
+  - form_e: счетов
+    form_yo: счётов
+- lemma_e: съел
+  lemma_yo: съём
+  pairs:
+  - form_e: съем
+    form_yo: съём
+- lemma_e: сей
+  lemma_yo: сёма
+  pairs:
+  - form_e: сему
+    form_yo: сёму
+- lemma_e: сем
+  lemma_yo: сёма
+  pairs:
+  - form_e: сем
+    form_yo: сём
+- lemma_e: сема
+  lemma_yo: сёма
+  pairs:
+  - form_e: сем
+    form_yo: сём
+  - form_e: сема
+    form_yo: сёма
+  - form_e: семам
+    form_yo: сёмам
+  - form_e: семами
+    form_yo: сёмами
+  - form_e: семах
+    form_yo: сёмах
+  - form_e: семе
+    form_yo: сёме
+  - form_e: семой
+    form_yo: сёмой
+  - form_e: семою
+    form_yo: сёмою
+  - form_e: сему
+    form_yo: сёму
+  - form_e: семы
+    form_yo: сёмы
+- lemma_e: сие
+  lemma_yo: сёма
+  pairs:
+  - form_e: сем
+    form_yo: сём
+  - form_e: сему
+    form_yo: сёму
+- lemma_e: тлею
+  lemma_yo: тля
+  pairs:
+  - form_e: тлей
+    form_yo: тлёй
+  - form_e: тлею
+    form_yo: тлёю
+- lemma_e: топлен
+  lemma_yo: топлён
+  pairs:
+  - form_e: топлен
+    form_yo: топлён
+  - form_e: топлена
+    form_yo: топлёна
+  - form_e: топлено
+    form_yo: топлёно
+  - form_e: топлены
+    form_yo: топлёны
+- lemma_e: торен
+  lemma_yo: торён
+  pairs:
+  - form_e: торен
+    form_yo: торён
+- lemma_e: точен
+  lemma_yo: точён
+  pairs:
+  - form_e: точен
+    form_yo: точён
+- lemma_e: тройня
+  lemma_yo: троён
+  pairs:
+  - form_e: троен
+    form_yo: троён
+- lemma_e: трепан
+  lemma_yo: трёпан
+  pairs:
+  - form_e: трепан
+    form_yo: трёпан
+  - form_e: трепана
+    form_yo: трёпана
+  - form_e: трепаны
+    form_yo: трёпаны
+- lemma_e: трепан
+  lemma_yo: трёпаный
+  pairs:
+  - form_e: трепаном
+    form_yo: трёпаном
+- lemma_e: тушен
+  lemma_yo: тушён
+  pairs:
+  - form_e: тушен
+    form_yo: тушён
+  - form_e: тушена
+    form_yo: тушёна
+  - form_e: тушено
+    form_yo: тушёно
+  - form_e: тушены
+    form_yo: тушёны
+- lemma_e: тем
+  lemma_yo: тьма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+- lemma_e: тема
+  lemma_yo: тьма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+- lemma_e: тот
+  lemma_yo: тьма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+- lemma_e: тяжеленный
+  lemma_yo: тяжелённый
+  pairs:
+  - form_e: тяжеленная
+    form_yo: тяжелённая
+  - form_e: тяжеленного
+    form_yo: тяжелённого
+  - form_e: тяжеленное
+    form_yo: тяжелённое
+  - form_e: тяжеленной
+    form_yo: тяжелённой
+  - form_e: тяжеленном
+    form_yo: тяжелённом
+  - form_e: тяжеленному
+    form_yo: тяжелённому
+  - form_e: тяжеленною
+    form_yo: тяжелённою
+  - form_e: тяжеленную
+    form_yo: тяжелённую
+  - form_e: тяжеленные
+    form_yo: тяжелённые
+  - form_e: тяжеленный
+    form_yo: тяжелённый
+  - form_e: тяжеленным
+    form_yo: тяжелённым
+  - form_e: тяжеленными
+    form_yo: тяжелёнными
+  - form_e: тяжеленных
+    form_yo: тяжелённых
+- lemma_e: телок
+  lemma_yo: тёлка
+  pairs:
+  - form_e: телка
+    form_yo: тёлка
+  - form_e: телкам
+    form_yo: тёлкам
+  - form_e: телками
+    form_yo: тёлками
+  - form_e: телках
+    form_yo: тёлках
+  - form_e: телке
+    form_yo: тёлке
+  - form_e: телки
+    form_yo: тёлки
+  - form_e: телку
+    form_yo: тёлку
+  - form_e: телок
+    form_yo: тёлок
+- lemma_e: тем
+  lemma_yo: тёма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+- lemma_e: тема
+  lemma_yo: тёма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+  - form_e: тема
+    form_yo: тёма
+  - form_e: темам
+    form_yo: тёмам
+  - form_e: темами
+    form_yo: тёмами
+  - form_e: темах
+    form_yo: тёмах
+  - form_e: теме
+    form_yo: тёме
+  - form_e: темой
+    form_yo: тёмой
+  - form_e: темою
+    form_yo: тёмою
+  - form_e: тему
+    form_yo: тёму
+  - form_e: темы
+    form_yo: тёмы
+- lemma_e: тот
+  lemma_yo: тёма
+  pairs:
+  - form_e: тем
+    form_yo: тём
+- lemma_e: тепло
+  lemma_yo: тёплый
+  pairs:
+  - form_e: теплом
+    form_yo: тёплом
+- lemma_e: тернов
+  lemma_yo: тёрн
+  pairs:
+  - form_e: тернов
+    form_yo: тёрнов
+- lemma_e: тесов
+  lemma_yo: тёс
+  pairs:
+  - form_e: тесов
+    form_yo: тёсов
+- lemma_e: теткин
+  lemma_yo: тёткин
+  pairs:
+  - form_e: теткин
+    form_yo: тёткин
+  - form_e: теткина
+    form_yo: тёткина
+  - form_e: теткину
+    form_yo: тёткину
+  - form_e: теткиным
+    form_yo: тёткиным
+- lemma_e: теткина
+  lemma_yo: тёткин
+  pairs:
+  - form_e: теткина
+    form_yo: тёткина
+  - form_e: теткиной
+    form_yo: тёткиной
+  - form_e: теткину
+    form_yo: тёткину
+- lemma_e: теткино
+  lemma_yo: тёткин
+  pairs:
+  - form_e: теткина
+    form_yo: тёткина
+  - form_e: теткино
+    form_yo: тёткино
+  - form_e: теткином
+    form_yo: тёткином
+  - form_e: теткину
+    form_yo: тёткину
+- lemma_e: теткины
+  lemma_yo: тёткин
+  pairs:
+  - form_e: теткины
+    form_yo: тёткины
+  - form_e: теткиным
+    form_yo: тёткиным
+  - form_e: теткиными
+    form_yo: тёткиными
+  - form_e: теткиных
+    form_yo: тёткиных
+- lemma_e: тета
+  lemma_yo: тётя
+  pairs:
+  - form_e: тете
+    form_yo: тёте
+- lemma_e: тетея
+  lemma_yo: тётя
+  pairs:
+  - form_e: тетею
+    form_yo: тётею
+- lemma_e: теша
+  lemma_yo: тёша
+  pairs:
+  - form_e: теша
+    form_yo: тёша
+  - form_e: теше
+    form_yo: тёше
+  - form_e: тешей
+    form_yo: тёшей
+  - form_e: тешею
+    form_yo: тёшею
+  - form_e: теши
+    form_yo: тёши
+  - form_e: тешу
+    form_yo: тёшу
+- lemma_e: тешу
+  lemma_yo: тёша
+  pairs:
+  - form_e: теши
+    form_yo: тёши
+  - form_e: тешу
+    form_yo: тёшу
+- lemma_e: уволочен
+  lemma_yo: уволочён
+  pairs:
+  - form_e: уволочен
+    form_yo: уволочён
+- lemma_e: уволоченный
+  lemma_yo: уволочённый
+  pairs:
+  - form_e: уволоченная
+    form_yo: уволочённая
+  - form_e: уволоченного
+    form_yo: уволочённого
+  - form_e: уволоченное
+    form_yo: уволочённое
+  - form_e: уволоченной
+    form_yo: уволочённой
+  - form_e: уволоченном
+    form_yo: уволочённом
+  - form_e: уволоченному
+    form_yo: уволочённому
+  - form_e: уволоченною
+    form_yo: уволочённою
+  - form_e: уволоченную
+    form_yo: уволочённую
+  - form_e: уволоченные
+    form_yo: уволочённые
+  - form_e: уволоченный
+    form_yo: уволочённый
+  - form_e: уволоченным
+    form_yo: уволочённым
+  - form_e: уволоченными
+    form_yo: уволочёнными
+  - form_e: уволоченных
+    form_yo: уволочённых
+- lemma_e: увернул
+  lemma_yo: увёрнут
+  pairs:
+  - form_e: увернут
+    form_yo: увёрнут
+- lemma_e: уговорен
+  lemma_yo: уговорён
+  pairs:
+  - form_e: уговорен
+    form_yo: уговорён
+- lemma_e: угрев
+  lemma_yo: угрёв
+  pairs:
+  - form_e: угрев
+    form_yo: угрёв
+- lemma_e: угревее
+  lemma_yo: угрёвее
+  pairs:
+  - form_e: поугревее
+    form_yo: поугрёвее
+  - form_e: поугревей
+    form_yo: поугрёвей
+  - form_e: угревее
+    form_yo: угрёвее
+  - form_e: угревей
+    form_yo: угрёвей
+- lemma_e: угревая
+  lemma_yo: угрёвый
+  pairs:
+  - form_e: угревая
+    form_yo: угрёвая
+- lemma_e: угревой
+  lemma_yo: угрёвый
+  pairs:
+  - form_e: угревая
+    form_yo: угрёвая
+  - form_e: угревого
+    form_yo: угрёвого
+  - form_e: угревое
+    form_yo: угрёвое
+  - form_e: угревой
+    form_yo: угрёвой
+  - form_e: угревом
+    form_yo: угрёвом
+  - form_e: угревому
+    form_yo: угрёвому
+  - form_e: угревою
+    form_yo: угрёвою
+  - form_e: угревую
+    form_yo: угрёвую
+  - form_e: угревые
+    form_yo: угрёвые
+  - form_e: угревым
+    form_yo: угрёвым
+  - form_e: угревыми
+    form_yo: угрёвыми
+  - form_e: угревых
+    form_yo: угрёвых
+- lemma_e: уделен
+  lemma_yo: уделён
+  pairs:
+  - form_e: уделен
+    form_yo: уделён
+- lemma_e: узнал
+  lemma_yo: узнаю
+  pairs:
+  - form_e: узнаем
+    form_yo: узнаём
+  - form_e: узнает
+    form_yo: узнаёт
+  - form_e: узнаете
+    form_yo: узнаёте
+  - form_e: узнаешь
+    form_yo: узнаёшь
+- lemma_e: узнался
+  lemma_yo: узнаюсь
+  pairs:
+  - form_e: узнаемся
+    form_yo: узнаёмся
+  - form_e: узнаетесь
+    form_yo: узнаётесь
+  - form_e: узнается
+    form_yo: узнаётся
+  - form_e: узнаешься
+    form_yo: узнаёшься
+- lemma_e: уклонен
+  lemma_yo: уклонён
+  pairs:
+  - form_e: уклонен
+    form_yo: уклонён
+- lemma_e: укорен
+  lemma_yo: укорён
+  pairs:
+  - form_e: укорен
+    form_yo: укорён
+- lemma_e: уличен
+  lemma_yo: уличён
+  pairs:
+  - form_e: уличен
+    form_yo: уличён
+- lemma_e: умилен
+  lemma_yo: умилён
+  pairs:
+  - form_e: умилен
+    form_yo: умилён
+- lemma_e: умел
+  lemma_yo: умёл
+  pairs:
+  - form_e: умел
+    form_yo: умёл
+- lemma_e: умею
+  lemma_yo: умёл
+  pairs:
+  - form_e: умел
+    form_yo: умёл
+- lemma_e: умёл
+  lemma_yo: умёт
+  pairs:
+  - form_e: умету
+    form_yo: умёту
+- lemma_e: униженно
+  lemma_yo: унижен
+  pairs:
+  - form_e: униженно
+    form_yo: унижённо
+- lemma_e: упоенный
+  lemma_yo: упоённый
+  pairs:
+  - form_e: упоенная
+    form_yo: упоённая
+  - form_e: упоенного
+    form_yo: упоённого
+  - form_e: упоенное
+    form_yo: упоённое
+  - form_e: упоенной
+    form_yo: упоённой
+  - form_e: упоенном
+    form_yo: упоённом
+  - form_e: упоенному
+    form_yo: упоённому
+  - form_e: упоенною
+    form_yo: упоённою
+  - form_e: упоенную
+    form_yo: упоённую
+  - form_e: упоенные
+    form_yo: упоённые
+  - form_e: упоенный
+    form_yo: упоённый
+  - form_e: упоенным
+    form_yo: упоённым
+  - form_e: упоенными
+    form_yo: упоёнными
+  - form_e: упоенных
+    form_yo: упоённых
+- lemma_e: ухлебнул
+  lemma_yo: ухлёбнут
+  pairs:
+  - form_e: ухлебнут
+    form_yo: ухлёбнут
+- lemma_e: ухлестнул
+  lemma_yo: ухлёстнут
+  pairs:
+  - form_e: ухлестнут
+    form_yo: ухлёстнут
+- lemma_e: учен
+  lemma_yo: учён
+  pairs:
+  - form_e: учен
+    form_yo: учён
+  - form_e: учена
+    form_yo: учёна
+  - form_e: учено
+    form_yo: учёно
+  - form_e: учены
+    form_yo: учёны
+- lemma_e: флера
+  lemma_yo: флёр
+  pairs:
+  - form_e: флер
+    form_yo: флёр
+  - form_e: флера
+    form_yo: флёра
+  - form_e: флерам
+    form_yo: флёрам
+  - form_e: флерами
+    form_yo: флёрами
+  - form_e: флерах
+    form_yo: флёрах
+  - form_e: флере
+    form_yo: флёре
+  - form_e: флеру
+    form_yo: флёру
+  - form_e: флеры
+    form_yo: флёры
+- lemma_e: федора
+  lemma_yo: фёдор
+  pairs:
+  - form_e: федор
+    form_yo: фёдор
+  - form_e: федора
+    form_yo: фёдора
+  - form_e: федорам
+    form_yo: фёдорам
+  - form_e: федорами
+    form_yo: фёдорами
+  - form_e: федорах
+    form_yo: фёдорах
+  - form_e: федоре
+    form_yo: фёдоре
+  - form_e: федору
+    form_yo: фёдору
+  - form_e: федоры
+    form_yo: фёдоры
+- lemma_e: федоровская
+  lemma_yo: фёдоровский
+  pairs:
+  - form_e: федоровская
+    form_yo: фёдоровская
+  - form_e: федоровской
+    form_yo: фёдоровской
+  - form_e: федоровскую
+    form_yo: фёдоровскую
+- lemma_e: федоровские
+  lemma_yo: фёдоровский
+  pairs:
+  - form_e: федоровские
+    form_yo: фёдоровские
+  - form_e: федоровским
+    form_yo: фёдоровским
+  - form_e: федоровскими
+    form_yo: фёдоровскими
+  - form_e: федоровских
+    form_yo: фёдоровских
+- lemma_e: федоровский
+  lemma_yo: фёдоровский
+  pairs:
+  - form_e: федоровский
+    form_yo: фёдоровский
+  - form_e: федоровским
+    form_yo: фёдоровским
+  - form_e: федоровского
+    form_yo: фёдоровского
+  - form_e: федоровском
+    form_yo: фёдоровском
+  - form_e: федоровскому
+    form_yo: фёдоровскому
+- lemma_e: фест
+  lemma_yo: фёст
+  pairs:
+  - form_e: фест
+    form_yo: фёст
+  - form_e: феста
+    form_yo: фёста
+  - form_e: фесте
+    form_yo: фёсте
+  - form_e: фестом
+    form_yo: фёстом
+  - form_e: фесту
+    form_yo: фёсту
+- lemma_e: фест
+  lemma_yo: фёсты
+  pairs:
+  - form_e: фестам
+    form_yo: фёстам
+  - form_e: фестами
+    form_yo: фёстами
+  - form_e: фестах
+    form_yo: фёстах
+  - form_e: фестов
+    form_yo: фёстов
+  - form_e: фесты
+    form_yo: фёсты
+- lemma_e: хвален
+  lemma_yo: хвалён
+  pairs:
+  - form_e: хвален
+    form_yo: хвалён
+  - form_e: хвалена
+    form_yo: хвалёна
+  - form_e: хвалено
+    form_yo: хвалёно
+  - form_e: хвалены
+    form_yo: хвалёны
+- lemma_e: хвоен
+  lemma_yo: хвоён
+  pairs:
+  - form_e: хвоен
+    form_yo: хвоён
+- lemma_e: хлопотнее
+  lemma_yo: хлопотня
+  pairs:
+  - form_e: хлопотней
+    form_yo: хлопотнёй
+- lemma_e: хлеб
+  lemma_yo: хлёбово
+  pairs:
+  - form_e: хлебов
+    form_yo: хлёбов
+- lemma_e: хлестнул
+  lemma_yo: хлёстнут
+  pairs:
+  - form_e: хлестнут
+    form_yo: хлёстнут
+- lemma_e: хмелен
+  lemma_yo: хмелён
+  pairs:
+  - form_e: хмелен
+    form_yo: хмелён
+- lemma_e: холен
+  lemma_yo: холён
+  pairs:
+  - form_e: холен
+    form_yo: холён
+  - form_e: холена
+    form_yo: холёна
+  - form_e: холено
+    form_yo: холёно
+  - form_e: холены
+    form_yo: холёны
+- lemma_e: херли
+  lemma_yo: хёрли
+  pairs:
+  - form_e: херли
+    form_yo: хёрли
+- lemma_e: цежен
+  lemma_yo: цежён
+  pairs:
+  - form_e: цежен
+    form_yo: цежён
+  - form_e: цежена
+    form_yo: цежёна
+  - form_e: цежено
+    form_yo: цежёно
+  - form_e: цежены
+    form_yo: цежёны
+- lemma_e: ценен
+  lemma_yo: ценён
+  pairs:
+  - form_e: ценен
+    form_yo: ценён
+- lemma_e: цепень
+  lemma_yo: цепня
+  pairs:
+  - form_e: цепней
+    form_yo: цепнёй
+- lemma_e: цепнее
+  lemma_yo: цепня
+  pairs:
+  - form_e: цепней
+    form_yo: цепнёй
+- lemma_e: чайка
+  lemma_yo: чаёк
+  pairs:
+  - form_e: чаек
+    form_yo: чаёк
+- lemma_e: чайки
+  lemma_yo: чаёк
+  pairs:
+  - form_e: чаек
+    form_yo: чаёк
+- lemma_e: чел
+  lemma_yo: чело
+  pairs:
+  - form_e: чел
+    form_yo: чёл
+- lemma_e: четвернее
+  lemma_yo: четверня
+  pairs:
+  - form_e: четверней
+    form_yo: четвернёй
+- lemma_e: четверток
+  lemma_yo: четвёртка
+  pairs:
+  - form_e: четвертка
+    form_yo: четвёртка
+  - form_e: четверткам
+    form_yo: четвёрткам
+  - form_e: четвертками
+    form_yo: четвёртками
+  - form_e: четвертках
+    form_yo: четвёртках
+  - form_e: четвертке
+    form_yo: четвёртке
+  - form_e: четвертки
+    form_yo: четвёртки
+  - form_e: четвертку
+    form_yo: четвёртку
+  - form_e: четверток
+    form_yo: четвёрток
+- lemma_e: четвертовал
+  lemma_yo: четвёртый
+  pairs:
+  - form_e: четвертую
+    form_yo: четвёртую
+- lemma_e: четвертую
+  lemma_yo: четвёртый
+  pairs:
+  - form_e: четвертую
+    form_yo: четвёртую
+- lemma_e: чинен
+  lemma_yo: чинён
+  pairs:
+  - form_e: чинен
+    form_yo: чинён
+- lemma_e: членен
+  lemma_yo: членён
+  pairs:
+  - form_e: членен
+    form_yo: членён
+- lemma_e: че
+  lemma_yo: что
+  pairs:
+  - form_e: че
+    form_yo: чё
+- lemma_e: чем
+  lemma_yo: что
+  pairs:
+  - form_e: чем
+    form_yo: чём
+- lemma_e: чел
+  lemma_yo: чту
+  pairs:
+  - form_e: чел
+    form_yo: чёл
+- lemma_e: чуден
+  lemma_yo: чудён
+  pairs:
+  - form_e: чуден
+    form_yo: чудён
+- lemma_e: чёркаю
+  lemma_yo: чёркаем
+  pairs:
+  - form_e: черкаем
+    form_yo: чёркаем
+- lemma_e: чёркаем
+  lemma_yo: чёркаю
+  pairs:
+  - form_e: черкаем
+    form_yo: чёркаем
+- lemma_e: черных
+  lemma_yo: чёрный
+  pairs:
+  - form_e: черных
+    form_yo: чёрных
+- lemma_e: черство
+  lemma_yo: чёрств
+  pairs:
+  - form_e: черство
+    form_yo: чёрство
+- lemma_e: черта
+  lemma_yo: чёрт
+  pairs:
+  - form_e: черт
+    form_yo: чёрт
+  - form_e: черта
+    form_yo: чёрта
+  - form_e: черте
+    form_yo: чёрте
+  - form_e: черту
+    form_yo: чёрту
+- lemma_e: чертов
+  lemma_yo: чёртов
+  pairs:
+  - form_e: чертов
+    form_yo: чёртов
+  - form_e: чертова
+    form_yo: чёртова
+  - form_e: чертово
+    form_yo: чёртово
+  - form_e: чертовы
+    form_yo: чёртовы
+- lemma_e: чертовый
+  lemma_yo: чёртов
+  pairs:
+  - form_e: чертовой
+    form_yo: чёртовой
+  - form_e: чертовом
+    form_yo: чёртовом
+  - form_e: чертовою
+    form_yo: чёртовою
+  - form_e: чертовым
+    form_yo: чёртовым
+  - form_e: чертовыми
+    form_yo: чёртовыми
+  - form_e: чертовых
+    form_yo: чёртовых
+- lemma_e: чета
+  lemma_yo: чёт
+  pairs:
+  - form_e: чет
+    form_yo: чёт
+  - form_e: чета
+    form_yo: чёта
+  - form_e: четам
+    form_yo: чётам
+  - form_e: четами
+    form_yo: чётами
+  - form_e: четах
+    form_yo: чётах
+  - form_e: чете
+    form_yo: чёте
+  - form_e: чету
+    form_yo: чёту
+  - form_e: четы
+    form_yo: чёты
+- lemma_e: шабер
+  lemma_yo: шабёр
+  pairs:
+  - form_e: шабер
+    form_yo: шабёр
+- lemma_e: шестернее
+  lemma_yo: шестерня
+  pairs:
+  - form_e: шестерней
+    form_yo: шестернёй
+- lemma_e: шлем
+  lemma_yo: шлю
+  pairs:
+  - form_e: шлем
+    form_yo: шлём
+- lemma_e: шлепок
+  lemma_yo: шлёпка
+  pairs:
+  - form_e: шлепка
+    form_yo: шлёпка
+  - form_e: шлепкам
+    form_yo: шлёпкам
+  - form_e: шлепками
+    form_yo: шлёпками
+  - form_e: шлепках
+    form_yo: шлёпках
+  - form_e: шлепке
+    form_yo: шлёпке
+  - form_e: шлепки
+    form_yo: шлёпки
+  - form_e: шлепку
+    form_yo: шлёпку
+  - form_e: шлепок
+    form_yo: шлёпок
+- lemma_e: шёлк
+  lemma_yo: шёлков
+  pairs:
+  - form_e: шелков
+    form_yo: шёлков
+- lemma_e: шепотня
+  lemma_yo: шёпотнее
+  pairs:
+  - form_e: шепотней
+    form_yo: шёпотней
+- lemma_e: щелочу
+  lemma_yo: щёлочь
+  pairs:
+  - form_e: щелочи
+    form_yo: щёлочи
+- lemma_e: ядренею
+  lemma_yo: ядрёнее
+  pairs:
+  - form_e: ядреней
+    form_yo: ядрёней
+- lemma_e: язев
+  lemma_yo: язёв
+  pairs:
+  - form_e: язев
+    form_yo: язёв
+  - form_e: язева
+    form_yo: язёва
+- lemma_e: язева
+  lemma_yo: язёв
+  pairs:
+  - form_e: язева
+    form_yo: язёва
+- lemma_e: язевы
+  lemma_yo: язёв
+  pairs:
+  - form_e: язевы
+    form_yo: язёвы
+- lemma_e: язев
+  lemma_yo: язёвый
+  pairs:
+  - form_e: язевым
+    form_yo: язёвым
+- lemma_e: язева
+  lemma_yo: язёвый
+  pairs:
+  - form_e: язевой
+    form_yo: язёвой
+- lemma_e: язевы
+  lemma_yo: язёвый
+  pairs:
+  - form_e: язевым
+    form_yo: язёвым
+  - form_e: язевыми
+    form_yo: язёвыми
+  - form_e: язевых
+    form_yo: язёвых
+- lemma_e: январевы
+  lemma_yo: январёв
+  pairs:
+  - form_e: январевым
+    form_yo: январёвым
+- lemma_e: ярем
+  lemma_yo: ярёма
+  pairs:
+  - form_e: ярем
+    form_yo: ярём
+  - form_e: ярема
+    form_yo: ярёма
+  - form_e: яремам
+    form_yo: ярёмам
+  - form_e: яремами
+    form_yo: ярёмами
+  - form_e: яремах
+    form_yo: ярёмах
+  - form_e: яреме
+    form_yo: ярёме
+  - form_e: ярему
+    form_yo: ярёму
+  - form_e: яремы
+    form_yo: ярёмы
+- lemma_e: ячменевый
+  lemma_yo: ячменёв
+  pairs:
+  - form_e: ячменевым
+    form_yo: ячменёвым
+- lemma_e: ячменевый
+  lemma_yo: ячменёва
+  pairs:
+  - form_e: ячменевой
+    form_yo: ячменёвой
+- lemma_e: ячменевый
+  lemma_yo: ячменёвы
+  pairs:
+  - form_e: ячменевым
+    form_yo: ячменёвым
+  - form_e: ячменевыми
+    form_yo: ячменёвыми
+  - form_e: ячменевых
+    form_yo: ячменёвых
+- lemma_e: ёж
+  lemma_yo: ёжа
+  pairs:
+  - form_e: ежа
+    form_yo: ёжа
+- lemma_e: ежонок
+  lemma_yo: ёжу
+  pairs:
+  - form_e: ежат
+    form_yo: ёжат
+- lemma_e: ёж
+  lemma_yo: ёжу
+  pairs:
+  - form_e: ежу
+    form_yo: ёжу
+- lemma_e: ер
+  lemma_yo: ёра
+  pairs:
+  - form_e: ер
+    form_yo: ёр
+  - form_e: ера
+    form_yo: ёра
+  - form_e: ерам
+    form_yo: ёрам
+  - form_e: ерами
+    form_yo: ёрами
+  - form_e: ерах
+    form_yo: ёрах
+  - form_e: ере
+    form_yo: ёре
+  - form_e: еру
+    form_yo: ёру
+  - form_e: еры
+    form_yo: ёры
+- lemma_e: еры
+  lemma_yo: ёра
+  pairs:
+  - form_e: еры
+    form_yo: ёры
+- lemma_e: ерь
+  lemma_yo: ёра
+  pairs:
+  - form_e: ере
+    form_yo: ёре

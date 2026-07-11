@@ -1,0 +1,155 @@
+# docker-compose.yml
+services:
+  mongodb_service:
+    image: mongo:6-jammy
+    container_name: trustvar_mongodb_service
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - llm_net
+
+  mongo-express-service:
+    image: mongo-express
+    container_name: trustvar_mongodb-express-service
+    profiles:
+      - local
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb_service
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: example
+    ports:
+      - '${MONGO_EXPRESS_PORT:-8081}:8081'
+    depends_on:
+      - mongodb_service
+    restart: on-failure
+    networks:
+      - llm_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: trustvar_redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - llm_net
+
+  ollama_service:
+    image: ollama/ollama:latest
+    container_name: trustvar_ollama_service
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_data:/root/.ollama/models
+    networks:
+      - llm_net
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+      - OLLAMA_KEEP_ALIVE=-1s
+      - OLLAMA_MAX_LOADED_MODELS=${OLLAMA_MAX_LOADED_MODELS:-1}
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-5}
+      - OLLAMA_SCHED_SPREAD=1
+      - OLLAMA_FLASH_ATTENTION=1
+
+  api:
+    build:
+      context: .
+      dockerfile: src/Dockerfile.api
+    container_name: trustvar_api_backend
+    command: python -m src.api.main
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      - MONGODB_URL=mongodb://root:example@mongodb_service:27017
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+      - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE:--1s}
+      - OLLAMA_REQUIRE_GPU=${OLLAMA_REQUIRE_GPU:-false}
+      - OLLAMA_GPU_RETRY_ON_FALLBACK=${OLLAMA_GPU_RETRY_ON_FALLBACK:-false}
+      - OLLAMA_INFERENCE_TIMEOUT=${OLLAMA_INFERENCE_TIMEOUT:-3000}
+      - OLLAMA_MAX_LOADED_MODELS=${OLLAMA_MAX_LOADED_MODELS:-1}
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-5}
+      - HF_TOKEN=${HF_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - VLLM_BASE_URL=${VLLM_BASE_URL}
+      - LLAMACPP_BASE_URL=${LLAMACPP_BASE_URL}
+    depends_on:
+      - mongodb_service
+      - redis
+    networks:
+      - llm_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: trustvar_react_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    depends_on:
+      - api
+    volumes:
+      - ./frontend:/app
+    networks:
+      - llm_net
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: src/Dockerfile.celery
+    container_name: trustvar_celery_worker
+    command: celery -A src.core.tasks.celery_app worker --max-tasks-per-child=1 --loglevel=info
+    environment:
+      - MONGODB_URL=mongodb://root:example@mongodb_service:27017
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+      - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE:--1s}
+      - OLLAMA_REQUIRE_GPU=${OLLAMA_REQUIRE_GPU:-false}
+      - OLLAMA_GPU_RETRY_ON_FALLBACK=${OLLAMA_GPU_RETRY_ON_FALLBACK:-false}
+      - OLLAMA_INFERENCE_TIMEOUT=${OLLAMA_INFERENCE_TIMEOUT:-3000}
+      - OLLAMA_MAX_LOADED_MODELS=${OLLAMA_MAX_LOADED_MODELS:-1}
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-5}
+      - HF_TOKEN=${HF_TOKEN}
+      - HF_HOME=/app/cache/huggingface
+      - HF_CACHE_DIR=/app/cache/huggingface
+      - NLTK_DATA=/app/cache/nltk_data
+      - STANZA_RESOURCES_DIR=/app/cache/stanza_resources
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - VLLM_BASE_URL=${VLLM_BASE_URL}
+      - LLAMACPP_BASE_URL=${LLAMACPP_BASE_URL}
+    depends_on:
+      - mongodb_service
+      - redis
+    volumes:
+      - cache_volume:/app/cache
+    networks:
+      - llm_net
+
+volumes:
+  mongodb_data:
+  ollama_data:
+  cache_volume:
+
+networks:
+  llm_net:
+    driver: bridge

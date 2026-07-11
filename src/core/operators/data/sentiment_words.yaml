@@ -1,0 +1,55 @@
+positive:
+  en:
+    - good
+    - great
+    - excellent
+    - amazing
+    - wonderful
+    - fantastic
+    - outstanding
+    - brilliant
+    - remarkable
+    - superb
+    - terrific
+    - beautiful
+    - happy
+    - positive
+    - successful
+    - beneficial
+  ru:
+    - хороший
+    - отличный
+    - прекрасный
+    - замечательный
+    - великолепный
+    - потрясающий
+    - положительный
+    - успешный
+    - счастливый
+negative:
+  en:
+    - bad
+    - terrible
+    - awful
+    - horrible
+    - poor
+    - dreadful
+    - disgusting
+    - appalling
+    - negative
+    - failed
+    - failure
+    - harmful
+    - damaging
+    - worst
+    - ugly
+    - sad
+  ru:
+    - плохой
+    - ужасный
+    - отвратительный
+    - негативный
+    - неудачный
+    - провальный
+    - вредный
+    - грустный

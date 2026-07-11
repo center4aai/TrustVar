@@ -1,0 +1,52 @@
+en:
+  - id: all_of_the_above
+    patterns:
+      - "all of the above"
+      - "all the above"
+    description: "Option that encompasses all listed options"
+  - id: none_of_the_above
+    patterns:
+      - "none of the above"
+      - "neither of the above"
+    description: "Option that negates all listed options"
+  - id: both_and
+    patterns:
+      - "both .+ and .+"
+      - "both \\([A-Za-zА-Яа-я]\\) and \\([A-Za-zА-Яа-я]\\)"
+    description: "Combination referencing two specific options"
+  - id: enumerated_combination
+    patterns:
+      - "\\([A-Za-zА-Яа-я]\\) and \\([A-Za-zА-Яа-я]\\)"
+      - "[IVXLCDM]+ and [IVXLCDM]+"
+      - "I and II"
+      - "I, II, and III"
+    description: "Explicit reference to option labels"
+  - id: roman_numeral_ref
+    patterns:
+      - "(?:I|II|III|IV|V|VI|VII|VIII|IX|X) only"
+      - "only (?:I|II|III|IV|V|VI|VII|VIII|IX|X)"
+    description: "Roman numeral option references"
+
+ru:
+  - id: all_of_the_above
+    patterns:
+      - "все из перечисленного"
+      - "все вышеперечисленные"
+      - "все перечисленное"
+    description: "Option that encompasses all listed options (RU)"
+  - id: none_of_the_above
+    patterns:
+      - "ни одно из перечисленного"
+      - "ни один из перечисленных"
+      - "ни одно из вышеперечисленного"
+    description: "Option that negates all listed options (RU)"
+  - id: both_and
+    patterns:
+      - "и \\([А-Яа-я]\\),? и \\([А-Яа-я]\\)"
+      - "\\([А-Яа-я]\\) и \\([А-Яа-я]\\)"
+    description: "Combination referencing two specific options (RU)"
+  - id: enumerated_combination
+    patterns:
+      - "\\([А-Яа-я]\\) и \\([А-Яа-я]\\)"
+      - "\\([А-Яа-я]\\), \\([А-Яа-я]\\) и \\([А-Яа-я]\\)"
+    description: "Explicit label references (RU)"

@@ -1,0 +1,56 @@
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir uv
+
+WORKDIR /app
+
+# Cache dependencies: copy only pyproject.toml and README
+COPY pyproject.toml README.md ./
+
+# setuptools checks for src/ existence for egg_base
+RUN mkdir -p src && touch src/__init__.py
+
+# git + gcc needed for dependencies (minicheck from git, spacy with Cython)
+RUN apt-get update && apt-get install -y --no-install-recommends git gcc g++ && rm -rf /var/lib/apt/lists/*
+
+# Full install for Celery (including torch, transformers, eval)
+RUN uv pip install --system ".[celery,api]"
+
+# Seed data: bundled in repo + download from HF
+RUN mkdir -p /opt/seeds/nltk_data/corpora /opt/seeds/nltk_data/tokenizers \
+    /opt/seeds/stanza_resources
+
+# NLTK: wordnet + punkt + punkt_tab
+COPY src/core/data/nltk/wordnet.zip /tmp/wordnet.zip
+COPY src/core/data/nltk/punkt.zip /tmp/punkt.zip
+COPY src/core/data/nltk/punkt_tab.zip /tmp/punkt_tab.zip
+RUN python <<'PY'
+import zipfile, os
+for name, subdir in [("wordnet", "corpora"), ("punkt", "tokenizers"), ("punkt_tab", "tokenizers")]:
+    with zipfile.ZipFile(f"/tmp/{name}.zip") as z:
+        z.extractall(f"/opt/seeds/nltk_data/{subdir}/")
+    os.remove(f"/tmp/{name}.zip")
+import nltk
+nltk.data.path.insert(0, "/opt/seeds/nltk_data")
+print("NLTK wordnet:", nltk.data.find("corpora/wordnet"))
+print("NLTK punkt:", nltk.data.find("tokenizers/punkt"))
+print("NLTK punkt_tab:", nltk.data.find("tokenizers/punkt_tab"))
+PY
+
+# Stanza: resources.json bundled in repo, models from huggingface.co
+COPY src/core/data/stanza/resources.json /opt/seeds/stanza_resources/resources.json
+RUN python <<'PY'
+import stanza
+for lang in ("en", "ru"):
+    stanza.download(lang, model_dir="/opt/seeds/stanza_resources", verbose=False, download_json=False)
+import os
+assert os.path.isdir("/opt/seeds/stanza_resources/en"), "stanza en missing"
+assert os.path.isdir("/opt/seeds/stanza_resources/ru"), "stanza ru missing"
+print("Stanza en+ru OK")
+PY
+
+# Copy code and entrypoint last
+COPY src/ src/
+
+ENTRYPOINT ["bash", "/app/src/docker-entrypoint-celery.sh"]
+CMD ["celery", "-A", "src.core.tasks.celery_app", "worker", "--loglevel=info"]

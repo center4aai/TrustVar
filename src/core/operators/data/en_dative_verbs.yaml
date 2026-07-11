@@ -1,0 +1,54 @@
+give:
+  allowed_forms: both
+send:
+  allowed_forms: both
+tell:
+  allowed_forms: both
+bring:
+  allowed_forms: both
+offer:
+  allowed_forms: both
+pass:
+  allowed_forms: both
+pay:
+  allowed_forms: both
+sell:
+  allowed_forms: both
+show:
+  allowed_forms: both
+teach:
+  allowed_forms: both
+lend:
+  allowed_forms: both
+buy:
+  allowed_forms: both
+get:
+  allowed_forms: both
+make:
+  allowed_forms: both
+write:
+  allowed_forms: both
+read:
+  allowed_forms: both
+throw:
+  allowed_forms: both
+hand:
+  allowed_forms: both
+award:
+  allowed_forms: both
+grant:
+  allowed_forms: both
+mail:
+  allowed_forms: both
+ship:
+  allowed_forms: both
+serve:
+  allowed_forms: both
+feed:
+  allowed_forms: both
+assign:
+  allowed_forms: both
+promise:
+  allowed_forms: both
+donate:
+  allowed_forms: prepositional
