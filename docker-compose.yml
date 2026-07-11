@@ -75,7 +75,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama_service:11434}
       - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE:--1s}
       - OLLAMA_REQUIRE_GPU=${OLLAMA_REQUIRE_GPU:-false}
       - OLLAMA_GPU_RETRY_ON_FALLBACK=${OLLAMA_GPU_RETRY_ON_FALLBACK:-false}
@@ -121,7 +121,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama_service:11434}
       - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE:--1s}
       - OLLAMA_REQUIRE_GPU=${OLLAMA_REQUIRE_GPU:-false}
       - OLLAMA_GPU_RETRY_ON_FALLBACK=${OLLAMA_GPU_RETRY_ON_FALLBACK:-false}

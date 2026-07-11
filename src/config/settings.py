@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
 
     # Ollama
-    OLLAMA_BASE_URL: str = Field(json_schema_extra={"env": "OLLAMA_BASE_URL"})
+    OLLAMA_BASE_URL: str = Field(default="http://localhost:11434", json_schema_extra={"env": "OLLAMA_BASE_URL"})
     OLLAMA_KEEP_ALIVE: str = Field(
         default="-1s", json_schema_extra={"env": "OLLAMA_KEEP_ALIVE"}
     )
