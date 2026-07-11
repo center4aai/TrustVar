@@ -118,8 +118,7 @@ trustvar/
 │   ├── database/        # MongoDB + repositories
 │   └── utils/
 ├── frontend/            # React 18 + Vite + TypeScript SPA
-├── annotation_app/      # human-calibration app (IAA, gold, drift, stop-rules)
-├── scripts/             # smoke runs, audits, dataset builders
+├── assets/              # assets for README.md
 ├── docker-compose.yml   # production stack
 ├── env.example          # environment template
 └── pyproject.toml
