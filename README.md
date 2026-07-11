@@ -80,6 +80,8 @@ docker-compose up -d
 
 Then open the web interface at **http://localhost:${FRONTEND_PORT}** (default set in `.env`).
 
+> **First run.** On first launch, NLTK/STANZA models and HuggingFace weights are downloaded — both during image build (`docker-compose build`) and at container startup. This can take several minutes depending on your connection. Check celery container for readiness.
+
 > **Datasets.** Benchmark datasets and calibration gold labels are distributed separately from the code. Load them into MongoDB after the stack is up. See the release assets for the data archive and import instructions.
 
 ### Local development
